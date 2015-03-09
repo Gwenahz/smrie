@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<%= image_tag @smartphone.image.url(:medium) %>
+
+<p>
+  <strong>Marque:</strong>
+  <%= @smartphone.marque %>
+</p>
+
+<p>
+  <strong>Modele:</strong>
+  <%= @smartphone.modele %>
+</p>
+
+<p>
+  <strong>Couleur:</strong>
+  <%= @smartphone.couleur %>
+</p>
+
+<%= link_to 'Edit', edit_smartphone_path(@smartphone), class: "btn btn-link" %> |
+<%= link_to 'Back', smartphones_path, class: "btn btn-link" %>
