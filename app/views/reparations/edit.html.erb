@@ -1,0 +1,41 @@
+<h1>Editing reparation</h1>
+<%= form_for(@reparation) do |f| %>
+  <% if @reparation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reparation.errors.count, "error") %> prohibited this reparation from being saved:</h2>
+
+      <ul>
+      <% @reparation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<p>
+  <strong>Id user:</strong>
+  <%= @reparation.id_user %>
+</p>
+
+<p>
+  <strong>Id smartphone:</strong>
+  <%= @reparation.id_smartphone %>
+</p>
+
+<p>
+  <strong>Id panne:</strong>
+  <%= @reparation.id_panne %>
+</p>
+
+<p>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+</p>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @reparation %> |
+<%= link_to 'Back', reparations_path %>

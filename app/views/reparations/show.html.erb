@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id user:</strong>
+  <%= @reparation.id_user %>
+</p>
+
+<p>
+  <strong>Id smartphone:</strong>
+  <%= @reparation.id_smartphone %>
+</p>
+
+<p>
+  <strong>Id panne:</strong>
+  <%= @reparation.id_panne %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @reparation.price %>
+</p>
+
+<%= link_to 'Edit', edit_reparation_path(@reparation) %> |
+<%= link_to 'Back', reparations_path %>

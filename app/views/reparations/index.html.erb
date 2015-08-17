@@ -1,0 +1,31 @@
+<h1>Listing reparations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id user</th>
+      <th>Id smartphone</th>
+      <th>Id panne</th>
+      <th>Price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reparations.each do |reparation| %>
+      <tr>
+        <td><%= reparation.id_user %></td>
+        <td><%= reparation.id_smartphone %></td>
+        <td><%= reparation.id_panne %></td>
+        <td><%= reparation.price %></td>
+        <td><%= link_to 'Show', reparation %></td>
+        <td><%= link_to 'Edit', edit_reparation_path(reparation) %></td>
+        <td><%= link_to 'Destroy', reparation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reparation', new_reparation_path %>

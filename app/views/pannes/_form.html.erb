@@ -1,0 +1,22 @@
+<%= form_for(@panne) do |f| %>
+  <% if @panne.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@panne.errors.count, "error") %> prohibited this panne from being saved:</h2>
+
+      <ul>
+      <% @panne.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %><br><br>
+    <%= f.file_field :image, :class => "form-control" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

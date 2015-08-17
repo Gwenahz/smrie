@@ -9,6 +9,8 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem "paperclip", "~> 4.2"
+gem 'aws-sdk'
+gem 'devise'
 
 group :production do
   gem 'pg'

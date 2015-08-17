@@ -4,7 +4,12 @@ class SmartphonesController < ApplicationController
   # GET /smartphones
   # GET /smartphones.json
   def index
-    @smartphones = Smartphone.all
+    if admin_signed_in?
+      @smartphones = Smartphone.all
+      @users = User.all
+    else
+      redirect_to :root
+    end
   end
 
   # GET /smartphones/1
@@ -28,7 +33,7 @@ class SmartphonesController < ApplicationController
 
     respond_to do |format|
       if @smartphone.save
-        format.html { redirect_to @smartphone, notice: 'Smartphone was successfully created.' }
+        format.html { redirect_to @smartphone, notice: 'Le smartphone a été correctement ajouté' }
         format.json { render :show, status: :created, location: @smartphone }
       else
         format.html { render :new }

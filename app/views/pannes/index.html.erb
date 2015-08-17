@@ -1,0 +1,26 @@
+<h1>Listing pannes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pannes.each do |panne| %>
+      <tr>
+		<td><%= image_tag panne.image.url(:medium) %></td>
+        <td><%= panne.name %></td>
+        <td><%= link_to 'Show', panne %></td>
+        <td><%= link_to 'Edit', edit_panne_path(panne) %></td>
+        <td><%= link_to 'Destroy', panne, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Panne', new_panne_path %>

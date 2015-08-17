@@ -25,7 +25,9 @@
     <% end %>
   </tbody>
 </table>
-
+	<% if signed_in? %>
+	<b><%= current_user.idphones %></b>
+	<% end %>
 <br>
 
 <%= link_to 'Créer un nouveau Smartphone', new_smartphone_path, class: "btn btn-link" %>

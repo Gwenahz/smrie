@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong><br>
+  <%= @panne.name %><br>
+  <%= image_tag @panne.image.url(:medium) %>
+</p>
+
+<%= link_to 'Edit', edit_panne_path(@panne) %> |
+<%= link_to 'Back', pannes_path %>
