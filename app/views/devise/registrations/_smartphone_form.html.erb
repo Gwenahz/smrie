@@ -1,5 +1,5 @@
 <div>
-	<% @smartphones.each do |smartphone| %>
+	<% Smartphone.all.each do |smartphone| %>
 		<label class="">
 		  	<%= check_box_tag "user[idphones][]", smartphone.id %>
 			<%= smartphone.modele %>

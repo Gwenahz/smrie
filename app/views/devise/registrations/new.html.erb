@@ -1,3 +1,5 @@
+<%= devise_error_messages! %>
+
 <h2>Devenir réparateur !</h2>
 
 <p>Vous savez réparer des smartphones ? <br>
@@ -5,8 +7,7 @@ Arrondissez dès aujourd'hui vos fins de mois en effectuant des réparations pen
 Sélectionnez les smartphones que vous savez réparer puis validez : </p>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-	
+
 	<%= render 'devise/registrations/smartphone_form'%>
 
   <div class="form-group">
