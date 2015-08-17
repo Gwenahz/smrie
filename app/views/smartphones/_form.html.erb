@@ -2,7 +2,7 @@
   <% if @smartphone.errors.any? %>
     <div id="error_explanation" class="alert alert-danger alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <h4><%= pluralize(@listing.errors.count, "error") %> prohibited this listing from being saved:</h4>
+      <h4><%= pluralize(@smartphone.errors.count, "error") %> prohibited this listing from being saved:</h4>
 
       <ul>
       <% @smartphone.errors.full_messages.each do |msg| %>
