@@ -18,8 +18,8 @@
 			<li><%= link_to "Contact", pages_contact_path %></li>
 			
 			<% if user_signed_in? %>
-				<li><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>
-				<li><%= link_to "Modifier Profil", edit_user_registration_path %></li>
+				<li><%= link_to "Modifier Mot de Passe", edit_user_registration_path %></li>
+			    <li><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>
 			<% else %>
 				<li><%= link_to "Devenir réparateur", new_user_registration_path %></li>
 				<li><%= link_to "Se connecter", new_user_session_path %></li>

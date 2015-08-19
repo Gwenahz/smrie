@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  resources :infos
+
   devise_for :admins
   
   resources :admins
@@ -13,7 +16,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index]
   
   resources :smartphones
-  
+
   get 'pages/index'
 
   get 'pages/about'
