@@ -20,7 +20,10 @@ class InfosController < ApplicationController
       @info = Info.new
       respond_with(@info)
     else
+      #Récupère les infos de l'user connecté
       @infos = Info.where(:user_id => current_user.id)
+
+      #Récupère l'id des infos
       @infoid = Info.find(@infos)
       redirect_to action: 'show', id: @infoid
       #redirect_to action: 'index'
@@ -52,6 +55,7 @@ class InfosController < ApplicationController
       params.require(:info).permit(:nom, :prenom, :adresse, :cp, :ville)
     end
 
+    #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
     def check_user
       if current_user != @info.user
         redirect_to action:'new', alert: "Désolé, ce ne sont pas vos informations."

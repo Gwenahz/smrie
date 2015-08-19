@@ -18,13 +18,21 @@
 			<li><%= link_to "Contact", pages_contact_path %></li>
 			
 			<% if user_signed_in? %>
-				<li><%= link_to "Modifier Mot de Passe", edit_user_registration_path %></li>
-			    <li><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>
+			<li class="dropdown">
+	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
+	          	Profil
+	          	<span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	          	<li><%= link_to "Mes infos perso", new_info_path %></li>
+	          	<li><%= link_to "Modifier Mot de Passe", edit_user_registration_path %></li>
+	            <li role="separator" class="divider"></li>
+	            <li><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>
+	          </ul>
+	        </li>
 			<% else %>
 				<li><%= link_to "Devenir réparateur", new_user_registration_path %></li>
 				<li><%= link_to "Se connecter", new_user_session_path %></li>
 			<% end %>
-			
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
