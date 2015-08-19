@@ -20,8 +20,10 @@ class InfosController < ApplicationController
       @info = Info.new
       respond_with(@info)
     else
-      #redirect_to action: 'show', id: Info.where(:user_id => current_user.id)
-      redirect_to action: 'index'
+      @infos = Info.where(:user_id => current_user.id)
+      @infoid = Info.find(@infos)
+      redirect_to action: 'show', id: @infoid
+      #redirect_to action: 'index'
     end
   end
 
@@ -52,7 +54,7 @@ class InfosController < ApplicationController
 
     def check_user
       if current_user != @info.user
-        redirect_to root_url, alert: "Désolé, ce ne sont pas vos informations."
+        redirect_to action:'new', alert: "Désolé, ce ne sont pas vos informations."
       end
     end
 end
