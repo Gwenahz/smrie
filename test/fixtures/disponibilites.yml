@@ -1,0 +1,47 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  amlundi: false
+  pmlundi: false
+  slundi: false
+  ammardi: false
+  pmmardi: false
+  smardi: false
+  ammercredi: false
+  pmmercredi: false
+  smercredi: false
+  amjeudi: false
+  pmjeudi: false
+  sjeudi: false
+  amvendredi: false
+  pmvendredi: false
+  svendredi: false
+  amsamedi: false
+  pmsamedi: false
+  ssamedi: false
+  amdimanche: false
+  pmdimanche: false
+  sdimanche: false
+
+two:
+  amlundi: false
+  pmlundi: false
+  slundi: false
+  ammardi: false
+  pmmardi: false
+  smardi: false
+  ammercredi: false
+  pmmercredi: false
+  smercredi: false
+  amjeudi: false
+  pmjeudi: false
+  sjeudi: false
+  amvendredi: false
+  pmvendredi: false
+  svendredi: false
+  amsamedi: false
+  pmsamedi: false
+  ssamedi: false
+  amdimanche: false
+  pmdimanche: false
+  sdimanche: false

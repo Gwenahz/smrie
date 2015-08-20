@@ -16,6 +16,7 @@ class InfosController < ApplicationController
   end
 
   def new
+    #Vérifie que des infos pour un user n'a pas déjà été créé
     if Info.where(:user_id => current_user.id).blank?
       @info = Info.new
       respond_with(@info)
@@ -25,7 +26,7 @@ class InfosController < ApplicationController
 
       #Récupère l'id des infos
       @infoid = Info.find(@infos)
-      redirect_to action: 'show', id: @infoid
+      redirect_to action: 'show'
       #redirect_to action: 'index'
     end
   end
@@ -58,7 +59,7 @@ class InfosController < ApplicationController
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
     def check_user
       if current_user != @info.user
-        redirect_to action:'new', alert: "Désolé, ce ne sont pas vos informations."
+        redirect_to :new_info
       end
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818223002) do
+ActiveRecord::Schema.define(version: 20150820215831) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -30,6 +30,33 @@ ActiveRecord::Schema.define(version: 20150818223002) do
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+
+  create_table "disponibilites", force: true do |t|
+    t.boolean  "amlundi"
+    t.boolean  "pmlundi"
+    t.boolean  "slundi"
+    t.boolean  "ammardi"
+    t.boolean  "pmmardi"
+    t.boolean  "smardi"
+    t.boolean  "ammercredi"
+    t.boolean  "pmmercredi"
+    t.boolean  "smercredi"
+    t.boolean  "amjeudi"
+    t.boolean  "pmjeudi"
+    t.boolean  "sjeudi"
+    t.boolean  "amvendredi"
+    t.boolean  "pmvendredi"
+    t.boolean  "svendredi"
+    t.boolean  "amsamedi"
+    t.boolean  "pmsamedi"
+    t.boolean  "ssamedi"
+    t.boolean  "amdimanche"
+    t.boolean  "pmdimanche"
+    t.boolean  "sdimanche"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
 
   create_table "infos", force: true do |t|
     t.string   "nom"

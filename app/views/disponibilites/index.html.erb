@@ -1,0 +1,65 @@
+<h1>Listing disponibilites</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Amlundi</th>
+      <th>Pmlundi</th>
+      <th>Slundi</th>
+      <th>Ammardi</th>
+      <th>Pmmardi</th>
+      <th>Smardi</th>
+      <th>Ammercredi</th>
+      <th>Pmmercredi</th>
+      <th>Smercredi</th>
+      <th>Amjeudi</th>
+      <th>Pmjeudi</th>
+      <th>Sjeudi</th>
+      <th>Amvendredi</th>
+      <th>Pmvendredi</th>
+      <th>Svendredi</th>
+      <th>Amsamedi</th>
+      <th>Pmsamedi</th>
+      <th>Ssamedi</th>
+      <th>Amdimanche</th>
+      <th>Pmdimanche</th>
+      <th>Sdimanche</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disponibilites.each do |disponibilite| %>
+      <tr>
+        <td><%= disponibilite.amlundi %></td>
+        <td><%= disponibilite.pmlundi %></td>
+        <td><%= disponibilite.slundi %></td>
+        <td><%= disponibilite.ammardi %></td>
+        <td><%= disponibilite.pmmardi %></td>
+        <td><%= disponibilite.smardi %></td>
+        <td><%= disponibilite.ammercredi %></td>
+        <td><%= disponibilite.pmmercredi %></td>
+        <td><%= disponibilite.smercredi %></td>
+        <td><%= disponibilite.amjeudi %></td>
+        <td><%= disponibilite.pmjeudi %></td>
+        <td><%= disponibilite.sjeudi %></td>
+        <td><%= disponibilite.amvendredi %></td>
+        <td><%= disponibilite.pmvendredi %></td>
+        <td><%= disponibilite.svendredi %></td>
+        <td><%= disponibilite.amsamedi %></td>
+        <td><%= disponibilite.pmsamedi %></td>
+        <td><%= disponibilite.ssamedi %></td>
+        <td><%= disponibilite.amdimanche %></td>
+        <td><%= disponibilite.pmdimanche %></td>
+        <td><%= disponibilite.sdimanche %></td>
+        <td><%= link_to 'Show', disponibilite %></td>
+        <td><%= link_to 'Edit', edit_disponibilite_path(disponibilite) %></td>
+        <td><%= link_to 'Destroy', disponibilite, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Disponibilite', new_disponibilite_path %>
