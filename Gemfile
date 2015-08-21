@@ -11,6 +11,7 @@ gem 'jbuilder', '~> 2.0'
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '< 2.0'
 gem 'devise'
+gem 'typeahead-addresspicker-rails'
 
 group :production do
   gem 'pg'

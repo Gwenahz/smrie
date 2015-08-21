@@ -14,5 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-sprockets
+//= require typeahead-addresspicker
+//= require typeahead-addresspicker.min
 //= require turbolinks
 //= require_tree .

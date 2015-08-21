@@ -1,0 +1,42 @@
+<%= form_for(@secteur) do |f| %>
+  <% if @secteur.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@secteur.errors.count, "error") %> prohibited this secteur from being saved:</h2>
+
+      <ul>
+      <% @secteur.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ville %><br>
+    <%= f.text_field :ville, :id => "address", :class => "typeahead form-control", :placeholder => "Entrez une ville" %>
+  </div>
+  <script>
+    // instantiate the addressPicker suggestion engine
+    var addressPicker = new AddressPicker({autocompleteService: {types: ['(cities)'], componentRestrictions: { country: 'FR' }}});
+
+    // instantiate the typeahead UI
+    $('#address').typeahead(null, {
+      displayKey: 'description',
+      source: addressPicker.ttAdapter()
+    });
+
+    $('#address').on('keyup keypress', function(e) {
+      var code = e.keyCode || e.which;
+      if (code == 13) { 
+        e.preventDefault();
+        return false;
+      }
+    });
+  </script>
+
+  <br>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

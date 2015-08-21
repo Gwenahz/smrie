@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :secteurs
+
   resources :disponibilites
 
   resources :infos
