@@ -10,5 +10,6 @@ class User < ActiveRecord::Base
   has_many :smartphones
   has_many :pannes
   has_many :reparations
-  
+  has_many :secteurs
+
 end

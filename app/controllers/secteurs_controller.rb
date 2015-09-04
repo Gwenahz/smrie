@@ -1,10 +1,13 @@
 class SecteursController < ApplicationController
   before_action :set_secteur, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_filter :check_user, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
 
   def index
-    @secteurs = Secteur.all
+    #@secteurs = Secteur.all
+    @secteurs = Secteur.where(:user_id => current_user.id)
     respond_with(@secteurs)
   end
 
@@ -22,6 +25,7 @@ class SecteursController < ApplicationController
 
   def create
     @secteur = Secteur.new(secteur_params)
+    @secteur.user_id = current_user.id
     @secteur.save
     respond_with(@secteur)
   end
@@ -43,5 +47,12 @@ class SecteursController < ApplicationController
 
     def secteur_params
       params.require(:secteur).permit(:ville, :user_id)
+    end
+
+    #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
+    def check_user
+      if current_user != @secteur.user
+        redirect_to :new_info
+      end
     end
 end
