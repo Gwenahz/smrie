@@ -2,9 +2,17 @@
 <html>
 <head>
 	<title>La Smartphonerie</title>
+	<meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= stylesheet_link_tag    'agency', media: 'all', 'data-turbolinks-track' => true %>
 	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	
+	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -12,27 +20,32 @@
 	<script src="https://rawgithub.com/sgruhier/typeahead-addresspicker/master/bower_components/typeahead.js/dist/typeahead.bundle.js"></script>
 	<script src="https://rawgithub.com/sgruhier/typeahead-addresspicker/master/dist/typeahead-addresspicker.js"></script>
 
+	
+
 	<%= csrf_meta_tags %>
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 	
 	<%= render'layouts/header' %>
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <div class="alert alert-<%= name.to_s == "notice" ? "success" : "danger" %> alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= content_tag :div, msg, :id => "flash_#{name}" %>
+        </div>
+      <% end %>
+    <% end %>
+
 	
-	<div class="container">
-		
-	    <% flash.each do |name, msg| %>
-	      <% if msg.is_a?(String) %>
-	        <div class="alert alert-<%= name.to_s == "notice" ? "success" : "danger" %> alert-dismissable">
-	          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	          <%= content_tag :div, msg, :id => "flash_#{name}" %>
-	        </div>
-	      <% end %>
-	    <% end %>
-		
-		<%= yield %>
-		
-		<%= render'layouts/footer' %>
-	</div>
+	<%= yield %>
+	<%= render'layouts/footer' %>
 	
 </body>
 </html>

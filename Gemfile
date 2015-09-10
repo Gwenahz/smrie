@@ -12,6 +12,7 @@ gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '< 2.0'
 gem 'devise'
 gem 'typeahead-addresspicker-rails'
+gem 'high_voltage', '~> 2.4.0'
 
 group :production do
   gem 'pg'
