@@ -121,7 +121,19 @@ fieldset[disabled] .btn-xl.active {
 }
 
 
-
+header {
+    margin-top: -50px;
+    text-align: center;
+    color: #fff;
+    background-attachment: scroll;
+    background: asset-data-url("header1.jpg");
+    background-position: center center;
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
 
 header .intro-text {
     padding-top: 100px;
