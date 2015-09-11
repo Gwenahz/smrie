@@ -1,6 +1,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.container {
+  font-family: 'Varela Round', sans-serif;
+}
+
+.navbar {
+  font-family: 'Varela Round', sans-serif;
+}
+
 .navbar-sous {
   margin-bottom: -5px;
 	background-color: #60b050;

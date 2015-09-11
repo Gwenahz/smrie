@@ -6,7 +6,7 @@ Rails.application.config.assets.precompile += %w( agency.css.scss )
 Rails.application.config.assets.precompile += %w( classie.js )
 Rails.application.config.assets.precompile += %w( cbpAnimatedHeader.js )
 Rails.application.config.assets.precompile += %w( agency.js )
-Rails.application.config.assets.precompile += %w( header1.jpg )
+Rails.application.config.assets.precompile += %w( agency.css )
 
 
 # Precompile additional assets.
