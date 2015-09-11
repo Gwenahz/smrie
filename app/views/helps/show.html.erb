@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nom:</strong>
+  <%= @help.nom %>
+</p>
+
+<p>
+  <strong>Prenom:</strong>
+  <%= @help.prenom %>
+</p>
+
+<p>
+  <strong>Cp:</strong>
+  <%= @help.cp %>
+</p>
+
+<p>
+  <strong>Modele:</strong>
+  <%= @help.modele %>
+</p>
+
+<p>
+  <strong>Panne:</strong>
+  <%= @help.panne %>
+</p>
+
+<p>
+  <strong>Mail:</strong>
+  <%= @help.mail %>
+</p>
+
+<p>
+  <strong>Numtel:</strong>
+  <%= @help.numtel %>
+</p>
+
+<%= link_to 'Edit', edit_help_path(@help) %> |
+<%= link_to 'Back', helps_path %>

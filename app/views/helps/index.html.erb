@@ -1,0 +1,37 @@
+<h1>Listing helps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prenom</th>
+      <th>Cp</th>
+      <th>Modele</th>
+      <th>Panne</th>
+      <th>Mail</th>
+      <th>Numtel</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @helps.each do |help| %>
+      <tr>
+        <td><%= help.nom %></td>
+        <td><%= help.prenom %></td>
+        <td><%= help.cp %></td>
+        <td><%= help.modele %></td>
+        <td><%= help.panne %></td>
+        <td><%= help.mail %></td>
+        <td><%= help.numtel %></td>
+        <td><%= link_to 'Show', help %></td>
+        <td><%= link_to 'Edit', edit_help_path(help) %></td>
+        <td><%= link_to 'Destroy', help, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Help', new_help_path %>

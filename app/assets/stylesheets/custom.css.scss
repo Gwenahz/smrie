@@ -1,5 +1,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import url(http://fonts.googleapis.com/css?family=Varela+Round);
+
+.container {
+  font-family: 'Varela Round', sans-serif;
+}
+
+.navbar {
+  font-family: 'Varela Round', sans-serif;
+}
 
 .navbar-sous {
   margin-bottom: -5px;
