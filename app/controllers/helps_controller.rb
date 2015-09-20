@@ -28,8 +28,9 @@ class HelpsController < ApplicationController
       format.html { 
         if @help.save
           redirect_to root_path
+          flash[:notice] = 'Merci ! Nous revenons vers vous le plus vite possible !'
         else 
-          flash[:error] = 'message'
+          flash[:error] = "Oups ! Quelque chose s'est mal passé"
           redirect_to root_path 
         end
       }
