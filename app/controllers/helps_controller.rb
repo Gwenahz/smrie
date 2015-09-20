@@ -1,5 +1,6 @@
 class HelpsController < ApplicationController
   before_action :set_help, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!, only: [:index, :show, :edit, :update, :destroy]
 
   respond_to :html
 
@@ -23,7 +24,17 @@ class HelpsController < ApplicationController
   def create
     @help = Help.new(help_params)
     @help.save
-    respond_with(@help)
+    respond_to do |format|
+      format.html { 
+        if @help.save
+          redirect_to root_path
+          flash.now[:notice] = 'Message sent!'
+        else 
+          flash[:error] = 'message'
+          redirect_to root_path 
+        end
+      }
+    end
   end
 
   def update
@@ -43,5 +54,10 @@ class HelpsController < ApplicationController
 
     def help_params
       params.require(:help).permit(:nom, :prenom, :cp, :modele, :panne, :mail, :numtel)
+    end
+
+    #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
+    def check_admin
+      before_action :authenticate_admin!
     end
 end

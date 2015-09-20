@@ -1,5 +1,6 @@
 class SmartphonesController < ApplicationController
   before_action :set_smartphone, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!
 
   # GET /smartphones
   # GET /smartphones.json
