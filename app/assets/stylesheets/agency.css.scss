@@ -17,13 +17,14 @@
 }
 
 header {
-    margin-top: 20px;
+    margin-top: -50px;
     text-align: center;
     color: #fff;
     background-attachment: scroll;
     background-image: image-url('header.jpeg');
     background-position: center center;
     background-repeat: none;
+    z-index: -1;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
