@@ -55,3 +55,31 @@
 .tt-suggestion p {
   margin: 0;
 }
+
+footer {
+  position: relative;
+  bottom:0px;
+  width:100%;
+  left:0;
+  height: 100px;
+}
+
+footer {
+    padding: 25px 0;
+    text-align: center;
+}
+
+footer span.copyright {
+    text-transform: uppercase;
+    text-transform: none;
+    font-family: 'Varela Round', 'Verdana' sans-serif;
+    line-height: 40px;
+}
+
+footer ul.quicklinks {
+    margin-bottom: 0;
+    text-transform: uppercase;
+    text-transform: none;
+    font-family: 'Varela Round', 'Verdana' sans-serif;
+    line-height: 40px;
+}
