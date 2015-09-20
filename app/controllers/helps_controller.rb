@@ -27,8 +27,7 @@ class HelpsController < ApplicationController
     respond_to do |format|
       format.html { 
         if @help.save
-          redirect_to root_path
-          flash.now[:notice] = 'Message sent!'
+          redirect_to root_path, notice: 'Tout est OK ! Nous revenons vers vous au plus vite !'
         else 
           flash[:error] = 'message'
           redirect_to root_path 
