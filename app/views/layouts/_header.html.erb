@@ -16,7 +16,8 @@
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><%= link_to "A propos", pages_about_path %></li>
 			<li><%= link_to "Contact", pages_contact_path %></li>
-			
+			<li><%= link_to "Comment ça marche", pages_index_path+'#about' %></li>
+
 			<% if user_signed_in? %>
 			<li class="dropdown">
 	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
