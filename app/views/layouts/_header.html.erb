@@ -14,8 +14,8 @@
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav navbar-right">
-			<li><%= link_to "Comment ça marche", pages_index_path+'#about' %></li>
 			<li><%= link_to "Contact", pages_contact_path %></li>
+			<li><%= link_to "Comment ça marche", pages_index_path+'#about' %></li>
 
 
 			<% if user_signed_in? %>
@@ -31,9 +31,6 @@
 	            <li><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>
 	          </ul>
 	        </li>
-			<% else %>
-				<li><%= link_to "Se connecter", new_user_session_path %></li>
-				<li><%= link_to "Devenir réparateur", new_user_registration_path %></li>
 			<% end %>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
