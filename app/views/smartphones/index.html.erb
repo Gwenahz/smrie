@@ -25,7 +25,7 @@
     <% end %>
   </tbody>
 </table>
-	<% if Admin.signed_in? %>
+	<% if User.signed_in? %>
 	<b><%= current_user.idphones %></b>
 	<% end %>
 <br>
