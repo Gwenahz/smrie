@@ -44,6 +44,6 @@ class PannesController < ApplicationController
     end
 
     def panne_params
-      params.require(:panne).permit(:name)
+      params.require(:panne).permit(:name, :image)
     end
 end
