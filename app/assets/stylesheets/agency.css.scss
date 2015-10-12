@@ -16,7 +16,7 @@
     background-color: #222;
 }
 
-header {
+.header-landing {
     margin-top: -50px;
     text-align: center;
     color: #fff;
@@ -31,12 +31,27 @@ header {
     -o-background-size: cover;
 }
 
-header .intro-text {
-    padding-top: 100px;
-    padding-bottom: 50px;
+.header-bg-vert {
+    margin-top: -25px;
+    text-align: center;
+    color: #fff;
+    background-attachment: scroll;
+    background-image: image-url('header-bg-vert.jpg');
+    background-position: center center;
+    background-repeat: none;
+    z-index: -1;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }
 
-header .intro-text .intro-lead-in {
+.intro-text {
+    padding-top: 75px;
+    padding-bottom: 75px;
+}
+
+.intro-lead-in {
     margin-bottom: 50px;
     font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 20px;
@@ -44,7 +59,7 @@ header .intro-text .intro-lead-in {
     line-height: 22px;
 }
 
-header .intro-text .intro-heading {
+.intro-heading {
     text-transform: uppercase;
     font-family: 'Varela Round', 'Verdana' sans-serif;
     font-size: 30px;
@@ -53,19 +68,19 @@ header .intro-text .intro-heading {
 }
 
 @media(min-width:768px) {
-    header .intro-text {
+    .header-landing .intro-text {
         padding-top: 250px;
         padding-bottom: 200px;
     }
 
-    header .intro-text .intro-lead-in {
+    .header-landing .intro-text .intro-lead-in {
         font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
         font-size: 20px;
         font-style: italic;
         line-height: 40px;
     }
 
-    header .intro-text .intro-heading {
+     .header-landing .intro-text .intro-heading {
         text-transform: uppercase;
         font-family: 'Varela Round', 'Verdana' sans-serif;
         font-size: 40px;
@@ -74,17 +89,17 @@ header .intro-text .intro-heading {
     }
 }
 
-section {
+.section-landing {
     padding: 100px 0;
 }
 
-section h2.section-heading {
+.section-landing h2.section-heading {
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 40px;
 }
 
-section h3.section-subheading {
+.section-landing h3.section-subheading {
     margin-bottom: 75px;
     text-transform: none;
     font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -95,7 +110,7 @@ section h3.section-subheading {
 
 @media(min-width:768px) {
     section {
-        padding: 150px 0;
+        padding: 50px 0;
     }
 }
 
@@ -447,4 +462,9 @@ img::selection {
 
 img::-moz-selection {
     background: 0 0;
+}
+
+
+p {
+  font-size: 16px;
 }
