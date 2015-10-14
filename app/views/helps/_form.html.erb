@@ -12,38 +12,52 @@
       </ul>
     </div>
   <% end %>
+<div class="container" style="background-color: rgba(0,0,0,0.5); padding: 20px 0px 20px 15px;">
+  <div class="col-md-3">
+    <%= collection_select(:help, :modele, Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle"},{class: "form-control"}) %>
+  </div>
+  <div name="panne" id="panne" class="col-md-3">
+    <%= collection_select(:help, :panne, Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control"}) %>
+  </div>
+  <div class="col-md-3">
+    <%= f.text_field :cp, :class => "form-control", :placeholder => "Code Postal (ex: 75001)" %>  </div>
+  <div class="col-md-3">
+    <button onclick="_gaq.push(['_trackEvent', 'LandingButton1', 'clicked'])" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">RÉPARER MON SMARTPHONE !</button>  </div>
+  </div>
 
-  <div class="form-group col-md-6">
-    <%= f.label "Prénom" %><br>
-    <%= f.text_field :prenom, :class => "form-control", :placeholder => "Prénom" %>
-  </div>
-  <div class="form-group col-md-6">
-    <%= f.label :nom %><br>
-    <%= f.text_field :nom, :class => "form-control", :placeholder => "Nom" %>
-  </div>
-  <div class="form-group col-md-12">
-    <%= f.label "Code postal" %><br>
-    <%= f.text_field :cp, :class => "form-control", :placeholder => "Code Postal (ex: 75001)" %>
-  </div>
-  <div class="form-group col-md-6">
-    <%= f.label "Modèle" %><br>
-    <%= f.text_field :modele, :class => "form-control", :placeholder => "(ex: Apple iPhone 5S)" %>
-  </div>
-  <div class="form-group col-md-6">
-    <%= f.label :panne %><br>
-    <%= f.text_field :panne, :class => "form-control", :placeholder => "(ex: Ecran cassé, bouton home défectueux...)" %>
-  </div>
-  <div class="form-group col-md-6">
-    <%= f.label "Numéro de téléphone" %><br>
-    <%= f.number_field :numtel, :class => "form-control", :placeholder => "Numéro de téléphone" %>
-  </div>
-  <div class="form-group col-md-6">
-    <%= f.label "Email" %><br>
-    <%= f.text_field :mail, :class => "form-control", :placeholder => "Adresse email" %>
-  </div>
-  <div class="form-group col-md-12">
-    <br>
-    <%= f.submit "VALIDER", class: "btn btn-success btn-block", alert: "OK" %>
-  </div>
-  <divc class="form-group">Nous vous rappelons dans l'heure !</div>
-<% end %>
+
+<!-- Modal -->
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Dites nous en plus</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group col-md-6">
+              <%= f.label "Prénom" %><br>
+              <%= f.text_field :prenom, :class => "form-control", :placeholder => "Prénom" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.label :nom %><br>
+              <%= f.text_field :nom, :class => "form-control", :placeholder => "Nom" %>
+            </div>
+            <div class="form-group col-md-5">
+              <%= f.label "Numéro de téléphone" %><br>
+              <%= f.number_field :numtel, :class => "form-control", :placeholder => "Numéro de téléphone" %>
+            </div>
+            <div class="form-group col-md-7">
+              <%= f.label "Email" %><br>
+              <%= f.text_field :mail, :class => "form-control", :placeholder => "Adresse email" %>
+            </div>
+            <div class="form-group col-md-12">
+              <br>
+              <%= f.submit "VALIDER", class: "btn btn-success btn-block", alert: "OK" %>
+            </div>
+            <div class="form-group">Nous vous rappelons dans l'heure !</div>
+          <% end %>
+                    </div>
+        </div>
+      </div>
+    </div>
