@@ -27,11 +27,10 @@ class HelpsController < ApplicationController
     respond_to do |format|
       format.html { 
         if @help.save
-          redirect_to root_path
-          flash[:notice] = 'Merci ! Nous revenons vers vous au plus vite !'
+          redirect_to pages_validation_path 
         else 
           flash[:error] = "Oups ! Quelque chose s'est mal passé"
-          redirect_to root_path 
+          redirect_to root_path
         end
       }
     end

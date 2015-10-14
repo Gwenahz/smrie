@@ -15,7 +15,7 @@
     <% @smartphones.each do |smartphone| %>
       <tr>
         <td><%= image_tag smartphone.image.url(:medium) %></td>
-		<td><%= smartphone.marque %></td>
+		    <td><%= smartphone.marque %></td>
         <td><%= smartphone.modele %></td>
         <td><%= smartphone.couleur %></td>
         <td><%= link_to 'Show', smartphone, class: "btn btn-link" %></td>

@@ -1,8 +1,11 @@
 <div>
 	<% Smartphone.all.each do |smartphone| %>
-		<label class="">
+	<div class="">
+		<label class="text-center">
+			<%= image_tag(smartphone.image.url, size: "150") %><br>
 		  	<%= check_box_tag "user[idphones][]", smartphone.id %>
 			<%= smartphone.modele %>
-		</label><br>
+		</label>
+	<div>
 	<% end %>
 </div>
