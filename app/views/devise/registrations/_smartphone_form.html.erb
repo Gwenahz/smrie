@@ -7,9 +7,7 @@
         </ul>
         <div id="my-tab-content" class="tab-content">
             <div class="tab-pane active" id="apple">
-                <h1>Apple</h1>
-                <p>red red red red red red</p>
-                <% Smartphone.where(:marque => 'apple') do |smartphone| %>
+                <% Smartphone.where(:marque => 'apple').each do |smartphone| %>
 					<label class="text-center col-md-3">
 						<%= image_tag(smartphone.image.url, size: "150") %><br>
   						<%= check_box_tag "user[idphones][]", smartphone.id %>
@@ -18,7 +16,7 @@
 				<% end %>
             </div>
             <div class="tab-pane" id="samsung">
-                <% Smartphone.all.each do |smartphone| %>
+                <% Smartphone.where(:marque => 'samsung').each do |smartphone| %>
 					<label class="text-center col-md-3">
 						<%= image_tag(smartphone.image.url, size: "150") %><br>
   						<%= check_box_tag "user[idphones][]", smartphone.id %>
@@ -27,8 +25,13 @@
 				<% end %>
             </div>
             <div class="tab-pane" id="nexus">
-                <h1>Yellow</h1>
-                <p>yellow yellow yellow yellow yellow</p>
+                <% Smartphone.where(:marque => 'nexus').each do |smartphone| %>
+					<label class="text-center col-md-3">
+						<%= image_tag(smartphone.image.url, size: "150") %><br>
+  						<%= check_box_tag "user[idphones][]", smartphone.id %>
+						<%= smartphone.modele %>
+					</label>
+				<% end %>
             </div>
         </div>
     </div>
