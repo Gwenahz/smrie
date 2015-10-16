@@ -14,6 +14,7 @@ gem 'devise'
 gem 'typeahead-addresspicker-rails'
 gem 'high_voltage', '~> 2.4.0'
 gem 'google-webfonts-rails', '~> 0.0.4'
+gem 'jquery-form-validator-rails'
 
 group :production do
   gem 'pg'

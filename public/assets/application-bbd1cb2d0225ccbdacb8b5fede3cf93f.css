@@ -58,7 +58,7 @@
 
 /* line 55, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .intro-lead-in {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 20px;
   font-style: italic;
@@ -67,21 +67,20 @@
 
 /* line 63, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .intro-heading {
-  text-transform: uppercase;
   font-family: 'Varela Round', 'Verdana' sans-serif;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 50px;
 }
 
 @media (min-width: 768px) {
-  /* line 72, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 71, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .header-landing .intro-text {
     padding-top: 250px;
     padding-bottom: 200px;
   }
 
-  /* line 77, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 76, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .header-landing .intro-text .intro-lead-in {
     font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 20px;
@@ -89,28 +88,27 @@
     line-height: 40px;
   }
 
-  /* line 84, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 83, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .header-landing .intro-text .intro-heading {
-    text-transform: uppercase;
     font-family: 'Varela Round', 'Verdana' sans-serif;
-    font-size: 40px;
+    font-size: 50px;
     font-weight: 700;
     line-height: 75px;
   }
 }
-/* line 93, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 91, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .section-landing {
   padding: 100px 0;
 }
 
-/* line 97, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 95, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .section-landing h2.section-heading {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 40px;
 }
 
-/* line 103, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 101, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .section-landing h3.section-subheading {
   margin-bottom: 75px;
   text-transform: none;
@@ -121,24 +119,24 @@
 }
 
 @media (min-width: 768px) {
-  /* line 113, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 111, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   section {
     padding: 50px 0;
   }
 }
-/* line 118, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 116, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .service-heading {
   margin: 15px 0;
   text-transform: none;
 }
 
-/* line 123, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 121, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item {
   right: 0;
   margin: 0 0 15px;
 }
 
-/* line 128, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 126, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-link {
   display: block;
   position: relative;
@@ -146,7 +144,7 @@
   max-width: 400px;
 }
 
-/* line 135, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 133, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover {
   position: absolute;
   width: 100%;
@@ -158,12 +156,12 @@
   transition: all ease .5s;
 }
 
-/* line 146, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 144, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover:hover {
   opacity: 1;
 }
 
-/* line 150, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 148, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
   position: absolute;
   top: 50%;
@@ -175,18 +173,18 @@
   color: #fff;
 }
 
-/* line 161, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 159, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
   margin-top: -12px;
 }
 
-/* line 166, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 164, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h3,
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h4 {
   margin: 0;
 }
 
-/* line 170, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 168, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-caption {
   margin: 0 auto;
   padding: 25px;
@@ -195,13 +193,13 @@
   background-color: #fff;
 }
 
-/* line 178, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 176, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-caption h4 {
   margin: 0;
   text-transform: none;
 }
 
-/* line 183, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 181, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio .portfolio-item .portfolio-caption p {
   margin: 0;
   font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -209,25 +207,25 @@
   font-style: italic;
 }
 
-/* line 190, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 188, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 #portfolio * {
   z-index: 2;
 }
 
 @media (min-width: 767px) {
-  /* line 195, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 193, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   #portfolio .portfolio-item {
     margin: 0 0 30px;
   }
 }
-/* line 200, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 198, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline {
   position: relative;
   padding: 0;
   list-style: none;
 }
 
-/* line 206, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 204, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline:before {
   content: "";
   position: absolute;
@@ -239,26 +237,26 @@
   background-color: #f1f1f1;
 }
 
-/* line 217, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 215, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li {
   position: relative;
   margin-bottom: 50px;
   min-height: 50px;
 }
 
-/* line 224, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 222, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li:before,
 .timeline > li:after {
   content: " ";
   display: table;
 }
 
-/* line 229, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 227, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li:after {
   clear: both;
 }
 
-/* line 233, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 231, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li .timeline-panel {
   float: right;
   position: relative;
@@ -267,7 +265,7 @@
   text-align: left;
 }
 
-/* line 241, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 239, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li .timeline-panel:before {
   right: auto;
   left: -15px;
@@ -275,7 +273,7 @@
   border-left-width: 0;
 }
 
-/* line 248, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 246, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li .timeline-panel:after {
   right: auto;
   left: -14px;
@@ -283,7 +281,7 @@
   border-left-width: 0;
 }
 
-/* line 255, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 253, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li .timeline-image {
   z-index: 100;
   position: absolute;
@@ -298,21 +296,21 @@
   background-color: #60B050;
 }
 
-/* line 269, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 267, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li .timeline-image h4 {
   margin-top: 12px;
   font-size: 10px;
   line-height: 14px;
 }
 
-/* line 275, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 273, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li.timeline-inverted > .timeline-panel {
   float: right;
   padding: 0 20px 0 100px;
   text-align: left;
 }
 
-/* line 281, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 279, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li.timeline-inverted > .timeline-panel:before {
   right: auto;
   left: -15px;
@@ -320,7 +318,7 @@
   border-left-width: 0;
 }
 
-/* line 288, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 286, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li.timeline-inverted > .timeline-panel:after {
   right: auto;
   left: -14px;
@@ -328,43 +326,43 @@
   border-left-width: 0;
 }
 
-/* line 295, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 293, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline > li:last-child {
   margin-bottom: 0;
 }
 
-/* line 299, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 297, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline .timeline-heading h4 {
   font-family: 'Varela Round', 'Verdana' sans-serif;
   margin-top: 0;
   color: inherit;
 }
 
-/* line 305, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 303, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline .timeline-heading h4.subheading {
   font-family: 'Varela Round', 'Verdana' sans-serif;
   text-transform: none;
 }
 
-/* line 311, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 309, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .timeline .timeline-body > p,
 .timeline .timeline-body > ul {
   margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
-  /* line 316, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 314, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline:before {
     left: 50%;
   }
 
-  /* line 320, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 318, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li {
     margin-bottom: 100px;
     min-height: 100px;
   }
 
-  /* line 325, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 323, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-panel {
     float: left;
     width: 41%;
@@ -372,7 +370,7 @@
     text-align: right;
   }
 
-  /* line 332, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 330, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-image {
     left: 50%;
     width: 100px;
@@ -380,14 +378,14 @@
     margin-left: -50px;
   }
 
-  /* line 339, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 337, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-image h4 {
     margin-top: 16px;
     font-size: 13px;
     line-height: 18px;
   }
 
-  /* line 345, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 343, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li.timeline-inverted > .timeline-panel {
     float: right;
     padding: 0 30px 20px 20px;
@@ -395,98 +393,98 @@
   }
 }
 @media (min-width: 992px) {
-  /* line 353, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 351, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li {
     min-height: 150px;
   }
 
-  /* line 357, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 355, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-panel {
     padding: 0 20px 20px;
   }
 
-  /* line 361, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 359, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-image {
     width: 150px;
     height: 150px;
     margin-left: -75px;
   }
 
-  /* line 367, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 365, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-image h4 {
     margin-top: 30px;
     font-size: 18px;
     line-height: 26px;
   }
 
-  /* line 373, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 371, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li.timeline-inverted > .timeline-panel {
     padding: 0 20px 20px;
   }
 }
 @media (min-width: 1200px) {
-  /* line 379, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 377, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li {
     min-height: 170px;
   }
 
-  /* line 383, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 381, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-panel {
     padding: 0 20px 20px 100px;
   }
 
-  /* line 387, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 385, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-image {
     width: 170px;
     height: 170px;
     margin-left: -85px;
   }
 
-  /* line 393, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 391, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li .timeline-image h4 {
     margin-top: 40px;
   }
 
-  /* line 397, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+  /* line 395, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .timeline > li.timeline-inverted > .timeline-panel {
     padding: 0 100px 20px 20px;
   }
 }
-/* line 402, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 400, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .team-member {
   margin-bottom: 50px;
   text-align: center;
 }
 
-/* line 407, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 405, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .team-member img {
   margin: 0 auto;
   border: 7px solid #fff;
 }
 
-/* line 412, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 410, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .team-member h4 {
   margin-top: 25px;
   margin-bottom: 0;
   text-transform: none;
 }
 
-/* line 418, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 416, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .team-member p {
   margin-top: 0;
 }
 
-/* line 422, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 420, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 aside.clients img {
   margin: 50px auto;
 }
 
-/* line 428, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 426, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 ul.social-buttons {
   margin-bottom: 0;
 }
 
-/* line 432, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 430, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 ul.social-buttons li a {
   display: block;
   width: 40px;
@@ -502,14 +500,14 @@ ul.social-buttons li a {
   transition: all .3s;
 }
 
-/* line 449, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 447, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 ul.social-buttons li a:hover,
 ul.social-buttons li a:focus,
 ul.social-buttons li a:active {
   background-color: #60B050;
 }
 
-/* line 456, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 454, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .btn:focus,
 .btn:active,
 .btn.active,
@@ -517,19 +515,25 @@ ul.social-buttons li a:active {
   outline: 0;
 }
 
-/* line 460, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 458, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 img::selection {
   background: 0 0;
 }
 
-/* line 464, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 462, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 img::-moz-selection {
   background: 0 0;
 }
 
-/* line 469, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+/* line 467, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 p {
   font-size: 16px;
+}
+
+/* line 471, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
+.img-validation {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
 }
 /* line 1, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/custom.css.scss */
 .navbar-sous {
@@ -620,6 +624,17 @@ footer ul.quicklinks {
   text-transform: none;
   font-family: 'Varela Round', 'Verdana' sans-serif;
   line-height: 40px;
+}
+
+/* line 83, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/custom.css.scss */
+.modal {
+  color: #000;
+  text-align: left;
+}
+
+/* line 88, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/custom.css.scss */
+.text-green {
+  color: #35aa63;
 }
 /* line 1, /Users/Gwenahz/Documents/SMARTPHONERIE/dev/smrie/app/assets/stylesheets/scaffolds.css.scss */
 body {

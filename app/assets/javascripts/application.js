@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.form-validator
 //= require bootstrap
 //= require bootstrap-sprockets
 //= require typeahead-addresspicker

@@ -22,7 +22,7 @@
   <div class="col-md-3">
     <%= f.text_field :cp, :class => "form-control", :placeholder => "Code Postal (ex: 75001)" %>  </div>
   <div class="col-md-3">
-    <button onclick="_gaq.push(['_trackEvent', 'LandingButton1', 'clicked'])" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">RÉPARER MON SMARTPHONE !</button>  </div>
+    <button onclick="_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing', 'clicked'])" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">RÉPARER MON SMARTPHONE !</button>  </div>
   </div>
 
 
@@ -37,23 +37,23 @@
           <div class="modal-body">
             <div class="form-group col-md-6">
               <%= f.label "Prénom" %><br>
-              <%= f.text_field :prenom, :class => "form-control", :placeholder => "Prénom" %>
+              <%= f.text_field :prenom, :class => "form-control", :placeholder => "Prénom",:required => true %>
             </div>
             <div class="form-group col-md-6">
               <%= f.label :nom %><br>
-              <%= f.text_field :nom, :class => "form-control", :placeholder => "Nom" %>
+              <%= f.text_field :nom, :class => "form-control", :placeholder => "Nom", :required => true %>
             </div>
             <div class="form-group col-md-7">
               <%= f.label "Email" %><br>
-              <%= f.text_field :mail, :class => "form-control", :placeholder => "Adresse email" %>
+              <%= f.text_field :mail, :class => "form-control", :placeholder => "Adresse email", :required => true %>
             </div>
             <div class="form-group col-md-5">
               <%= f.label "Numéro de téléphone" %><br>
-              <%= f.text_field :numtel, :class => "form-control", :placeholder => "Numéro de téléphone" %>
+              <%= f.text_field :numtel, :class => "form-control", :placeholder => "Numéro de téléphone", :required => true %>
             </div>
             <div class="form-group col-md-12">
               <br>
-              <%= f.submit "VALIDER", class: "btn btn-success btn-block", alert: "OK" %>
+              <%= f.submit "VALIDER", class: "btn btn-success btn-block", :onclick => "_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing-Infos-Remplies', 'clicked'])" %>
             </div>
             <div class="form-group">Nous vous rappelons dans l'heure !</div>
           <% end %>
@@ -61,3 +61,4 @@
         </div>
       </div>
     </div>
+    
