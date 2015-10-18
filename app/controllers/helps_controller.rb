@@ -28,7 +28,7 @@ class HelpsController < ApplicationController
       format.html { 
         if @help.save
           # Sends email to user when user is created.
-          UserMailer.help_email(@user).deliver
+          UserMailer.help_email(@help).deliver
 
           redirect_to pages_validation_path 
         else 
