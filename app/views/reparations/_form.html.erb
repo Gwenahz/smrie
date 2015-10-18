@@ -12,8 +12,11 @@
   <% end %>
   <div class="field">
 	<% @panne.each do |panne| %>
-	  	<%= check_box_tag "reparation[id_panne][]", panne.id %>
-		<%= f.label panne.name %><br>
+      <label class="text-center col-md-3">
+        <%= image_tag(panne.image.url, size: "150") %><br>
+	  	  <%= check_box_tag "reparation[id_panne][]", panne.id %>
+		    <%= f.label panne.name %><br>
+      </label>
 	<% end %>
   </div>
   <div class="field">

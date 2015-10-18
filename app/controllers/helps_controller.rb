@@ -27,6 +27,9 @@ class HelpsController < ApplicationController
     respond_to do |format|
       format.html { 
         if @help.save
+          # Sends email to user when user is created.
+          UserMailer.help_email(@user).deliver
+
           redirect_to pages_validation_path 
         else 
           flash[:error] = "Oups ! Quelque chose s'est mal passé"

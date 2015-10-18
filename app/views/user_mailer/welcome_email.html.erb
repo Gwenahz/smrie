@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Bienvenue dans la communauté <%= @user.prenom %> !</h1>
+    <p>
+      Bonjour <%= @user.prenom %>,<br><br>
+      Je m'appelle Yorick et je suis co-fondateur de La Smartphonerie. <br>
+      Tu viens de rejoindre avec succès la communauté des réparateurs de La Smartphonerie que nous appelons des Smarty.<br>
+      Je t'invite à compléter ton profil réparateur afin que nous puissions te proposer des réparations.
+      <br>
+    </p>
+    <p>
+      Pour te connecter à ton espace réparateur et commencer à configurer ton profil, clique sur ce lien : <a href="<%= @url %>" target="_blank">Connexion à mon espace Réparateur</a>.
+    </p>
+    <p>Merci d'avoir rejoint la communauté de La Smartphonerie !</p>
+    <p>A bientôt !<br>
+      Yorick de La Smartphonerie.</p>
+    <p><i>PS : Pour toute question, n'hésite pas à me contacter directement au 06 19 64 07 71 ;)</i></p>
+  </body>
+</html>

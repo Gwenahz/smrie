@@ -16,14 +16,14 @@ class ReparationsController < ApplicationController
   def new
     #Vérification de l'authentification de l'user sinon redirection vers :root
     if user_signed_in?
-      if current_user.idphones?
+      #if current_user.idphones?
         @panne = Panne.all
       
         @reparation = Reparation.new
         respond_with(@reparation)
-      else
-        redirect_to :edit_user_registration
-      end
+      #else
+        #redirect_to :edit_user_registration
+      #end
       else
       redirect_to :new_user_session
     end

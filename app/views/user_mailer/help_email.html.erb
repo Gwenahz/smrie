@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Une demande de réparation vient d'arriver !</h1>
+    <p>
+      <%= @help.created_at %><br><br>
+
+      <%= @help.prenom %> <%= @help.nom %><br>
+      <%= @help.cp %><br><br>
+      <%= @help.modele %><br>
+      <%= @help.panne %><br><br>
+      <%= @help.mail %><br>
+      <%= @help.numtel %><br>
+      <br>
+    </p>
+  </body>
+</html>

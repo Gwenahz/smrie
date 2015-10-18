@@ -1,0 +1,15 @@
+class UserMailer < ActionMailer::Base
+  default from: "hello@lasmartphonerie.com"
+
+  def welcome_email(user)
+    @user = user
+    @url  = 'http://www.lasmartphonerie.com/users/sign_in'
+    mail(to: @user.email, subject: 'Bienvenue dans la Communauté de La Smartphonerie !')
+  end
+
+  def help_email(help)
+    @help = help
+    @url  = 'http://www.lasmartphonerie.com/users/sign_in'
+    mail(to: 'hello@lasmartphonerie.com', subject: 'Nouvelle demande de réparation !')
+  end
+end
