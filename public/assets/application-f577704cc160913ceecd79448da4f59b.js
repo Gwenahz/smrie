@@ -10753,8 +10753,1668 @@ return jQuery;
   }
 
 })( jQuery );
+/**
+* jQuery Form Validator
+* ------------------------------------------
+* Created by Victor Jonsson <http://www.victorjonsson.se>
+*
+* @website http://formvalidator.net/
+* @license Dual licensed under the MIT or GPL Version 2 licenses
+* @version 2.2.beta.50
+*/
+
+(function($) {
+
+    'use strict';
+
+    var $window = $(window),
+        _applyErrorStyle = function($elem, conf) {
+            $elem
+                .addClass(conf.errorElementClass)
+                .removeClass('valid');
+
+            var $parent = $elem.parent();
+            if($parent.hasClass("input-group"))
+                $parent = $parent.parent();
+            
+            $parent
+            	.addClass(conf.inputParentClassOnError)
+                .removeClass(conf.inputParentClassOnSuccess);
+
+            if(conf.borderColorOnError !== '') {
+                $elem.css('border-color', conf.borderColorOnError);
+            }
+        },
+        _removeErrorStyle = function($elem, conf) {
+            $elem.each(function() {
+                var $this = $(this),
+                    $parent = $this.parent();
+
+                if($parent.hasClass("input-group"))
+                    $parent = $parent.parent();
+
+                _setInlineErrorMessage($this, '', conf, conf.errorMessagePosition);
+
+                $this
+                    .removeClass('valid')
+                    .removeClass(conf.errorElementClass)
+                    .css('border-color', '');
+
+                $parent
+                    .removeClass(conf.inputParentClassOnError)
+		            .removeClass(conf.inputParentClassOnSuccess)
+                    .find('.'+conf.errorMessageClass) // remove inline span holding error message
+                        .remove();
+            });
+        },
+        _setInlineErrorMessage = function($input, mess, conf, $messageContainer) {
+            var custom = _getInlineErrorElement($input);
+            
+            if( custom ) {
+                custom.innerHTML = mess;
+            }
+            else if( typeof $messageContainer == 'object' ) {
+                var $found = false;
+                $messageContainer.find('.'+conf.errorMessageClass).each(function() {
+                    if( this.inputReferer == $input[0] ) {
+                        $found = $(this);
+                        return false;
+                    }
+                });
+                if( $found ) {
+                    if( !mess ) {
+                        $found.remove();
+                    } else {
+                        $found.html(mess);
+                    }
+                } else {
+                    var $mess = $('<div class="'+conf.errorMessageClass+'">'+mess+'</div>');
+                    $mess[0].inputReferer = $input[0];
+                    $messageContainer.prepend($mess);
+                }
+            }
+            else {
+            	var $parent = $input.parent();
+	            if($parent.hasClass("input-group")) $parent = $parent.parent();
+                var $mess = $parent.find('.'+conf.errorMessageClass+'.help-block');
+                if( $mess.length == 0 ) {
+                    $mess = $('<span></span>').addClass('help-block').addClass(conf.errorMessageClass);
+                    $mess.appendTo($parent);
+                }
+                $mess.html(mess);
+            }
+        },
+        _getInlineErrorElement = function($input, conf) {
+            return document.getElementById($input.attr('name')+'_err_msg');
+        },
+        _templateMessage = function($form, title, errorMessages, conf) {
+            var messages = conf.errorMessageTemplate.messages.replace(/\{errorTitle\}/g, title);
+            var fields = [];
+            $.each(errorMessages, function(i, msg) {
+                fields.push(conf.errorMessageTemplate.field.replace(/\{msg\}/g, msg));
+            });
+            messages = messages.replace(/\{fields\}/g, fields.join(''));
+            var container = conf.errorMessageTemplate.container.replace(/\{errorMessageClass\}/g, conf.errorMessageClass);
+            container = container.replace(/\{messages\}/g, messages);
+            $form.children().eq(0).before(container);
+        };
+
+    /**
+    * Assigns validateInputOnBlur function to elements blur event
+    *
+    * @param {Object} language Optional, will override $.formUtils.LANG
+    * @param {Object} settings Optional, will override the default settings
+    * @return {jQuery}
+    */
+    $.fn.validateOnBlur = function(language, settings) {
+        this.find('input[data-validation],textarea[data-validation],select[data-validation]')
+            .bind('blur.validation', function() {
+                $(this).validateInputOnBlur(language, settings, true, 'blur');
+            });
+        if(settings.validateCheckboxRadioOnClick) {
+        // bind click event to validate on click for radio & checkboxes for nice UX
+        this.find('input[type=checkbox][data-validation],input[type=radio][data-validation]')
+            .bind('click.validation', function() {
+                $(this).validateInputOnBlur(language, settings, true, 'click');
+            });
+        }
+
+        return this;
+    };
+
+	/*
+	 * Assigns validateInputOnBlur function to elements custom event
+	 * @param {Object} language Optional, will override $.formUtils.LANG
+	 * @param {Object} settings Optional, will override the default settings
+	 * * @return {jQuery}	
+	 */
+	$.fn.validateOnEvent = function(language, settings) {
+        this.find('input[data-validation][data-validation-event],textarea[data-validation][data-validation-event],select[data-validation][data-validation-event]')
+			.each(function(){
+				var $el = $(this),
+				    etype = $el.valAttr("event");
+				if (etype){
+					$el.bind(etype + ".validation", function(){
+                		$(this).validateInputOnBlur(language, settings, true, etype);
+					});
+				}
+			});
+		return this;
+	};
+
+    /**
+    * fade in help message when input gains focus
+    * fade out when input loses focus
+    * <input data-help="The info that I want to display for the user when input is focused" ... />
+    *
+    * @param {String} attrName - Optional, default is data-help
+    * @return {jQuery}
+    */
+    $.fn.showHelpOnFocus = function(attrName) {
+        if(!attrName) {
+            attrName = 'data-validation-help';
+        }
+
+        // Remove previously added event listeners
+        this.find('.has-help-txt')
+                .valAttr('has-keyup-event', false)
+                .removeClass('has-help-txt');
+
+        // Add help text listeners
+        this.find('textarea,input').each(function() {
+            var $elem = $(this),
+                className = 'jquery_form_help_' + ($elem.attr('name') || '').replace( /(:|\.|\[|\])/g, "" ),
+                help = $elem.attr(attrName);
+
+            if(help) {
+                $elem
+                    .addClass('has-help-txt')
+                    .unbind('focus.help')
+                    .bind('focus.help', function() {
+                        var $help = $elem.parent().find('.'+className);
+                        if($help.length == 0) {
+                            $help = $('<span />')
+                                        .addClass(className)
+                                        .addClass('help')
+                                        .addClass('help-block') // twitter bs
+                                        .text(help)
+                                        .hide();
+
+                            $elem.after($help);
+
+                        }
+                        $help.fadeIn();
+                    })
+                    .unbind('blur.help')
+                    .bind('blur.help', function() {
+                        $(this)
+                            .parent()
+                            .find('.'+className)
+                                .fadeOut('slow');
+                    });
+            }
+        });
+
+        return this;
+    };
+
+    /**
+    * Validate single input when it loses focus
+    * shows error message in a span element 
+    * that is appended to the parent element
+    *
+    * @param {Object} [language] Optional, will override $.formUtils.LANG
+    * @param {Object} [conf] Optional, will override the default settings
+    * @param {Boolean} attachKeyupEvent Optional
+    * @param {String} eventType
+    * @return {jQuery}
+    */
+    $.fn.validateInputOnBlur = function(language, conf, attachKeyupEvent, eventType) {
+
+        $.formUtils.eventType = eventType;
+
+        if( (this.valAttr('suggestion-nr') || this.valAttr('postpone') || this.hasClass('hasDatepicker')) && !window.postponedValidation ) {
+            // This validation has to be postponed
+            var _self = this,
+                postponeTime = this.valAttr('postpone') || 200;
+
+            window.postponedValidation = function() {
+                _self.validateInputOnBlur(language, conf, attachKeyupEvent, eventType);
+                window.postponedValidation = false;
+            };
+            setTimeout(function() {
+                if( window.postponedValidation ) {
+                    window.postponedValidation();
+                }
+            }, postponeTime);
+
+            return this;
+        }
+
+        language = $.extend({}, $.formUtils.LANG, language || {});
+        _removeErrorStyle(this, conf);
+        var $elem = this,
+            $form = $elem.closest("form"),
+            validationRule = $elem.attr(conf.validationRuleAttribute),
+            validation = $.formUtils.validateInput(
+                            $elem,
+                            language,
+                            $.extend({}, conf, {errorMessagePosition:'element'}),
+                            $form,
+                            eventType
+                        );
+        
+        if(validation === true) {
+            $elem
+                .addClass('valid')
+                .parent()
+                    .addClass(conf.inputParentClassOnSuccess); 
+                    
+        } else if(validation !== null) {
+
+            _applyErrorStyle($elem, conf);
+            _setInlineErrorMessage($elem, validation, conf, conf.errorMessagePosition);
+
+            if(attachKeyupEvent) {
+                $elem
+                    .unbind('keyup.validation')
+                    .bind('keyup.validation', function() {
+                        $(this).validateInputOnBlur(language, conf, false, 'keyup');
+                    });
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * Short hand for fetching/adding/removing element attributes
+     * prefixed with 'data-validation-'
+     *
+     * @param {String} name
+     * @param {String|Boolean} [val]
+     * @return string|undefined
+     * @protected
+     */
+    $.fn.valAttr = function(name, val) {
+        if( val === undefined ) {
+            return this.attr('data-validation-'+name);
+        } else if( val === false || val === null ) {
+            return this.removeAttr('data-validation-'+name);
+        } else {
+            if(name.length > 0) name='-'+name;
+            return this.attr('data-validation'+name, val);
+        }
+    };
+
+    /**
+     * Function that validates all inputs in active form
+     *
+     * @param {Object} [language]
+     * @param {Object} [conf]
+     * @param {Boolean} [displayError] Defaults to true
+     */
+    $.fn.isValid = function(language, conf, displayError) {
+
+        if ($.formUtils.isLoadingModules) {
+            var $self = this;
+            setTimeout(function () {
+                $self.isValid(language, conf, displayError);
+            }, 200);
+            return null;
+        }
+
+        conf = $.extend({}, $.formUtils.defaultConfig(), conf || {});
+        language = $.extend({}, $.formUtils.LANG, language || {});
+        displayError = displayError !== false;
+
+        if($.formUtils.errorDisplayPreventedWhenHalted) {
+            // isValid() was called programmatically with argument displayError set
+            // to false when the validation was halted by any of the validators
+            delete $.formUtils.errorDisplayPreventedWhenHalted
+            displayError = false;
+        }
+
+
+        $.formUtils.isValidatingEntireForm = true;
+        $.formUtils.haltValidation = false;
+
+        /**
+         * Adds message to error message stack if not already in the message stack
+         *
+         * @param {String} mess
+         * @para {jQuery} $elem
+         */
+        var addErrorMessage = function(mess, $elem) {
+            if ($.inArray(mess, errorMessages) < 0) {
+                errorMessages.push(mess);
+            }
+            errorInputs.push($elem);
+            $elem.attr('current-error', mess);
+            if( displayError )
+                _applyErrorStyle($elem, conf);
+        },
+
+        /** Holds inputs (of type checkox or radio) already validated, to prevent recheck of mulitple checkboxes & radios */
+        checkedInputs = [],
+	
+        /** Error messages for this validation */
+        errorMessages = [],
+
+        /** Input elements which value was not valid */
+        errorInputs = [],
+
+        /** Form instance */
+        $form = this,
+
+        /**
+         * Tells whether or not to validate element with this name and of this type
+         *
+         * @param {String} name
+         * @param {String} type
+         * @return {Boolean}
+         */
+        ignoreInput = function(name, type) {
+            if (type === 'submit' || type === 'button' || type == 'reset') {
+                return true;
+            }
+            return $.inArray(name, conf.ignore || []) > -1;
+        };
+
+        // Reset style and remove error class
+        if( displayError ) {
+            $form.find('.'+conf.errorMessageClass+'.alert').remove();
+            _removeErrorStyle($form.find('.'+conf.errorElementClass+',.valid'), conf);
+        }
+
+        // Validate element values
+        $form.find('input,textarea,select').filter(':not([type="submit"],[type="button"])').each(function() {
+            var $elem = $(this),
+                elementType = $elem.attr('type'),
+                isCheckboxOrRadioBtn = elementType == 'radio' || elementType == 'checkbox',
+                elementName = $elem.attr('name');
+
+            if (!ignoreInput(elementName, elementType) && (!isCheckboxOrRadioBtn || $.inArray(elementName, checkedInputs) < 0) ) {
+
+                if( isCheckboxOrRadioBtn )
+                    checkedInputs.push(elementName);
+
+                var validation = $.formUtils.validateInput(
+                                $elem,
+                                language,
+                                conf,
+                                $form,
+                                'submit'
+                            );
+
+                if(validation != null) {
+                    if(validation !== true) {
+                        addErrorMessage(validation, $elem);
+                    } else {
+                        $elem
+                            .valAttr('current-error', false)
+                            .addClass('valid')
+                            .parent()
+                            .addClass('has-success');
+                    }
+                }
+            }
+        });
+
+        // Run validation callback
+        if( typeof conf.onValidate == 'function' ) {
+            var errors = conf.onValidate($form);
+            if( $.isArray(errors) ) {
+                $.each(errors, function(i, err) {
+                    addErrorMessage(err.message, err.element);
+                });
+            }
+            else if( errors && errors.element && errors.message ) {
+                addErrorMessage(errors.message, errors.element);
+            }
+        }
+
+        // Reset form validation flag
+        $.formUtils.isValidatingEntireForm = false;
+
+        // Validation failed
+        if ( !$.formUtils.haltValidation && errorInputs.length > 0 ) {
+
+            if( displayError ) {
+                // display all error messages in top of form
+                if (conf.errorMessagePosition === 'top') {
+                    _templateMessage($form, language.errorTitle, errorMessages, conf);
+                }
+                // Customize display message
+                else if(conf.errorMessagePosition === 'custom') {
+                    if( typeof conf.errorMessageCustom === 'function' ) {
+                        conf.errorMessageCustom($form, language.errorTitle, errorMessages, conf);
+                    }
+                }
+                // Display error message below input field or in defined container
+                else  {
+                    $.each(errorInputs, function(i, $input) {
+                        _setInlineErrorMessage($input, $input.attr('current-error'), conf, conf.errorMessagePosition);
+                    });
+                }
+
+                if(conf.scrollToTopOnError) {
+                    $window.scrollTop($form.offset().top - 20);
+                }
+            }
+
+            return false;
+        }
+
+        if( !displayError && $.formUtils.haltValidation ) {
+            $.formUtils.errorDisplayPreventedWhenHalted = true;
+        }
+
+        return !$.formUtils.haltValidation;
+    };
+
+    /**
+     * @deprecated
+     * @param language
+     * @param conf
+     */
+    $.fn.validateForm = function(language, conf) {
+        if( window.console && typeof window.console.warn == 'function' ) {
+            window.console.warn('Use of deprecated function $.validateForm, use $.isValid instead');
+        }
+        return this.isValid(language, conf, true);
+    }
+
+    /**
+    * Plugin for displaying input length restriction
+    */
+    $.fn.restrictLength = function(maxLengthElement) {
+        new $.formUtils.lengthRestriction(this, maxLengthElement);
+        return this;
+    };
+
+    /**
+     * Add suggestion dropdown to inputs having data-suggestions with a comma
+     * separated string with suggestions
+     * @param {Array} [settings]
+     * @returns {jQuery}
+     */
+    $.fn.addSuggestions = function(settings) {
+        var sugs = false;
+        this.find('input').each(function() {
+            var $field = $(this);
+
+            sugs = $.split($field.attr('data-suggestions'));
+
+            if( sugs.length > 0 && !$field.hasClass('has-suggestions') ) {
+                $.formUtils.suggest($field, sugs, settings);
+                $field.addClass('has-suggestions');
+            }
+        });
+        return this;
+    };
+
+    /**
+     * A bit smarter split function
+     * delimiter can be space, comma, dash or pipe
+     * @param {String} val
+     * @param {Function|String} [func]
+     * @returns {Array|void}
+     */
+    $.split = function(val, func) {
+        if( typeof func != 'function' ) {
+            // return array
+            if( !val )
+                return [];
+            var values = [];
+            $.each(val.split(func ? func: /[,|-\s]\s*/g ),
+                function(i,str) {
+                    str = $.trim(str);
+                    if( str.length )
+                        values.push(str);
+                }
+            );
+            return values;
+        } else if( val ) {
+            // exec callback func on each
+            $.each(val.split(/[,|-\s]\s*/g),
+                function(i, str) {
+                    str = $.trim(str);
+                    if( str.length )
+                        return func(str, i);
+                }
+            );
+        }
+    };
+
+    /**
+     * Short hand function that makes the validation setup require less code
+     * @param conf
+     */
+    $.validate = function(conf) {
+
+        var defaultConf = $.extend($.formUtils.defaultConfig(), {
+            form : 'form',
+			/*
+			 * Enable custom event for validation
+			 */
+            validateOnEvent : true,
+            validateOnBlur : true,
+            validateCheckboxRadioOnClick : true,
+            showHelpOnFocus : true,
+            addSuggestions : true,
+            modules : '',
+            onModulesLoaded : null,
+            language : false,
+            onSuccess : false,
+            onError : false,
+            onElementValidate : false,
+        });
+
+        conf = $.extend(defaultConf, conf || {});
+
+        // Add validation to forms
+        $(conf.form).each(function(i, form) {
+
+            var $form  = $(form);
+            $window.trigger('formValidationSetup', [$form]);
+
+            // Remove all event listeners previously added
+            $form.find('.has-help-txt')
+                .unbind('focus.validation')
+                .unbind('blur.validation');
+            $form
+                .removeClass('has-validation-callback')
+                .unbind('submit.validation')
+                .unbind('reset.validation')
+                .find('input[data-validation],textarea[data-validation]')
+                    .unbind('blur.validation');
+
+            // Validate when submitted
+            $form.bind('submit.validation', function() {
+                var $form = $(this);
+
+                if( $.formUtils.haltValidation ) {
+                    // pressing several times on submit button while validation is halted
+                    return false;
+                }
+
+                if($.formUtils.isLoadingModules) {
+                    setTimeout(function() {
+                        $form.trigger('submit.validation');
+                    }, 200);
+                    return false;
+                }
+
+                var valid = $form.isValid(conf.language, conf);
+
+                if( $.formUtils.haltValidation ) {
+                    // Validation got halted by one of the validators
+                    return false;
+                } else {
+                    if( valid && typeof conf.onSuccess == 'function') {
+                        var callbackResponse = conf.onSuccess($form);
+                        if( callbackResponse === false )
+                            return false;
+                    } else if ( !valid && typeof conf.onError == 'function' ) {
+                        conf.onError($form);
+                        return false;
+                    } else {
+                        return valid;
+                    }
+                }
+            })
+            .bind('reset.validation', function() {
+                // remove messages
+                $(this).find('.'+conf.errorMessageClass+'.alert').remove();
+                _removeErrorStyle($(this).find('.'+conf.errorElementClass+',.valid'), conf);
+            })
+            .addClass('has-validation-callback');
+
+            if( conf.showHelpOnFocus ) {
+                $form.showHelpOnFocus();
+            }
+            if( conf.addSuggestions ) {
+                $form.addSuggestions();
+            }
+            if( conf.validateOnBlur ) {
+                $form.validateOnBlur(conf.language, conf);
+                $form.bind('html5ValidationAttrsFound', function() {
+                    $form.validateOnBlur(conf.language, conf);
+                })
+            }
+			if( conf.validateOnEvent ){
+                $form.validateOnEvent(conf.language, conf);
+			}
+
+        });
+
+        if( conf.modules != '' ) {
+            if( typeof conf.onModulesLoaded == 'function' ) {
+                $window.one('validatorsLoaded', conf.onModulesLoaded);
+            }
+            $.formUtils.loadModules(conf.modules);
+        }
+    };
+
+    /**
+     * Object containing utility methods for this plugin
+     */
+    $.formUtils = {
+
+        /**
+         * Default config for $(...).isValid();
+         */
+        defaultConfig :  function() {
+            return {
+                ignore : [], // Names of inputs not to be validated even though node attribute containing the validation rules tells us to
+                errorElementClass : 'error', // Class that will be put on elements which value is invalid
+                borderColorOnError : 'red', // Border color of elements which value is invalid, empty string to not change border color
+                errorMessageClass : 'form-error', // class name of div containing error messages when validation fails
+                validationRuleAttribute : 'data-validation', // name of the attribute holding the validation rules
+                validationErrorMsgAttribute : 'data-validation-error-msg', // define custom err msg inline with element
+                errorMessagePosition : 'element', // Can be either "top" or "element" or "custom"
+                errorMessageTemplate : {
+                    container: '<div class="{errorMessageClass} alert alert-danger">{messages}</div>',
+                    messages: '<strong>{errorTitle}</strong><ul>{fields}</ul>',
+                    field: '<li>{msg}</li>'
+                },
+                errorMessageCustom: _templateMessage,
+                scrollToTopOnError : true,
+                dateFormat : 'yyyy-mm-dd',
+                addValidClassOnAll : false, // whether or not to apply class="valid" even if the input wasn't validated
+                decimalSeparator : '.',
+                inputParentClassOnError : 'has-error', // twitter-bootstrap default class name
+                inputParentClassOnSuccess : 'has-success' // twitter-bootstrap default class name
+            }
+        },
+
+        /**
+        * Available validators
+        */
+        validators : {},
+
+        /**
+         * Events triggered by form validator
+         */
+        _events : {load : [], valid: [], invalid:[]},
+
+        /**
+         * Setting this property to true during validation will
+         * stop further validation from taking place and form will
+         * not be sent
+         */
+        haltValidation : false,
+
+        /**
+         * This variable will be true $.fn.isValid() is called
+         * and false when $.fn.validateOnBlur is called
+         */
+        isValidatingEntireForm : false,
+
+        /**
+        * Function for adding a validator
+        * @param {Object} validator
+        */
+        addValidator : function(validator) {
+            // prefix with "validate_" for backward compatibility reasons
+            var name = validator.name.indexOf('validate_') === 0 ? validator.name : 'validate_'+validator.name;
+            if( validator.validateOnKeyUp === undefined )
+                validator.validateOnKeyUp = true;
+            this.validators[name] = validator;
+        },
+
+        /**
+         * @var {Boolean}
+         */
+        isLoadingModules : false,
+
+        /**
+         * @var {Object}
+         */
+        loadedModules : {},
+
+        /**
+        * @example
+        *  $.formUtils.loadModules('date, security.dev');
+        *
+        * Will load the scripts date.js and security.dev.js from the
+        * directory where this script resides. If you want to load
+        * the modules from another directory you can use the
+        * path argument.
+        *
+        * The script will be cached by the browser unless the module
+        * name ends with .dev
+        *
+        * @param {String} modules - Comma separated string with module file names (no directory nor file extension)
+        * @param {String} [path] - Optional, path where the module files is located if their not in the same directory as the core modules
+        * @param {Boolean} [fireEvent] - Optional, whether or not to fire event 'load' when modules finished loading
+        */
+        loadModules : function(modules, path, fireEvent) {
+
+            if( fireEvent === undefined )
+                fireEvent = true;
+
+            if( $.formUtils.isLoadingModules ) {
+                setTimeout(function() {
+                    $.formUtils.loadModules(modules, path, fireEvent);
+                });
+                return;
+            }
+
+            var hasLoadedAnyModule = false,
+                loadModuleScripts = function(modules, path) {
+
+                    var moduleList = $.split(modules),
+                        numModules = moduleList.length,
+                        moduleLoadedCallback = function() {
+                            numModules--;
+                            if( numModules == 0 ) {
+                                $.formUtils.isLoadingModules = false;
+                                if( fireEvent && hasLoadedAnyModule ) {
+                                    $window.trigger('validatorsLoaded');
+                                }
+                            }
+                        };
+
+                    if( numModules > 0 ) {
+                        $.formUtils.isLoadingModules = true;
+                    }
+
+                    var cacheSuffix = '?__='+( new Date().getTime() ),
+                        appendToElement = document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0];
+
+                    $.each(moduleList, function(i, modName) {
+                        modName = $.trim(modName);
+                        if( modName.length == 0 ) {
+                            moduleLoadedCallback();
+                        }
+                        else {
+                            var scriptUrl = path + modName + (modName.substr(-3) == '.js' ? '':'.js'),
+                                script = document.createElement('SCRIPT');
+
+                            if( scriptUrl in $.formUtils.loadedModules ) {
+                                // already loaded
+                                moduleLoadedCallback();
+                            }
+                            else {
+
+                                // Remember that this script is loaded
+                                $.formUtils.loadedModules[scriptUrl] = 1;
+                                hasLoadedAnyModule = true;
+
+                                // Load the script
+                                script.type = 'text/javascript';
+                                script.onload = moduleLoadedCallback;
+                                script.src = scriptUrl + ( scriptUrl.substr(-7) == '.dev.js' ? cacheSuffix:'' );
+                                script.onreadystatechange = function() {
+                                    // IE 7 fix
+                                    if( this.readyState == 'complete' || this.readyState == 'loaded' ) {
+                                        moduleLoadedCallback();
+                                        // Handle memory leak in IE
+                                        this.onload = null;
+                                        this.onreadystatechange = null;
+                                    }
+                                };
+                                appendToElement.appendChild( script );
+                            }
+                        }
+                    });
+                };
+
+            if( path ) {
+                loadModuleScripts(modules, path);
+            } else {
+                var findScriptPathAndLoadModules = function() {
+                    var foundPath = false;
+                    $('script[src*="form-validator"]').each(function() {
+                        foundPath = this.src.substr(0, this.src.lastIndexOf('/')) + '/';
+                        if( foundPath == '/' )
+                            foundPath = '';
+                        return false;
+                    });
+
+                    if( foundPath !== false) {
+                        loadModuleScripts(modules, foundPath);
+                        return true;
+                    }
+                    return false;
+                };
+
+                if( !findScriptPathAndLoadModules() ) {
+                    $(findScriptPathAndLoadModules);
+                }
+            }
+        },
+
+        /**
+        * Validate the value of given element according to the validation rules
+        * found in the attribute data-validation. Will return null if no validation
+        * should take place, returns true if valid or error message if not valid
+        *
+        * @param {jQuery} $elem
+        * @param {Object} language ($.formUtils.LANG)
+        * @param {Object} conf
+        * @param {jQuery} $form
+        * @param {String} [eventContext]
+        * @return {String|Boolean}
+        */
+        validateInput : function($elem, language, conf, $form, eventContext) {
+
+            if( $elem.attr('disabled') )
+                return null; // returning null will prevent that the valid class gets applied to the element
+
+            $elem.trigger('beforeValidation');
+
+            var value = $elem.val() || '',
+                optional = $elem.valAttr('optional'),
+
+                // test if a checkbox forces this element to be validated
+                validationDependsOnCheckedInput = false,
+                validationDependentInputIsChecked = false,
+                validateIfCheckedElement = false,
+
+                // get value of this element's attribute "... if-checked"
+                validateIfCheckedElementName = $elem.valAttr("if-checked");
+
+            // make sure we can proceed
+            if (validateIfCheckedElementName != null) {
+
+                // Set the boolean telling us that the validation depends
+                // on another input being checked
+                validationDependsOnCheckedInput = true;
+
+                // select the checkbox type element in this form
+                validateIfCheckedElement = $form.find('input[name="' + validateIfCheckedElementName + '"]');
+
+                // test if it's property "checked" is checked
+                if ( validateIfCheckedElement.prop('checked') ) {
+                    // set value for validation checkpoint
+                    validationDependentInputIsChecked = true;
+                }
+            }
+
+            // validation checkpoint
+            // if empty AND optional attribute is present
+            // OR depending on a checkbox being checked AND checkbox is checked, return true
+            if ((!value && optional === 'true') || (validationDependsOnCheckedInput && !validationDependentInputIsChecked)) {
+                return conf.addValidClassOnAll ? true:null;
+            }
+
+            var validationRules = $elem.attr(conf.validationRuleAttribute),
+
+                // see if form element has inline err msg attribute
+                validationErrorMsg = true;
+
+            if( !validationRules ) {
+                return conf.addValidClassOnAll ? true:null;
+            }
+
+            $.split(validationRules, function(rule) {
+                if( rule.indexOf('validate_') !== 0 ) {
+                    rule = 'validate_' + rule;
+                }
+
+                var validator = $.formUtils.validators[rule];
+
+                if( validator && typeof validator['validatorFunction'] == 'function' ) {
+                    
+                    // special change of element for checkbox_group rule
+                    if ( rule == 'validate_checkbox_group' ) {
+                        // set element to first in group, so error msg attr doesn't need to be set on all elements in group
+                            $elem = $("[name='"+$elem.attr('name')+"']:eq(0)");
+                    }
+                    
+                    var isValid = null;
+                    if( eventContext != 'keyup' || validator.validateOnKeyUp ) {
+                        isValid = validator.validatorFunction(value, $elem, conf, language, $form);
+                    }
+
+                    if(!isValid) {
+                        validationErrorMsg = null;
+                        if( isValid !== null ) {
+                            validationErrorMsg =  $elem.attr(conf.validationErrorMsgAttribute+'-'+rule.replace('validate_', ''));
+                            if( !validationErrorMsg ) {
+                                validationErrorMsg =  $elem.attr(conf.validationErrorMsgAttribute);
+                                if( !validationErrorMsg ) {
+                                    validationErrorMsg = language[validator.errorMessageKey];
+                                    if( !validationErrorMsg )
+                                        validationErrorMsg = validator.errorMessage;
+                                }
+                            }
+                        }
+                        return false; // breaks the iteration
+                    }
+
+                } else {
+                    throw new Error('Using undefined validator "'+rule+'"');
+                }
+
+            }, ' ');
+
+            var result;
+
+            if( typeof validationErrorMsg == 'string' ) {
+                $elem.trigger('validation', false);
+                result = validationErrorMsg;
+            } else if( validationErrorMsg === null && !conf.addValidClassOnAll ) {
+                result = null;
+            } else {
+                $elem.trigger('validation', true);
+                result = true;
+            }
+
+            // Run element validation callback
+            if( typeof conf.onElementValidate == 'function' && result !== null ) {
+                conf.onElementValidate((result === true), $elem, $form, validationErrorMsg);
+            }
+
+            return result;
+        },
+
+       /**
+        * Is it a correct date according to given dateFormat. Will return false if not, otherwise
+        * an array 0=>year 1=>month 2=>day
+        *
+        * @param {String} val
+        * @param {String} dateFormat
+        * @return {Array}|{Boolean}
+        */
+        parseDate : function(val, dateFormat) {
+            var divider = dateFormat.replace(/[a-zA-Z]/gi, '').substring(0,1),
+                regexp = '^',
+                formatParts = dateFormat.split(divider || null),
+                matches, day, month, year;
+
+            $.each(formatParts, function(i, part) {
+               regexp += (i > 0 ? '\\'+divider:'') + '(\\d{'+part.length+'})';
+            });
+
+            regexp += '$';
+            
+            matches = val.match(new RegExp(regexp));
+            if (matches === null) {
+                return false;
+            }
+        
+            var findDateUnit = function(unit, formatParts, matches) {
+                for(var i=0; i < formatParts.length; i++) {
+                    if(formatParts[i].substring(0,1) === unit) {
+                        return $.formUtils.parseDateInt(matches[i+1]);
+                    }
+                }
+                return -1;
+            };
+        
+            month = findDateUnit('m', formatParts, matches);
+            day = findDateUnit('d', formatParts, matches);
+            year = findDateUnit('y', formatParts, matches);
+        
+            if ((month === 2 && day > 28 && (year % 4 !== 0  || year % 100 === 0 && year % 400 !== 0)) 
+            	|| (month === 2 && day > 29 && (year % 4 === 0 || year % 100 !== 0 && year % 400 === 0))
+            	|| month > 12 || month === 0) {
+                return false;
+            }
+            if ((this.isShortMonth(month) && day > 30) || (!this.isShortMonth(month) && day > 31) || day === 0) {
+                return false;
+            }
+        
+            return [year, month, day];
+        },
+
+       /**
+        * skum fix. är talet 05 eller lägre ger parseInt rätt int annars får man 0 när man kör parseInt?
+        *
+        * @param {String} val
+        * @param {Number}
+        */
+        parseDateInt : function(val) {
+            if (val.indexOf('0') === 0) {
+                val = val.replace('0', '');
+            }
+            return parseInt(val,10);
+        },
+
+        /**
+        * Has month only 30 days?
+        *
+        * @param {Number} m
+        * @return {Boolean}
+        */
+        isShortMonth : function(m) {
+            return (m % 2 === 0 && m < 7) || (m % 2 !== 0 && m > 7);
+        },
+
+       /**
+        * Restrict input length
+        *
+        * @param {jQuery} $inputElement Jquery Html object
+        * @param {jQuery} $maxLengthElement jQuery Html Object
+        * @return void
+        */
+        lengthRestriction : function($inputElement, $maxLengthElement) {
+                // read maxChars from counter display initial text value
+           var maxChars = parseInt($maxLengthElement.text(),10),
+                charsLeft = 0,
+
+               // internal function does the counting and sets display value
+               countCharacters = function() {
+                   var numChars = $inputElement.val().length;
+                   if(numChars > maxChars) {
+                       // get current scroll bar position
+                       var currScrollTopPos = $inputElement.scrollTop();
+                       // trim value to max length
+                       $inputElement.val($inputElement.val().substring(0, maxChars));
+                       $inputElement.scrollTop(currScrollTopPos);
+                   }
+                   charsLeft = maxChars - numChars;
+                   if( charsLeft < 0 )
+                       charsLeft = 0;
+
+                   // set counter text
+                   $maxLengthElement.text(charsLeft);
+               };
+
+           // bind events to this element
+           // setTimeout is needed, cut or paste fires before val is available
+           $($inputElement).bind('keydown keyup keypress focus blur',  countCharacters )
+               .bind('cut paste', function(){ setTimeout(countCharacters, 100); } ) ;
+
+           // count chars on pageload, if there are prefilled input-values
+           $(document).bind("ready", countCharacters);
+        },
+
+        /**
+        * Test numeric against allowed range
+        *
+        * @param $value int
+        * @param $rangeAllowed str; (1-2, min1, max2)
+        * @return array 
+        */
+        numericRangeCheck : function(value, rangeAllowed) 
+        {
+            // split by dash
+            var range = $.split(rangeAllowed);
+            // min or max
+            var minmax = parseInt(rangeAllowed.substr(3),10)
+            // range ?
+            if (range.length == 2 && (value < parseInt(range[0],10) || value > parseInt(range[1],10) ) )
+            {   return [ "out", range[0], range[1] ] ; } // value is out of range
+            else if (rangeAllowed.indexOf('min') === 0 && (value < minmax ) ) // min
+            {  return ["min", minmax]; } // value is below min
+            else if (rangeAllowed.indexOf('max') === 0 && (value > minmax ) ) // max
+            {   return ["max", minmax]; } // value is above max
+            // since no other returns executed, value is in allowed range
+            return [ "ok" ] ; 
+        },
+
+
+        _numSuggestionElements : 0,
+        _selectedSuggestion : null,
+        _previousTypedVal : null,
+
+        /**
+         * Utility function that can be used to create plugins that gives
+         * suggestions when inputs is typed into
+         * @param {jQuery} $elem
+         * @param {Array} suggestions
+         * @param {Object} settings - Optional
+         * @return {jQuery}
+         */
+        suggest : function($elem, suggestions, settings) {
+            var conf =  {
+                css : {
+                    maxHeight: '150px',
+                    background: '#FFF',
+                    lineHeight:'150%',
+                    textDecoration : 'underline',
+                    overflowX : 'hidden',
+                    overflowY : 'auto',
+                    border : '#CCC solid 1px',
+                    borderTop : 'none',
+                    cursor: 'pointer'
+                },
+                activeSuggestionCSS : {
+                    background : '#E9E9E9'
+                }
+            },
+            setSuggsetionPosition = function($suggestionContainer, $input) {
+                var offset = $input.offset();
+                $suggestionContainer.css({
+                    width : $input.outerWidth(),
+                    left : offset.left + 'px',
+                    top : (offset.top + $input.outerHeight()) +'px'
+                });
+            };
+
+            if(settings)
+                $.extend(conf, settings);
+
+            conf.css['position'] = 'absolute';
+            conf.css['z-index'] = 9999;
+            $elem.attr('autocomplete', 'off');
+
+            if( this._numSuggestionElements === 0 ) {
+                // Re-position suggestion container if window size changes
+                $window.bind('resize', function() {
+                    $('.jquery-form-suggestions').each(function() {
+                        var $container = $(this),
+                            suggestID = $container.attr('data-suggest-container');
+                        setSuggsetionPosition($container, $('.suggestions-'+suggestID).eq(0));
+                    });
+                });
+            }
+
+            this._numSuggestionElements++;
+
+            var onSelectSuggestion = function($el) {
+                var suggestionId = $el.valAttr('suggestion-nr');
+                $.formUtils._selectedSuggestion = null;
+                $.formUtils._previousTypedVal = null;
+                $('.jquery-form-suggestion-'+suggestionId).fadeOut('fast');
+            };
+
+            $elem
+                .data('suggestions', suggestions)
+                .valAttr('suggestion-nr', this._numSuggestionElements)
+                .unbind('focus.suggest')
+                .bind('focus.suggest', function() {
+                    $(this).trigger('keyup');
+                    $.formUtils._selectedSuggestion = null;
+                })
+                .unbind('keyup.suggest')
+                .bind('keyup.suggest', function() {
+                    var $input = $(this),
+                        foundSuggestions = [],
+                        val = $.trim($input.val()).toLocaleLowerCase();
+
+                    if(val == $.formUtils._previousTypedVal) {
+                        return;
+                    }
+                    else {
+                        $.formUtils._previousTypedVal = val;
+                    }
+
+                    var hasTypedSuggestion = false,
+                        suggestionId = $input.valAttr('suggestion-nr'),
+                        $suggestionContainer = $('.jquery-form-suggestion-'+suggestionId);
+
+                    $suggestionContainer.scrollTop(0);
+
+                    // Find the right suggestions
+                    if(val != '') {
+                        var findPartial = val.length > 2;
+                        $.each($input.data('suggestions'), function(i, suggestion) {
+                            var lowerCaseVal = suggestion.toLocaleLowerCase();
+                            if( lowerCaseVal == val ) {
+                                foundSuggestions.push('<strong>'+suggestion+'</strong>');
+                                hasTypedSuggestion = true;
+                                return false;
+                            } else if(lowerCaseVal.indexOf(val) === 0 || (findPartial && lowerCaseVal.indexOf(val) > -1)) {
+                                foundSuggestions.push(suggestion.replace(new RegExp(val, 'gi'), '<strong>$&</strong>'));
+                            }
+                        });
+                    }
+
+                    // Hide suggestion container
+                    if(hasTypedSuggestion || (foundSuggestions.length == 0 && $suggestionContainer.length > 0)) {
+                        $suggestionContainer.hide();
+                    }
+
+                    // Create suggestion container if not already exists
+                    else if(foundSuggestions.length > 0 && $suggestionContainer.length == 0) {
+                        $suggestionContainer = $('<div></div>').css(conf.css).appendTo('body');
+                        $elem.addClass('suggestions-'+suggestionId);
+                        $suggestionContainer
+                            .attr('data-suggest-container', suggestionId)
+                            .addClass('jquery-form-suggestions')
+                            .addClass('jquery-form-suggestion-'+suggestionId);
+                    }
+
+                    // Show hidden container
+                    else if(foundSuggestions.length > 0 && !$suggestionContainer.is(':visible')) {
+                        $suggestionContainer.show();
+                    }
+
+                    // add suggestions
+                    if(foundSuggestions.length > 0 && val.length != foundSuggestions[0].length) {
+
+                        // put container in place every time, just in case
+                        setSuggsetionPosition($suggestionContainer, $input);
+
+                        // Add suggestions HTML to container
+                        $suggestionContainer.html('');
+                        $.each(foundSuggestions, function(i, text) {
+                            $('<div></div>')
+                                .append(text)
+                                .css({
+                                    overflow: 'hidden',
+                                    textOverflow : 'ellipsis',
+                                    whiteSpace : 'nowrap',
+                                    padding: '5px'
+                                })
+                                .addClass('form-suggest-element')
+                                .appendTo($suggestionContainer)
+                                .click(function() {
+                                    $input.focus();
+                                    $input.val( $(this).text() );
+                                    onSelectSuggestion($input);
+                                });
+                        });
+                    }
+                })
+                .unbind('keydown.validation')
+                .bind('keydown.validation', function(e) {
+                    var code = (e.keyCode ? e.keyCode : e.which),
+                        suggestionId,
+                        $suggestionContainer,
+                        $input = $(this);
+
+                    if(code == 13 && $.formUtils._selectedSuggestion !== null) {
+                        suggestionId = $input.valAttr('suggestion-nr');
+                        $suggestionContainer = $('.jquery-form-suggestion-'+suggestionId);
+                        if($suggestionContainer.length > 0) {
+                            var newText = $suggestionContainer.find('div').eq($.formUtils._selectedSuggestion).text();
+                            $input.val(newText);
+                            onSelectSuggestion($input);
+                            e.preventDefault();
+                        }
+                    }
+                    else {
+                        suggestionId = $input.valAttr('suggestion-nr');
+                        $suggestionContainer = $('.jquery-form-suggestion-'+suggestionId);
+                        var $suggestions = $suggestionContainer.children();
+                        if($suggestions.length > 0 && $.inArray(code, [38,40]) > -1) {
+                            if(code == 38) { // key up
+                                if($.formUtils._selectedSuggestion === null)
+                                    $.formUtils._selectedSuggestion = $suggestions.length-1;
+                                else
+                                    $.formUtils._selectedSuggestion--;
+                                if($.formUtils._selectedSuggestion < 0)
+                                    $.formUtils._selectedSuggestion = $suggestions.length-1;
+                            }
+                            else if(code == 40) { // key down
+                                if($.formUtils._selectedSuggestion === null)
+                                    $.formUtils._selectedSuggestion = 0;
+                                else
+                                    $.formUtils._selectedSuggestion++;
+                                if($.formUtils._selectedSuggestion > ($suggestions.length-1))
+                                    $.formUtils._selectedSuggestion = 0;
+
+                            }
+
+                            // Scroll in suggestion window
+                            var containerInnerHeight = $suggestionContainer.innerHeight(),
+                                containerScrollTop = $suggestionContainer.scrollTop(),
+                                suggestionHeight = $suggestionContainer.children().eq(0).outerHeight(),
+                                activeSuggestionPosY = suggestionHeight * ($.formUtils._selectedSuggestion);
+
+                            if( activeSuggestionPosY < containerScrollTop || activeSuggestionPosY > (containerScrollTop+containerInnerHeight)) {
+                                $suggestionContainer.scrollTop( activeSuggestionPosY );
+                            }
+
+                            $suggestions
+                                .removeClass('active-suggestion')
+                                .css('background', 'none')
+                                .eq($.formUtils._selectedSuggestion)
+                                    .addClass('active-suggestion')
+                                    .css(conf.activeSuggestionCSS);
+
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                })
+                .unbind('blur.suggest')
+                .bind('blur.suggest', function() {
+                    onSelectSuggestion($(this));
+                });
+
+            return $elem;
+        },
+
+       /**
+        * Error dialogs
+        *
+        * @var {Object}
+        */
+        LANG : {
+            errorTitle : 'Form submission failed!',
+            requiredFields : 'You have not answered all required fields',
+            badTime : 'You have not given a correct time',
+            badEmail : 'You have not given a correct e-mail address',
+            badTelephone : 'You have not given a correct phone number',
+            badSecurityAnswer : 'You have not given a correct answer to the security question',
+            badDate : 'You have not given a correct date',
+            lengthBadStart : 'The input value must be between ',
+            lengthBadEnd : ' characters',
+            lengthTooLongStart : 'The input value is longer than ',
+            lengthTooShortStart : 'The input value is shorter than ',
+            notConfirmed : 'Input values could not be confirmed',
+            badDomain : 'Incorrect domain value',
+            badUrl : 'The input value is not a correct URL',
+            badCustomVal : 'The input value is incorrect',
+            badInt : 'The input value was not a correct number',
+            badSecurityNumber : 'Your social security number was incorrect',
+            badUKVatAnswer : 'Incorrect UK VAT Number',
+            badStrength : 'The password isn\'t strong enough',
+            badNumberOfSelectedOptionsStart : 'You have to choose at least ',
+            badNumberOfSelectedOptionsEnd : ' answers',
+            badAlphaNumeric : 'The input value can only contain alphanumeric characters ',
+            badAlphaNumericExtra: ' and ',
+            wrongFileSize : 'The file you are trying to upload is too large (max %s)',
+            wrongFileType : 'Only files of type %s is allowed',
+            groupCheckedRangeStart : 'Please choose between ',
+            groupCheckedTooFewStart : 'Please choose at least ',
+            groupCheckedTooManyStart : 'Please choose a maximum of ',
+            groupCheckedEnd : ' item(s)',
+            badCreditCard : 'The credit card number is not correct',
+            badCVV : 'The CVV number was not correct'
+        }
+    };
+
+
+    /* * * * * * * * * * * * * * * * * * * * * *
+      CORE VALIDATORS
+    * * * * * * * * * * * * * * * * * * * * */
+
+
+    /*
+    * Validate email
+    */
+    $.formUtils.addValidator({
+        name : 'email',
+        validatorFunction : function(email) {
+
+            var emailParts = email.toLowerCase().split('@');
+            if( emailParts.length == 2 ) {
+                return $.formUtils.validators.validate_domain.validatorFunction(emailParts[1]) &&
+                        !(/[^\w\+\.\-]/.test(emailParts[0])) && emailParts[0].length > 0;
+            }
+
+            return false;
+        },
+        errorMessage : '',
+        errorMessageKey : 'badEmail'
+    });
+
+    /*
+    * Validate domain name
+    */
+    $.formUtils.addValidator({
+        name : 'domain',
+        validatorFunction : function(val) {
+            return val.length > 0 &&
+                    val.length <= 253 && // Including sub domains
+                    !(/[^a-zA-Z0-9]/.test(val.substr(-2))) &&
+                    !(/[^a-zA-Z]/.test(val.substr(0,1))) &&
+                    !(/[^a-zA-Z0-9\.\-]/.test(val)) &&
+                    val.split('..').length == 1 &&
+                    val.split('.').length > 1;
+        },
+        errorMessage : '',
+        errorMessageKey: 'badDomain'
+    });
+
+    /*
+    * Validate required
+    */
+    $.formUtils.addValidator({
+        name : 'required',
+        validatorFunction : function(val, $el, config, language, $form) {
+            switch ( $el.attr('type') ) {
+                case 'checkbox':
+                    return $el.is(':checked');
+                case 'radio':
+                    return $form.find('input[name="'+$el.attr('name')+'"]').filter(':checked').length > 0;
+                default:
+                    return $.trim(val) !== '';
+            }
+        },
+        errorMessage : '',
+        errorMessageKey: 'requiredFields'
+    });
+
+    /*
+    * Validate length range
+    */
+    $.formUtils.addValidator({
+        name : 'length',
+        validatorFunction : function(val, $el, conf, lang) {
+            var lengthAllowed = $el.valAttr('length'),
+                type = $el.attr('type');
+
+            if(lengthAllowed == undefined) {
+                alert('Please add attribute "data-validation-length" to '+$el[0].nodeName+' named '+$el.attr('name'));
+                return true;
+            }
+
+            // check if length is above min, below max or within range.
+            var len = type == 'file' && $el.get(0).files !== undefined ? $el.get(0).files.length : val.length,
+                lengthCheckResults = $.formUtils.numericRangeCheck(len, lengthAllowed),
+                checkResult;
+
+            switch(lengthCheckResults[0])
+            {   // outside of allowed range
+                case "out":
+                    this.errorMessage = lang.lengthBadStart + lengthAllowed + lang.lengthBadEnd;
+                    checkResult = false;
+                    break;
+                // too short
+                case "min":
+                    this.errorMessage = lang.lengthTooShortStart + lengthCheckResults[1] + lang.lengthBadEnd;
+                    checkResult = false;
+                    break;
+                // too long
+                case "max":
+                    this.errorMessage = lang.lengthTooLongStart + lengthCheckResults[1] + lang.lengthBadEnd;
+                    checkResult = false;
+                    break;
+                // ok
+                default:
+                    checkResult = true;
+            }
+            
+            return checkResult;
+        },
+        errorMessage : '',
+        errorMessageKey: ''
+    });
+
+    /*
+    * Validate url
+    */
+    $.formUtils.addValidator({
+        name : 'url',
+        validatorFunction : function(url) {
+            // written by Scott Gonzalez: http://projects.scottsplayground.com/iri/
+            // - Victor Jonsson added support for arrays in the url ?arg[]=sdfsdf
+            // - General improvements made by Stéphane Moureau <https://github.com/TraderStf>
+            var urlFilter = /^(https?|ftp):\/\/((((\w|-|\.|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])(\w|-|\.|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])(\w|-|\.|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/(((\w|-|\.|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/((\w|-|\.|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|\[|\]|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#(((\w|-|\.|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+            if( urlFilter.test(url) ) {
+                var domain = url.split('://')[1],
+                    domainSlashPos = domain.indexOf('/');
+
+                if(domainSlashPos > -1)
+                    domain = domain.substr(0, domainSlashPos);
+
+                return $.formUtils.validators.validate_domain.validatorFunction(domain); // todo: add support for IP-addresses
+            }
+            return false;
+        },
+        errorMessage : '',
+        errorMessageKey: 'badUrl'
+    });
+
+    /*
+    * Validate number (floating or integer)
+    */
+    $.formUtils.addValidator({
+        name : 'number',
+        validatorFunction : function(val, $el, conf) {
+            if(val !== '') {
+                var allowing = $el.valAttr('allowing') || '',
+                    decimalSeparator = $el.valAttr('decimal-separator') || conf.decimalSeparator,
+                    allowsRange = false,
+                    begin, end,
+                    steps = $el.valAttr('step') || '',
+                    allowsSteps = false;
+
+                if(allowing.indexOf('number') == -1)
+                    allowing += ',number';
+
+                if(allowing.indexOf('negative') > -1 && val.indexOf('-') === 0) {
+                    val = val.substr(1);
+                }
+
+                if (allowing.indexOf('range') > -1)
+                {
+                    begin = parseFloat(allowing.substring(allowing.indexOf("[")+1, allowing.indexOf(";")));
+                    end = parseFloat(allowing.substring(allowing.indexOf(";")+1,allowing.indexOf("]")));
+                    allowsRange = true;
+                }
+                
+                if(steps != "") 
+		        allowsSteps = true;
+
+                if( decimalSeparator == ',' ) {
+                    if( val.indexOf('.') > -1 ) {
+                        return false;
+                    }
+                    // Fix for checking range with floats using ,
+                    val = val.replace(',', '.');
+                }
+
+                if(allowing.indexOf('number') > -1 && val.replace(/[0-9]/g, '') === '' && (!allowsRange || (val >= begin && val <= end)) && (!allowsSteps || (val%steps == 0)) ) {
+                    return true;
+                }
+                if(allowing.indexOf('float') > -1 && val.match(new RegExp('^([0-9]+)\\.([0-9]+)$')) !== null && (!allowsRange || (val >= begin && val <= end)) && (!allowsSteps || (val%steps == 0)) ) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        errorMessage : '',
+        errorMessageKey: 'badInt'
+    });
+
+    /*
+     * Validate alpha numeric
+     */
+    $.formUtils.addValidator({
+        name : 'alphanumeric',
+        validatorFunction : function(val, $el, conf, language) {
+            var patternStart = '^([a-zA-Z0-9',
+                patternEnd = ']+)$',
+                additionalChars = $el.valAttr('allowing'),
+                pattern = '';
+
+            if( additionalChars ) {
+                pattern = patternStart + additionalChars + patternEnd;
+                var extra = additionalChars.replace(/\\/g, '');
+                if( extra.indexOf(' ') > -1 ) {
+                    extra = extra.replace(' ', '');
+                    extra += ' and spaces ';
+                }
+                this.errorMessage = language.badAlphaNumeric + language.badAlphaNumericExtra + extra;
+            } else {
+                pattern = patternStart + patternEnd;
+                this.errorMessage = language.badAlphaNumeric;
+            }
+
+            return new RegExp(pattern).test(val);
+        },
+        errorMessage : '',
+        errorMessageKey: ''
+    });
+
+    /*
+    * Validate against regexp
+    */
+    $.formUtils.addValidator({
+        name : 'custom',
+        validatorFunction : function(val, $el, conf) {
+            var regexp = new RegExp($el.valAttr('regexp'));
+            return regexp.test(val);
+        },
+        errorMessage : '',
+        errorMessageKey: 'badCustomVal'
+    });
+
+    /*
+    * Validate date
+    */
+    $.formUtils.addValidator({
+        name : 'date',
+        validatorFunction : function(date, $el, conf) {
+            var dateFormat = $el.valAttr('format') || conf.dateFormat || 'yyyy-mm-dd';
+            return $.formUtils.parseDate(date, dateFormat) !== false;
+        },
+        errorMessage : '',
+        errorMessageKey: 'badDate'
+    });
+
+
+    /*
+    * Validate group of checkboxes, validate qty required is checked
+    * written by Steve Wasiura : http://stevewasiura.waztech.com
+    * element attrs
+    *    data-validation="checkbox_group"
+    *    data-validation-qty="1-2"  // min 1 max 2
+    *    data-validation-error-msg="chose min 1, max of 2 checkboxes"
+    */
+    $.formUtils.addValidator({
+        name : 'checkbox_group',
+        validatorFunction : function(val, $el, conf, lang, $form)
+        {
+            // preset return var
+            var checkResult = true,
+                // get name of element. since it is a checkbox group, all checkboxes will have same name
+                elname = $el.attr('name'),
+                // get count of checked checkboxes with this name
+                checkedCount = $("input[type=checkbox][name^='"+elname+"']:checked", $form).length,
+                // get el attr that specs qty required / allowed
+                qtyAllowed = $el.valAttr('qty');
+
+            if (qtyAllowed == undefined) {
+                var elementType = $el.get(0).nodeName;
+                alert('Attribute "data-validation-qty" is missing from '+elementType+' named '+$el.attr('name'));
+            }
+
+            // call Utility function to check if count is above min, below max, within range etc.
+            var qtyCheckResults = $.formUtils.numericRangeCheck(checkedCount, qtyAllowed) ;
+
+            // results will be array, [0]=result str, [1]=qty int
+            switch(qtyCheckResults[0] ) {   
+                // outside allowed range
+                case "out":
+                    this.errorMessage = lang.groupCheckedRangeStart + qtyAllowed + lang.groupCheckedEnd;
+                    checkResult = false;
+                    break;
+                // below min qty
+                case "min":
+                    this.errorMessage = lang.groupCheckedTooFewStart + qtyCheckResults[1] + lang.groupCheckedEnd;
+                    checkResult = false;
+                    break;
+                // above max qty
+                case "max":
+                    this.errorMessage = lang.groupCheckedTooManyStart + qtyCheckResults[1] + lang.groupCheckedEnd;
+                    checkResult = false;
+                    break;
+                // ok
+                default:
+                    checkResult = true;
+            }
+            
+            return checkResult;
+        }
+     //   errorMessage : '', // set above in switch statement
+     //   errorMessageKey: '' // not used
+    });
+
+})(jQuery);
 /*!
- * Bootstrap v3.3.4 (http://getbootstrap.com)
+ * Bootstrap v3.3.2 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -10773,7 +12433,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: transition.js v3.3.4
+ * Bootstrap: transition.js v3.3.2
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -10833,7 +12493,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: alert.js v3.3.4
+ * Bootstrap: alert.js v3.3.2
  * http://getbootstrap.com/javascript/#alerts
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -10852,7 +12512,7 @@ if (typeof jQuery === 'undefined') {
     $(el).on('click', dismiss, this.close)
   }
 
-  Alert.VERSION = '3.3.4'
+  Alert.VERSION = '3.3.2'
 
   Alert.TRANSITION_DURATION = 150
 
@@ -10928,7 +12588,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: button.js v3.3.4
+ * Bootstrap: button.js v3.3.2
  * http://getbootstrap.com/javascript/#buttons
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -10948,7 +12608,7 @@ if (typeof jQuery === 'undefined') {
     this.isLoading = false
   }
 
-  Button.VERSION  = '3.3.4'
+  Button.VERSION  = '3.3.2'
 
   Button.DEFAULTS = {
     loadingText: 'loading...'
@@ -11045,7 +12705,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: carousel.js v3.3.4
+ * Bootstrap: carousel.js v3.3.2
  * http://getbootstrap.com/javascript/#carousel
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -11063,10 +12723,10 @@ if (typeof jQuery === 'undefined') {
     this.$element    = $(element)
     this.$indicators = this.$element.find('.carousel-indicators')
     this.options     = options
-    this.paused      = null
-    this.sliding     = null
-    this.interval    = null
-    this.$active     = null
+    this.paused      =
+    this.sliding     =
+    this.interval    =
+    this.$active     =
     this.$items      = null
 
     this.options.keyboard && this.$element.on('keydown.bs.carousel', $.proxy(this.keydown, this))
@@ -11076,7 +12736,7 @@ if (typeof jQuery === 'undefined') {
       .on('mouseleave.bs.carousel', $.proxy(this.cycle, this))
   }
 
-  Carousel.VERSION  = '3.3.4'
+  Carousel.VERSION  = '3.3.2'
 
   Carousel.TRANSITION_DURATION = 600
 
@@ -11283,7 +12943,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: collapse.js v3.3.4
+ * Bootstrap: collapse.js v3.3.2
  * http://getbootstrap.com/javascript/#collapse
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -11300,8 +12960,7 @@ if (typeof jQuery === 'undefined') {
   var Collapse = function (element, options) {
     this.$element      = $(element)
     this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
+    this.$trigger      = $(this.options.trigger).filter('[href="#' + element.id + '"], [data-target="#' + element.id + '"]')
     this.transitioning = null
 
     if (this.options.parent) {
@@ -11313,12 +12972,13 @@ if (typeof jQuery === 'undefined') {
     if (this.options.toggle) this.toggle()
   }
 
-  Collapse.VERSION  = '3.3.4'
+  Collapse.VERSION  = '3.3.2'
 
   Collapse.TRANSITION_DURATION = 350
 
   Collapse.DEFAULTS = {
-    toggle: true
+    toggle: true,
+    trigger: '[data-toggle="collapse"]'
   }
 
   Collapse.prototype.dimension = function () {
@@ -11456,7 +13116,7 @@ if (typeof jQuery === 'undefined') {
       var data    = $this.data('bs.collapse')
       var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
+      if (!data && options.toggle && option == 'show') options.toggle = false
       if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -11487,7 +13147,7 @@ if (typeof jQuery === 'undefined') {
 
     var $target = getTargetFromTrigger($this)
     var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
+    var option  = data ? 'toggle' : $.extend({}, $this.data(), { trigger: this })
 
     Plugin.call($target, option)
   })
@@ -11495,7 +13155,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: dropdown.js v3.3.4
+ * Bootstrap: dropdown.js v3.3.2
  * http://getbootstrap.com/javascript/#dropdowns
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -11515,7 +13175,7 @@ if (typeof jQuery === 'undefined') {
     $(element).on('click.bs.dropdown', this.toggle)
   }
 
-  Dropdown.VERSION = '3.3.4'
+  Dropdown.VERSION = '3.3.2'
 
   Dropdown.prototype.toggle = function (e) {
     var $this = $(this)
@@ -11568,7 +13228,7 @@ if (typeof jQuery === 'undefined') {
       return $this.trigger('click')
     }
 
-    var desc = ' li:not(.disabled):visible a'
+    var desc = ' li:not(.divider):visible a'
     var $items = $parent.find('[role="menu"]' + desc + ', [role="listbox"]' + desc)
 
     if (!$items.length) return
@@ -11657,7 +13317,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: modal.js v3.3.4
+ * Bootstrap: modal.js v3.3.2
  * http://getbootstrap.com/javascript/#modals
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -11672,15 +13332,12 @@ if (typeof jQuery === 'undefined') {
   // ======================
 
   var Modal = function (element, options) {
-    this.options             = options
-    this.$body               = $(document.body)
-    this.$element            = $(element)
-    this.$dialog             = this.$element.find('.modal-dialog')
-    this.$backdrop           = null
-    this.isShown             = null
-    this.originalBodyPad     = null
-    this.scrollbarWidth      = 0
-    this.ignoreBackdropClick = false
+    this.options        = options
+    this.$body          = $(document.body)
+    this.$element       = $(element)
+    this.$backdrop      =
+    this.isShown        = null
+    this.scrollbarWidth = 0
 
     if (this.options.remote) {
       this.$element
@@ -11691,7 +13348,7 @@ if (typeof jQuery === 'undefined') {
     }
   }
 
-  Modal.VERSION  = '3.3.4'
+  Modal.VERSION  = '3.3.2'
 
   Modal.TRANSITION_DURATION = 300
   Modal.BACKDROP_TRANSITION_DURATION = 150
@@ -11725,12 +13382,6 @@ if (typeof jQuery === 'undefined') {
 
     this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
 
-    this.$dialog.on('mousedown.dismiss.bs.modal', function () {
-      that.$element.one('mouseup.dismiss.bs.modal', function (e) {
-        if ($(e.target).is(that.$element)) that.ignoreBackdropClick = true
-      })
-    })
-
     this.backdrop(function () {
       var transition = $.support.transition && that.$element.hasClass('fade')
 
@@ -11742,6 +13393,7 @@ if (typeof jQuery === 'undefined') {
         .show()
         .scrollTop(0)
 
+      if (that.options.backdrop) that.adjustBackdrop()
       that.adjustDialog()
 
       if (transition) {
@@ -11757,7 +13409,7 @@ if (typeof jQuery === 'undefined') {
       var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
 
       transition ?
-        that.$dialog // wait for modal to slide in
+        that.$element.find('.modal-dialog') // wait for modal to slide in
           .one('bsTransitionEnd', function () {
             that.$element.trigger('focus').trigger(e)
           })
@@ -11786,9 +13438,6 @@ if (typeof jQuery === 'undefined') {
       .removeClass('in')
       .attr('aria-hidden', true)
       .off('click.dismiss.bs.modal')
-      .off('mouseup.dismiss.bs.modal')
-
-    this.$dialog.off('mousedown.dismiss.bs.modal')
 
     $.support.transition && this.$element.hasClass('fade') ?
       this.$element
@@ -11849,18 +13498,13 @@ if (typeof jQuery === 'undefined') {
       var doAnimate = $.support.transition && animate
 
       this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
-        .appendTo(this.$body)
-
-      this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
-        if (this.ignoreBackdropClick) {
-          this.ignoreBackdropClick = false
-          return
-        }
-        if (e.target !== e.currentTarget) return
-        this.options.backdrop == 'static'
-          ? this.$element[0].focus()
-          : this.hide()
-      }, this))
+        .prependTo(this.$element)
+        .on('click.dismiss.bs.modal', $.proxy(function (e) {
+          if (e.target !== e.currentTarget) return
+          this.options.backdrop == 'static'
+            ? this.$element[0].focus.call(this.$element[0])
+            : this.hide.call(this)
+        }, this))
 
       if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
 
@@ -11895,7 +13539,14 @@ if (typeof jQuery === 'undefined') {
   // these following methods are used to handle overflowing modals
 
   Modal.prototype.handleUpdate = function () {
+    if (this.options.backdrop) this.adjustBackdrop()
     this.adjustDialog()
+  }
+
+  Modal.prototype.adjustBackdrop = function () {
+    this.$backdrop
+      .css('height', 0)
+      .css('height', this.$element[0].scrollHeight)
   }
 
   Modal.prototype.adjustDialog = function () {
@@ -11915,23 +13566,17 @@ if (typeof jQuery === 'undefined') {
   }
 
   Modal.prototype.checkScrollbar = function () {
-    var fullWindowWidth = window.innerWidth
-    if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
-      var documentElementRect = document.documentElement.getBoundingClientRect()
-      fullWindowWidth = documentElementRect.right - Math.abs(documentElementRect.left)
-    }
-    this.bodyIsOverflowing = document.body.clientWidth < fullWindowWidth
+    this.bodyIsOverflowing = document.body.scrollHeight > document.documentElement.clientHeight
     this.scrollbarWidth = this.measureScrollbar()
   }
 
   Modal.prototype.setScrollbar = function () {
     var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-    this.originalBodyPad = document.body.style.paddingRight || ''
     if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
   }
 
   Modal.prototype.resetScrollbar = function () {
-    this.$body.css('padding-right', this.originalBodyPad)
+    this.$body.css('padding-right', '')
   }
 
   Modal.prototype.measureScrollbar = function () { // thx walsh
@@ -11997,7 +13642,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tooltip.js v3.3.4
+ * Bootstrap: tooltip.js v3.3.2
  * http://getbootstrap.com/javascript/#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
@@ -12013,17 +13658,17 @@ if (typeof jQuery === 'undefined') {
   // ===============================
 
   var Tooltip = function (element, options) {
-    this.type       = null
-    this.options    = null
-    this.enabled    = null
-    this.timeout    = null
-    this.hoverState = null
+    this.type       =
+    this.options    =
+    this.enabled    =
+    this.timeout    =
+    this.hoverState =
     this.$element   = null
 
     this.init('tooltip', element, options)
   }
 
-  Tooltip.VERSION  = '3.3.4'
+  Tooltip.VERSION  = '3.3.2'
 
   Tooltip.TRANSITION_DURATION = 150
 
@@ -12049,10 +13694,6 @@ if (typeof jQuery === 'undefined') {
     this.$element  = $(element)
     this.options   = this.getOptions(options)
     this.$viewport = this.options.viewport && $(this.options.viewport.selector || this.options.viewport)
-
-    if (this.$element[0] instanceof document.constructor && !this.options.selector) {
-      throw new Error('`selector` option must be specified when initializing ' + this.type + ' on the window.document object!')
-    }
 
     var triggers = this.options.trigger.split(' ')
 
@@ -12274,10 +13915,10 @@ if (typeof jQuery === 'undefined') {
     this.replaceArrow(arrowDelta, $tip[0][arrowOffsetPosition], isVertical)
   }
 
-  Tooltip.prototype.replaceArrow = function (delta, dimension, isVertical) {
+  Tooltip.prototype.replaceArrow = function (delta, dimension, isHorizontal) {
     this.arrow()
-      .css(isVertical ? 'left' : 'top', 50 * (1 - delta / dimension) + '%')
-      .css(isVertical ? 'top' : 'left', '')
+      .css(isHorizontal ? 'left' : 'top', 50 * (1 - delta / dimension) + '%')
+      .css(isHorizontal ? 'top' : 'left', '')
   }
 
   Tooltip.prototype.setContent = function () {
@@ -12290,7 +13931,7 @@ if (typeof jQuery === 'undefined') {
 
   Tooltip.prototype.hide = function (callback) {
     var that = this
-    var $tip = $(this.$tip)
+    var $tip = this.tip()
     var e    = $.Event('hide.bs.' + this.type)
 
     function complete() {
@@ -12307,7 +13948,7 @@ if (typeof jQuery === 'undefined') {
 
     $tip.removeClass('in')
 
-    $.support.transition && $tip.hasClass('fade') ?
+    $.support.transition && this.$tip.hasClass('fade') ?
       $tip
         .one('bsTransitionEnd', complete)
         .emulateTransitionEnd(Tooltip.TRANSITION_DURATION) :
@@ -12451,7 +14092,7 @@ if (typeof jQuery === 'undefined') {
       var data    = $this.data('bs.tooltip')
       var options = typeof option == 'object' && option
 
-      if (!data && /destroy|hide/.test(option)) return
+      if (!data && option == 'destroy') return
       if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -12474,7 +14115,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: popover.js v3.3.4
+ * Bootstrap: popover.js v3.3.2
  * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -12494,7 +14135,7 @@ if (typeof jQuery === 'undefined') {
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  Popover.VERSION  = '3.3.4'
+  Popover.VERSION  = '3.3.2'
 
   Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right',
@@ -12550,6 +14191,11 @@ if (typeof jQuery === 'undefined') {
     return (this.$arrow = this.$arrow || this.tip().find('.arrow'))
   }
 
+  Popover.prototype.tip = function () {
+    if (!this.$tip) this.$tip = $(this.options.template)
+    return this.$tip
+  }
+
 
   // POPOVER PLUGIN DEFINITION
   // =========================
@@ -12560,7 +14206,7 @@ if (typeof jQuery === 'undefined') {
       var data    = $this.data('bs.popover')
       var options = typeof option == 'object' && option
 
-      if (!data && /destroy|hide/.test(option)) return
+      if (!data && option == 'destroy') return
       if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -12583,7 +14229,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: scrollspy.js v3.3.4
+ * Bootstrap: scrollspy.js v3.3.2
  * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -12598,8 +14244,10 @@ if (typeof jQuery === 'undefined') {
   // ==========================
 
   function ScrollSpy(element, options) {
-    this.$body          = $(document.body)
-    this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+    var process  = $.proxy(this.process, this)
+
+    this.$body          = $('body')
+    this.$scrollElement = $(element).is('body') ? $(window) : $(element)
     this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
     this.selector       = (this.options.target || '') + ' .nav li > a'
     this.offsets        = []
@@ -12607,12 +14255,12 @@ if (typeof jQuery === 'undefined') {
     this.activeTarget   = null
     this.scrollHeight   = 0
 
-    this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+    this.$scrollElement.on('scroll.bs.scrollspy', process)
     this.refresh()
     this.process()
   }
 
-  ScrollSpy.VERSION  = '3.3.4'
+  ScrollSpy.VERSION  = '3.3.2'
 
   ScrollSpy.DEFAULTS = {
     offset: 10
@@ -12623,18 +14271,19 @@ if (typeof jQuery === 'undefined') {
   }
 
   ScrollSpy.prototype.refresh = function () {
-    var that          = this
-    var offsetMethod  = 'offset'
-    var offsetBase    = 0
-
-    this.offsets      = []
-    this.targets      = []
-    this.scrollHeight = this.getScrollHeight()
+    var offsetMethod = 'offset'
+    var offsetBase   = 0
 
     if (!$.isWindow(this.$scrollElement[0])) {
       offsetMethod = 'position'
       offsetBase   = this.$scrollElement.scrollTop()
     }
+
+    this.offsets = []
+    this.targets = []
+    this.scrollHeight = this.getScrollHeight()
+
+    var self     = this
 
     this.$body
       .find(this.selector)
@@ -12650,8 +14299,8 @@ if (typeof jQuery === 'undefined') {
       })
       .sort(function (a, b) { return a[0] - b[0] })
       .each(function () {
-        that.offsets.push(this[0])
-        that.targets.push(this[1])
+        self.offsets.push(this[0])
+        self.targets.push(this[1])
       })
   }
 
@@ -12680,7 +14329,7 @@ if (typeof jQuery === 'undefined') {
     for (i = offsets.length; i--;) {
       activeTarget != targets[i]
         && scrollTop >= offsets[i]
-        && (offsets[i + 1] === undefined || scrollTop < offsets[i + 1])
+        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
         && this.activate(targets[i])
     }
   }
@@ -12691,8 +14340,8 @@ if (typeof jQuery === 'undefined') {
     this.clear()
 
     var selector = this.selector +
-      '[data-target="' + target + '"],' +
-      this.selector + '[href="' + target + '"]'
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
 
     var active = $(selector)
       .parents('li')
@@ -12756,7 +14405,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tab.js v3.3.4
+ * Bootstrap: tab.js v3.3.2
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -12774,7 +14423,7 @@ if (typeof jQuery === 'undefined') {
     this.element = $(element)
   }
 
-  Tab.VERSION = '3.3.4'
+  Tab.VERSION = '3.3.2'
 
   Tab.TRANSITION_DURATION = 150
 
@@ -12845,7 +14494,7 @@ if (typeof jQuery === 'undefined') {
         element.removeClass('fade')
       }
 
-      if (element.parent('.dropdown-menu').length) {
+      if (element.parent('.dropdown-menu')) {
         element
           .closest('li.dropdown')
             .addClass('active')
@@ -12910,7 +14559,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: affix.js v3.3.4
+ * Bootstrap: affix.js v3.3.2
  * http://getbootstrap.com/javascript/#affix
  * ========================================================================
  * Copyright 2011-2015 Twitter, Inc.
@@ -12932,14 +14581,14 @@ if (typeof jQuery === 'undefined') {
       .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
 
     this.$element     = $(element)
-    this.affixed      = null
-    this.unpin        = null
+    this.affixed      =
+    this.unpin        =
     this.pinnedOffset = null
 
     this.checkPosition()
   }
 
-  Affix.VERSION  = '3.3.4'
+  Affix.VERSION  = '3.3.2'
 
   Affix.RESET    = 'affix affix-top affix-bottom'
 
@@ -12989,7 +14638,7 @@ if (typeof jQuery === 'undefined') {
     var offset       = this.options.offset
     var offsetTop    = offset.top
     var offsetBottom = offset.bottom
-    var scrollHeight = $(document.body).height()
+    var scrollHeight = $('body').height()
 
     if (typeof offset != 'object')         offsetBottom = offsetTop = offset
     if (typeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
@@ -16412,14 +18061,6 @@ $('body').scrollspy({
 $('.navbar-collapse ul li a').click(function() {
     $('.navbar-toggle:visible').click();
 });
-/*!
- * Bootstrap v3.3.4 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(a){"use strict";var b=a.fn.jquery.split(" ")[0].split(".");if(b[0]<2&&b[1]<9||1==b[0]&&9==b[1]&&b[2]<1)throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher")}(jQuery),+function(a){"use strict";function b(){var a=document.createElement("bootstrap"),b={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var c in b)if(void 0!==a.style[c])return{end:b[c]};return!1}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a(this).one("bsTransitionEnd",function(){c=!0});var e=function(){c||a(d).trigger(a.support.transition.end)};return setTimeout(e,b),this},a(function(){a.support.transition=b(),a.support.transition&&(a.event.special.bsTransitionEnd={bindType:a.support.transition.end,delegateType:a.support.transition.end,handle:function(b){return a(b.target).is(this)?b.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var c=a(this),e=c.data("bs.alert");e||c.data("bs.alert",e=new d(this)),"string"==typeof b&&e[b].call(c)})}var c='[data-dismiss="alert"]',d=function(b){a(b).on("click",c,this.close)};d.VERSION="3.3.4",d.TRANSITION_DURATION=150,d.prototype.close=function(b){function c(){g.detach().trigger("closed.bs.alert").remove()}var e=a(this),f=e.attr("data-target");f||(f=e.attr("href"),f=f&&f.replace(/.*(?=#[^\s]*$)/,""));var g=a(f);b&&b.preventDefault(),g.length||(g=e.closest(".alert")),g.trigger(b=a.Event("close.bs.alert")),b.isDefaultPrevented()||(g.removeClass("in"),a.support.transition&&g.hasClass("fade")?g.one("bsTransitionEnd",c).emulateTransitionEnd(d.TRANSITION_DURATION):c())};var e=a.fn.alert;a.fn.alert=b,a.fn.alert.Constructor=d,a.fn.alert.noConflict=function(){return a.fn.alert=e,this},a(document).on("click.bs.alert.data-api",c,d.prototype.close)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.3.4",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),setTimeout(a.proxy(function(){d[e](null==f[b]?this.options[b]:f[b]),"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")&&(c.prop("checked")&&this.$element.hasClass("active")?a=!1:b.find(".active").removeClass("active")),a&&c.prop("checked",!this.$element.hasClass("active")).trigger("change")}else this.$element.attr("aria-pressed",!this.$element.hasClass("active"));a&&this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target);d.hasClass("btn")||(d=d.closest(".btn")),b.call(d,"toggle"),c.preventDefault()}).on("focus.bs.button.data-api blur.bs.button.data-api",'[data-toggle^="button"]',function(b){a(b.target).closest(".btn").toggleClass("focus",/^focus(in)?$/.test(b.type))})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.carousel"),f=a.extend({},c.DEFAULTS,d.data(),"object"==typeof b&&b),g="string"==typeof b?b:f.slide;e||d.data("bs.carousel",e=new c(this,f)),"number"==typeof b?e.to(b):g?e[g]():f.interval&&e.pause().cycle()})}var c=function(b,c){this.$element=a(b),this.$indicators=this.$element.find(".carousel-indicators"),this.options=c,this.paused=null,this.sliding=null,this.interval=null,this.$active=null,this.$items=null,this.options.keyboard&&this.$element.on("keydown.bs.carousel",a.proxy(this.keydown,this)),"hover"==this.options.pause&&!("ontouchstart"in document.documentElement)&&this.$element.on("mouseenter.bs.carousel",a.proxy(this.pause,this)).on("mouseleave.bs.carousel",a.proxy(this.cycle,this))};c.VERSION="3.3.4",c.TRANSITION_DURATION=600,c.DEFAULTS={interval:5e3,pause:"hover",wrap:!0,keyboard:!0},c.prototype.keydown=function(a){if(!/input|textarea/i.test(a.target.tagName)){switch(a.which){case 37:this.prev();break;case 39:this.next();break;default:return}a.preventDefault()}},c.prototype.cycle=function(b){return b||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(a.proxy(this.next,this),this.options.interval)),this},c.prototype.getItemIndex=function(a){return this.$items=a.parent().children(".item"),this.$items.index(a||this.$active)},c.prototype.getItemForDirection=function(a,b){var c=this.getItemIndex(b),d="prev"==a&&0===c||"next"==a&&c==this.$items.length-1;if(d&&!this.options.wrap)return b;var e="prev"==a?-1:1,f=(c+e)%this.$items.length;return this.$items.eq(f)},c.prototype.to=function(a){var b=this,c=this.getItemIndex(this.$active=this.$element.find(".item.active"));return a>this.$items.length-1||0>a?void 0:this.sliding?this.$element.one("slid.bs.carousel",function(){b.to(a)}):c==a?this.pause().cycle():this.slide(a>c?"next":"prev",this.$items.eq(a))},c.prototype.pause=function(b){return b||(this.paused=!0),this.$element.find(".next, .prev").length&&a.support.transition&&(this.$element.trigger(a.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},c.prototype.next=function(){return this.sliding?void 0:this.slide("next")},c.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},c.prototype.slide=function(b,d){var e=this.$element.find(".item.active"),f=d||this.getItemForDirection(b,e),g=this.interval,h="next"==b?"left":"right",i=this;if(f.hasClass("active"))return this.sliding=!1;var j=f[0],k=a.Event("slide.bs.carousel",{relatedTarget:j,direction:h});if(this.$element.trigger(k),!k.isDefaultPrevented()){if(this.sliding=!0,g&&this.pause(),this.$indicators.length){this.$indicators.find(".active").removeClass("active");var l=a(this.$indicators.children()[this.getItemIndex(f)]);l&&l.addClass("active")}var m=a.Event("slid.bs.carousel",{relatedTarget:j,direction:h});return a.support.transition&&this.$element.hasClass("slide")?(f.addClass(b),f[0].offsetWidth,e.addClass(h),f.addClass(h),e.one("bsTransitionEnd",function(){f.removeClass([b,h].join(" ")).addClass("active"),e.removeClass(["active",h].join(" ")),i.sliding=!1,setTimeout(function(){i.$element.trigger(m)},0)}).emulateTransitionEnd(c.TRANSITION_DURATION)):(e.removeClass("active"),f.addClass("active"),this.sliding=!1,this.$element.trigger(m)),g&&this.cycle(),this}};var d=a.fn.carousel;a.fn.carousel=b,a.fn.carousel.Constructor=c,a.fn.carousel.noConflict=function(){return a.fn.carousel=d,this};var e=function(c){var d,e=a(this),f=a(e.attr("data-target")||(d=e.attr("href"))&&d.replace(/.*(?=#[^\s]+$)/,""));if(f.hasClass("carousel")){var g=a.extend({},f.data(),e.data()),h=e.attr("data-slide-to");h&&(g.interval=!1),b.call(f,g),h&&f.data("bs.carousel").to(h),c.preventDefault()}};a(document).on("click.bs.carousel.data-api","[data-slide]",e).on("click.bs.carousel.data-api","[data-slide-to]",e),a(window).on("load",function(){a('[data-ride="carousel"]').each(function(){var c=a(this);b.call(c,c.data())})})}(jQuery),+function(a){"use strict";function b(b){var c,d=b.attr("data-target")||(c=b.attr("href"))&&c.replace(/.*(?=#[^\s]+$)/,"");return a(d)}function c(b){return this.each(function(){var c=a(this),e=c.data("bs.collapse"),f=a.extend({},d.DEFAULTS,c.data(),"object"==typeof b&&b);!e&&f.toggle&&/show|hide/.test(b)&&(f.toggle=!1),e||c.data("bs.collapse",e=new d(this,f)),"string"==typeof b&&e[b]()})}var d=function(b,c){this.$element=a(b),this.options=a.extend({},d.DEFAULTS,c),this.$trigger=a('[data-toggle="collapse"][href="#'+b.id+'"],[data-toggle="collapse"][data-target="#'+b.id+'"]'),this.transitioning=null,this.options.parent?this.$parent=this.getParent():this.addAriaAndCollapsedClass(this.$element,this.$trigger),this.options.toggle&&this.toggle()};d.VERSION="3.3.4",d.TRANSITION_DURATION=350,d.DEFAULTS={toggle:!0},d.prototype.dimension=function(){var a=this.$element.hasClass("width");return a?"width":"height"},d.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var b,e=this.$parent&&this.$parent.children(".panel").children(".in, .collapsing");if(!(e&&e.length&&(b=e.data("bs.collapse"),b&&b.transitioning))){var f=a.Event("show.bs.collapse");if(this.$element.trigger(f),!f.isDefaultPrevented()){e&&e.length&&(c.call(e,"hide"),b||e.data("bs.collapse",null));var g=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[g](0).attr("aria-expanded",!0),this.$trigger.removeClass("collapsed").attr("aria-expanded",!0),this.transitioning=1;var h=function(){this.$element.removeClass("collapsing").addClass("collapse in")[g](""),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!a.support.transition)return h.call(this);var i=a.camelCase(["scroll",g].join("-"));this.$element.one("bsTransitionEnd",a.proxy(h,this)).emulateTransitionEnd(d.TRANSITION_DURATION)[g](this.$element[0][i])}}}},d.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var b=a.Event("hide.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.dimension();this.$element[c](this.$element[c]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse in").attr("aria-expanded",!1),this.$trigger.addClass("collapsed").attr("aria-expanded",!1),this.transitioning=1;var e=function(){this.transitioning=0,this.$element.removeClass("collapsing").addClass("collapse").trigger("hidden.bs.collapse")};return a.support.transition?void this.$element[c](0).one("bsTransitionEnd",a.proxy(e,this)).emulateTransitionEnd(d.TRANSITION_DURATION):e.call(this)}}},d.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()},d.prototype.getParent=function(){return a(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each(a.proxy(function(c,d){var e=a(d);this.addAriaAndCollapsedClass(b(e),e)},this)).end()},d.prototype.addAriaAndCollapsedClass=function(a,b){var c=a.hasClass("in");a.attr("aria-expanded",c),b.toggleClass("collapsed",!c).attr("aria-expanded",c)};var e=a.fn.collapse;a.fn.collapse=c,a.fn.collapse.Constructor=d,a.fn.collapse.noConflict=function(){return a.fn.collapse=e,this},a(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(d){var e=a(this);e.attr("data-target")||d.preventDefault();var f=b(e),g=f.data("bs.collapse"),h=g?"toggle":e.data();c.call(f,h)})}(jQuery),+function(a){"use strict";function b(b){b&&3===b.which||(a(e).remove(),a(f).each(function(){var d=a(this),e=c(d),f={relatedTarget:this};e.hasClass("open")&&(e.trigger(b=a.Event("hide.bs.dropdown",f)),b.isDefaultPrevented()||(d.attr("aria-expanded","false"),e.removeClass("open").trigger("hidden.bs.dropdown",f)))}))}function c(b){var c=b.attr("data-target");c||(c=b.attr("href"),c=c&&/#[A-Za-z]/.test(c)&&c.replace(/.*(?=#[^\s]*$)/,""));var d=c&&a(c);return d&&d.length?d:b.parent()}function d(b){return this.each(function(){var c=a(this),d=c.data("bs.dropdown");d||c.data("bs.dropdown",d=new g(this)),"string"==typeof b&&d[b].call(c)})}var e=".dropdown-backdrop",f='[data-toggle="dropdown"]',g=function(b){a(b).on("click.bs.dropdown",this.toggle)};g.VERSION="3.3.4",g.prototype.toggle=function(d){var e=a(this);if(!e.is(".disabled, :disabled")){var f=c(e),g=f.hasClass("open");if(b(),!g){"ontouchstart"in document.documentElement&&!f.closest(".navbar-nav").length&&a('<div class="dropdown-backdrop"/>').insertAfter(a(this)).on("click",b);var h={relatedTarget:this};if(f.trigger(d=a.Event("show.bs.dropdown",h)),d.isDefaultPrevented())return;e.trigger("focus").attr("aria-expanded","true"),f.toggleClass("open").trigger("shown.bs.dropdown",h)}return!1}},g.prototype.keydown=function(b){if(/(38|40|27|32)/.test(b.which)&&!/input|textarea/i.test(b.target.tagName)){var d=a(this);if(b.preventDefault(),b.stopPropagation(),!d.is(".disabled, :disabled")){var e=c(d),g=e.hasClass("open");if(!g&&27!=b.which||g&&27==b.which)return 27==b.which&&e.find(f).trigger("focus"),d.trigger("click");var h=" li:not(.disabled):visible a",i=e.find('[role="menu"]'+h+', [role="listbox"]'+h);if(i.length){var j=i.index(b.target);38==b.which&&j>0&&j--,40==b.which&&j<i.length-1&&j++,~j||(j=0),i.eq(j).trigger("focus")}}}};var h=a.fn.dropdown;a.fn.dropdown=d,a.fn.dropdown.Constructor=g,a.fn.dropdown.noConflict=function(){return a.fn.dropdown=h,this},a(document).on("click.bs.dropdown.data-api",b).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",f,g.prototype.toggle).on("keydown.bs.dropdown.data-api",f,g.prototype.keydown).on("keydown.bs.dropdown.data-api",'[role="menu"]',g.prototype.keydown).on("keydown.bs.dropdown.data-api",'[role="listbox"]',g.prototype.keydown)}(jQuery),+function(a){"use strict";function b(b,d){return this.each(function(){var e=a(this),f=e.data("bs.modal"),g=a.extend({},c.DEFAULTS,e.data(),"object"==typeof b&&b);f||e.data("bs.modal",f=new c(this,g)),"string"==typeof b?f[b](d):g.show&&f.show(d)})}var c=function(b,c){this.options=c,this.$body=a(document.body),this.$element=a(b),this.$dialog=this.$element.find(".modal-dialog"),this.$backdrop=null,this.isShown=null,this.originalBodyPad=null,this.scrollbarWidth=0,this.ignoreBackdropClick=!1,this.options.remote&&this.$element.find(".modal-content").load(this.options.remote,a.proxy(function(){this.$element.trigger("loaded.bs.modal")},this))};c.VERSION="3.3.4",c.TRANSITION_DURATION=300,c.BACKDROP_TRANSITION_DURATION=150,c.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},c.prototype.toggle=function(a){return this.isShown?this.hide():this.show(a)},c.prototype.show=function(b){var d=this,e=a.Event("show.bs.modal",{relatedTarget:b});this.$element.trigger(e),this.isShown||e.isDefaultPrevented()||(this.isShown=!0,this.checkScrollbar(),this.setScrollbar(),this.$body.addClass("modal-open"),this.escape(),this.resize(),this.$element.on("click.dismiss.bs.modal",'[data-dismiss="modal"]',a.proxy(this.hide,this)),this.$dialog.on("mousedown.dismiss.bs.modal",function(){d.$element.one("mouseup.dismiss.bs.modal",function(b){a(b.target).is(d.$element)&&(d.ignoreBackdropClick=!0)})}),this.backdrop(function(){var e=a.support.transition&&d.$element.hasClass("fade");d.$element.parent().length||d.$element.appendTo(d.$body),d.$element.show().scrollTop(0),d.adjustDialog(),e&&d.$element[0].offsetWidth,d.$element.addClass("in").attr("aria-hidden",!1),d.enforceFocus();var f=a.Event("shown.bs.modal",{relatedTarget:b});e?d.$dialog.one("bsTransitionEnd",function(){d.$element.trigger("focus").trigger(f)}).emulateTransitionEnd(c.TRANSITION_DURATION):d.$element.trigger("focus").trigger(f)}))},c.prototype.hide=function(b){b&&b.preventDefault(),b=a.Event("hide.bs.modal"),this.$element.trigger(b),this.isShown&&!b.isDefaultPrevented()&&(this.isShown=!1,this.escape(),this.resize(),a(document).off("focusin.bs.modal"),this.$element.removeClass("in").attr("aria-hidden",!0).off("click.dismiss.bs.modal").off("mouseup.dismiss.bs.modal"),this.$dialog.off("mousedown.dismiss.bs.modal"),a.support.transition&&this.$element.hasClass("fade")?this.$element.one("bsTransitionEnd",a.proxy(this.hideModal,this)).emulateTransitionEnd(c.TRANSITION_DURATION):this.hideModal())},c.prototype.enforceFocus=function(){a(document).off("focusin.bs.modal").on("focusin.bs.modal",a.proxy(function(a){this.$element[0]===a.target||this.$element.has(a.target).length||this.$element.trigger("focus")},this))},c.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keydown.dismiss.bs.modal",a.proxy(function(a){27==a.which&&this.hide()},this)):this.isShown||this.$element.off("keydown.dismiss.bs.modal")},c.prototype.resize=function(){this.isShown?a(window).on("resize.bs.modal",a.proxy(this.handleUpdate,this)):a(window).off("resize.bs.modal")},c.prototype.hideModal=function(){var a=this;this.$element.hide(),this.backdrop(function(){a.$body.removeClass("modal-open"),a.resetAdjustments(),a.resetScrollbar(),a.$element.trigger("hidden.bs.modal")})},c.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},c.prototype.backdrop=function(b){var d=this,e=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var f=a.support.transition&&e;if(this.$backdrop=a('<div class="modal-backdrop '+e+'" />').appendTo(this.$body),this.$element.on("click.dismiss.bs.modal",a.proxy(function(a){return this.ignoreBackdropClick?void(this.ignoreBackdropClick=!1):void(a.target===a.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus():this.hide()))},this)),f&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!b)return;f?this.$backdrop.one("bsTransitionEnd",b).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):b()}else if(!this.isShown&&this.$backdrop){this.$backdrop.removeClass("in");var g=function(){d.removeBackdrop(),b&&b()};a.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one("bsTransitionEnd",g).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):g()}else b&&b()},c.prototype.handleUpdate=function(){this.adjustDialog()},c.prototype.adjustDialog=function(){var a=this.$element[0].scrollHeight>document.documentElement.clientHeight;this.$element.css({paddingLeft:!this.bodyIsOverflowing&&a?this.scrollbarWidth:"",paddingRight:this.bodyIsOverflowing&&!a?this.scrollbarWidth:""})},c.prototype.resetAdjustments=function(){this.$element.css({paddingLeft:"",paddingRight:""})},c.prototype.checkScrollbar=function(){var a=window.innerWidth;if(!a){var b=document.documentElement.getBoundingClientRect();a=b.right-Math.abs(b.left)}this.bodyIsOverflowing=document.body.clientWidth<a,this.scrollbarWidth=this.measureScrollbar()},c.prototype.setScrollbar=function(){var a=parseInt(this.$body.css("padding-right")||0,10);this.originalBodyPad=document.body.style.paddingRight||"",this.bodyIsOverflowing&&this.$body.css("padding-right",a+this.scrollbarWidth)},c.prototype.resetScrollbar=function(){this.$body.css("padding-right",this.originalBodyPad)},c.prototype.measureScrollbar=function(){var a=document.createElement("div");a.className="modal-scrollbar-measure",this.$body.append(a);var b=a.offsetWidth-a.clientWidth;return this.$body[0].removeChild(a),b};var d=a.fn.modal;a.fn.modal=b,a.fn.modal.Constructor=c,a.fn.modal.noConflict=function(){return a.fn.modal=d,this},a(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(c){var d=a(this),e=d.attr("href"),f=a(d.attr("data-target")||e&&e.replace(/.*(?=#[^\s]+$)/,"")),g=f.data("bs.modal")?"toggle":a.extend({remote:!/#/.test(e)&&e},f.data(),d.data());d.is("a")&&c.preventDefault(),f.one("show.bs.modal",function(a){a.isDefaultPrevented()||f.one("hidden.bs.modal",function(){d.is(":visible")&&d.trigger("focus")})}),b.call(f,g,this)})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tooltip"),f="object"==typeof b&&b;(e||!/destroy|hide/.test(b))&&(e||d.data("bs.tooltip",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.type=null,this.options=null,this.enabled=null,this.timeout=null,this.hoverState=null,this.$element=null,this.init("tooltip",a,b)};c.VERSION="3.3.4",c.TRANSITION_DURATION=150,c.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1,viewport:{selector:"body",padding:0}},c.prototype.init=function(b,c,d){if(this.enabled=!0,this.type=b,this.$element=a(c),this.options=this.getOptions(d),this.$viewport=this.options.viewport&&a(this.options.viewport.selector||this.options.viewport),this.$element[0]instanceof document.constructor&&!this.options.selector)throw new Error("`selector` option must be specified when initializing "+this.type+" on the window.document object!");for(var e=this.options.trigger.split(" "),f=e.length;f--;){var g=e[f];if("click"==g)this.$element.on("click."+this.type,this.options.selector,a.proxy(this.toggle,this));else if("manual"!=g){var h="hover"==g?"mouseenter":"focusin",i="hover"==g?"mouseleave":"focusout";this.$element.on(h+"."+this.type,this.options.selector,a.proxy(this.enter,this)),this.$element.on(i+"."+this.type,this.options.selector,a.proxy(this.leave,this))}}this.options.selector?this._options=a.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.getOptions=function(b){return b=a.extend({},this.getDefaults(),this.$element.data(),b),b.delay&&"number"==typeof b.delay&&(b.delay={show:b.delay,hide:b.delay}),b},c.prototype.getDelegateOptions=function(){var b={},c=this.getDefaults();return this._options&&a.each(this._options,function(a,d){c[a]!=d&&(b[a]=d)}),b},c.prototype.enter=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c&&c.$tip&&c.$tip.is(":visible")?void(c.hoverState="in"):(c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),clearTimeout(c.timeout),c.hoverState="in",c.options.delay&&c.options.delay.show?void(c.timeout=setTimeout(function(){"in"==c.hoverState&&c.show()},c.options.delay.show)):c.show())},c.prototype.leave=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),clearTimeout(c.timeout),c.hoverState="out",c.options.delay&&c.options.delay.hide?void(c.timeout=setTimeout(function(){"out"==c.hoverState&&c.hide()},c.options.delay.hide)):c.hide()},c.prototype.show=function(){var b=a.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){this.$element.trigger(b);var d=a.contains(this.$element[0].ownerDocument.documentElement,this.$element[0]);if(b.isDefaultPrevented()||!d)return;var e=this,f=this.tip(),g=this.getUID(this.type);this.setContent(),f.attr("id",g),this.$element.attr("aria-describedby",g),this.options.animation&&f.addClass("fade");var h="function"==typeof this.options.placement?this.options.placement.call(this,f[0],this.$element[0]):this.options.placement,i=/\s?auto?\s?/i,j=i.test(h);j&&(h=h.replace(i,"")||"top"),f.detach().css({top:0,left:0,display:"block"}).addClass(h).data("bs."+this.type,this),this.options.container?f.appendTo(this.options.container):f.insertAfter(this.$element);var k=this.getPosition(),l=f[0].offsetWidth,m=f[0].offsetHeight;if(j){var n=h,o=this.options.container?a(this.options.container):this.$element.parent(),p=this.getPosition(o);h="bottom"==h&&k.bottom+m>p.bottom?"top":"top"==h&&k.top-m<p.top?"bottom":"right"==h&&k.right+l>p.width?"left":"left"==h&&k.left-l<p.left?"right":h,f.removeClass(n).addClass(h)}var q=this.getCalculatedOffset(h,k,l,m);this.applyPlacement(q,h);var r=function(){var a=e.hoverState;e.$element.trigger("shown.bs."+e.type),e.hoverState=null,"out"==a&&e.leave(e)};a.support.transition&&this.$tip.hasClass("fade")?f.one("bsTransitionEnd",r).emulateTransitionEnd(c.TRANSITION_DURATION):r()}},c.prototype.applyPlacement=function(b,c){var d=this.tip(),e=d[0].offsetWidth,f=d[0].offsetHeight,g=parseInt(d.css("margin-top"),10),h=parseInt(d.css("margin-left"),10);isNaN(g)&&(g=0),isNaN(h)&&(h=0),b.top=b.top+g,b.left=b.left+h,a.offset.setOffset(d[0],a.extend({using:function(a){d.css({top:Math.round(a.top),left:Math.round(a.left)})}},b),0),d.addClass("in");var i=d[0].offsetWidth,j=d[0].offsetHeight;"top"==c&&j!=f&&(b.top=b.top+f-j);var k=this.getViewportAdjustedDelta(c,b,i,j);k.left?b.left+=k.left:b.top+=k.top;var l=/top|bottom/.test(c),m=l?2*k.left-e+i:2*k.top-f+j,n=l?"offsetWidth":"offsetHeight";d.offset(b),this.replaceArrow(m,d[0][n],l)},c.prototype.replaceArrow=function(a,b,c){this.arrow().css(c?"left":"top",50*(1-a/b)+"%").css(c?"top":"left","")},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle();a.find(".tooltip-inner")[this.options.html?"html":"text"](b),a.removeClass("fade in top bottom left right")},c.prototype.hide=function(b){function d(){"in"!=e.hoverState&&f.detach(),e.$element.removeAttr("aria-describedby").trigger("hidden.bs."+e.type),b&&b()}var e=this,f=a(this.$tip),g=a.Event("hide.bs."+this.type);return this.$element.trigger(g),g.isDefaultPrevented()?void 0:(f.removeClass("in"),a.support.transition&&f.hasClass("fade")?f.one("bsTransitionEnd",d).emulateTransitionEnd(c.TRANSITION_DURATION):d(),this.hoverState=null,this)},c.prototype.fixTitle=function(){var a=this.$element;(a.attr("title")||"string"!=typeof a.attr("data-original-title"))&&a.attr("data-original-title",a.attr("title")||"").attr("title","")},c.prototype.hasContent=function(){return this.getTitle()},c.prototype.getPosition=function(b){b=b||this.$element;var c=b[0],d="BODY"==c.tagName,e=c.getBoundingClientRect();null==e.width&&(e=a.extend({},e,{width:e.right-e.left,height:e.bottom-e.top}));var f=d?{top:0,left:0}:b.offset(),g={scroll:d?document.documentElement.scrollTop||document.body.scrollTop:b.scrollTop()},h=d?{width:a(window).width(),height:a(window).height()}:null;return a.extend({},e,g,h,f)},c.prototype.getCalculatedOffset=function(a,b,c,d){return"bottom"==a?{top:b.top+b.height,left:b.left+b.width/2-c/2}:"top"==a?{top:b.top-d,left:b.left+b.width/2-c/2}:"left"==a?{top:b.top+b.height/2-d/2,left:b.left-c}:{top:b.top+b.height/2-d/2,left:b.left+b.width}},c.prototype.getViewportAdjustedDelta=function(a,b,c,d){var e={top:0,left:0};if(!this.$viewport)return e;var f=this.options.viewport&&this.options.viewport.padding||0,g=this.getPosition(this.$viewport);if(/right|left/.test(a)){var h=b.top-f-g.scroll,i=b.top+f-g.scroll+d;h<g.top?e.top=g.top-h:i>g.top+g.height&&(e.top=g.top+g.height-i)}else{var j=b.left-f,k=b.left+f+c;j<g.left?e.left=g.left-j:k>g.width&&(e.left=g.left+g.width-k)}return e},c.prototype.getTitle=function(){var a,b=this.$element,c=this.options;return a=b.attr("data-original-title")||("function"==typeof c.title?c.title.call(b[0]):c.title)},c.prototype.getUID=function(a){do a+=~~(1e6*Math.random());while(document.getElementById(a));return a},c.prototype.tip=function(){return this.$tip=this.$tip||a(this.options.template)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},c.prototype.enable=function(){this.enabled=!0},c.prototype.disable=function(){this.enabled=!1},c.prototype.toggleEnabled=function(){this.enabled=!this.enabled},c.prototype.toggle=function(b){var c=this;b&&(c=a(b.currentTarget).data("bs."+this.type),c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c))),c.tip().hasClass("in")?c.leave(c):c.enter(c)},c.prototype.destroy=function(){var a=this;clearTimeout(this.timeout),this.hide(function(){a.$element.off("."+a.type).removeData("bs."+a.type)})};var d=a.fn.tooltip;a.fn.tooltip=b,a.fn.tooltip.Constructor=c,a.fn.tooltip.noConflict=function(){return a.fn.tooltip=d,this}}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.popover"),f="object"==typeof b&&b;(e||!/destroy|hide/.test(b))&&(e||d.data("bs.popover",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.init("popover",a,b)};if(!a.fn.tooltip)throw new Error("Popover requires tooltip.js");c.VERSION="3.3.4",c.DEFAULTS=a.extend({},a.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),c.prototype=a.extend({},a.fn.tooltip.Constructor.prototype),c.prototype.constructor=c,c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle(),c=this.getContent();a.find(".popover-title")[this.options.html?"html":"text"](b),a.find(".popover-content").children().detach().end()[this.options.html?"string"==typeof c?"html":"append":"text"](c),a.removeClass("fade top bottom left right in"),a.find(".popover-title").html()||a.find(".popover-title").hide()},c.prototype.hasContent=function(){return this.getTitle()||this.getContent()},c.prototype.getContent=function(){var a=this.$element,b=this.options;return a.attr("data-content")||("function"==typeof b.content?b.content.call(a[0]):b.content)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")};var d=a.fn.popover;a.fn.popover=b,a.fn.popover.Constructor=c,a.fn.popover.noConflict=function(){return a.fn.popover=d,this}}(jQuery),+function(a){"use strict";function b(c,d){this.$body=a(document.body),this.$scrollElement=a(a(c).is(document.body)?window:c),this.options=a.extend({},b.DEFAULTS,d),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",a.proxy(this.process,this)),this.refresh(),this.process()}function c(c){return this.each(function(){var d=a(this),e=d.data("bs.scrollspy"),f="object"==typeof c&&c;e||d.data("bs.scrollspy",e=new b(this,f)),"string"==typeof c&&e[c]()})}b.VERSION="3.3.4",b.DEFAULTS={offset:10},b.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},b.prototype.refresh=function(){var b=this,c="offset",d=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),a.isWindow(this.$scrollElement[0])||(c="position",d=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var b=a(this),e=b.data("target")||b.attr("href"),f=/^#./.test(e)&&a(e);return f&&f.length&&f.is(":visible")&&[[f[c]().top+d,e]]||null}).sort(function(a,b){return a[0]-b[0]}).each(function(){b.offsets.push(this[0]),b.targets.push(this[1])})},b.prototype.process=function(){var a,b=this.$scrollElement.scrollTop()+this.options.offset,c=this.getScrollHeight(),d=this.options.offset+c-this.$scrollElement.height(),e=this.offsets,f=this.targets,g=this.activeTarget;if(this.scrollHeight!=c&&this.refresh(),b>=d)return g!=(a=f[f.length-1])&&this.activate(a);if(g&&b<e[0])return this.activeTarget=null,this.clear();for(a=e.length;a--;)g!=f[a]&&b>=e[a]&&(void 0===e[a+1]||b<e[a+1])&&this.activate(f[a])},b.prototype.activate=function(b){this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+this.selector+'[href="'+b+'"]',d=a(c).parents("li").addClass("active");d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active")),d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var d=a.fn.scrollspy;a.fn.scrollspy=c,a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=d,this},a(window).on("load.bs.scrollspy.data-api",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);c.call(b,b.data())})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new c(this)),"string"==typeof b&&e[b]()})}var c=function(b){this.element=a(b)};c.VERSION="3.3.4",c.TRANSITION_DURATION=150,c.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.data("target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){
-var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a.Event("show.bs.tab",{relatedTarget:e[0]});if(e.trigger(f),b.trigger(g),!g.isDefaultPrevented()&&!f.isDefaultPrevented()){var h=a(d);this.activate(b.closest("li"),c),this.activate(h,h.parent(),function(){e.trigger({type:"hidden.bs.tab",relatedTarget:b[0]}),b.trigger({type:"shown.bs.tab",relatedTarget:e[0]})})}}},c.prototype.activate=function(b,d,e){function f(){g.removeClass("active").find("> .dropdown-menu > .active").removeClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!1),b.addClass("active").find('[data-toggle="tab"]').attr("aria-expanded",!0),h?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu").length&&b.closest("li.dropdown").addClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!0),e&&e()}var g=d.find("> .active"),h=e&&a.support.transition&&(g.length&&g.hasClass("fade")||!!d.find("> .fade").length);g.length&&h?g.one("bsTransitionEnd",f).emulateTransitionEnd(c.TRANSITION_DURATION):f(),g.removeClass("in")};var d=a.fn.tab;a.fn.tab=b,a.fn.tab.Constructor=c,a.fn.tab.noConflict=function(){return a.fn.tab=d,this};var e=function(c){c.preventDefault(),b.call(a(this),"show")};a(document).on("click.bs.tab.data-api",'[data-toggle="tab"]',e).on("click.bs.tab.data-api",'[data-toggle="pill"]',e)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof b&&b;e||d.data("bs.affix",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.options=a.extend({},c.DEFAULTS,d),this.$target=a(this.options.target).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(b),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};c.VERSION="3.3.4",c.RESET="affix affix-top affix-bottom",c.DEFAULTS={offset:0,target:window},c.prototype.getState=function(a,b,c,d){var e=this.$target.scrollTop(),f=this.$element.offset(),g=this.$target.height();if(null!=c&&"top"==this.affixed)return c>e?"top":!1;if("bottom"==this.affixed)return null!=c?e+this.unpin<=f.top?!1:"bottom":a-d>=e+g?!1:"bottom";var h=null==this.affixed,i=h?e:f.top,j=h?g:b;return null!=c&&c>=e?"top":null!=d&&i+j>=a-d?"bottom":!1},c.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(c.RESET).addClass("affix");var a=this.$target.scrollTop(),b=this.$element.offset();return this.pinnedOffset=b.top-a},c.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},c.prototype.checkPosition=function(){if(this.$element.is(":visible")){var b=this.$element.height(),d=this.options.offset,e=d.top,f=d.bottom,g=a(document.body).height();"object"!=typeof d&&(f=e=d),"function"==typeof e&&(e=d.top(this.$element)),"function"==typeof f&&(f=d.bottom(this.$element));var h=this.getState(g,b,e,f);if(this.affixed!=h){null!=this.unpin&&this.$element.css("top","");var i="affix"+(h?"-"+h:""),j=a.Event(i+".bs.affix");if(this.$element.trigger(j),j.isDefaultPrevented())return;this.affixed=h,this.unpin="bottom"==h?this.getPinnedOffset():null,this.$element.removeClass(c.RESET).addClass(i).trigger(i.replace("affix","affixed")+".bs.affix")}"bottom"==h&&this.$element.offset({top:g-b-f})}};var d=a.fn.affix;a.fn.affix=b,a.fn.affix.Constructor=c,a.fn.affix.noConflict=function(){return a.fn.affix=d,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var c=a(this),d=c.data();d.offset=d.offset||{},null!=d.offsetBottom&&(d.offset.bottom=d.offsetBottom),null!=d.offsetTop&&(d.offset.top=d.offsetTop),b.call(c,d)})})}(jQuery);
 /**
  * cbpAnimatedHeader.js v1.0.0
  * http://www.codrops.com
@@ -16628,6 +18269,10 @@ $(function() {
 $('#name').focus(function() {
     $('#success').html('');
 });
+(function() {
+
+
+}).call(this);
 (function() {
 
 
@@ -17581,6 +19226,7 @@ $('#name').focus(function() {
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 
 
 
