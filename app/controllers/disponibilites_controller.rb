@@ -11,7 +11,7 @@ class DisponibilitesController < ApplicationController
     #Récupère les dispos de l'user connecté
     @dispos = Disponibilite.where(:user_id => current_user.id)
     #Récupère l'id des dispos
-    @dispoid = Info.find(@dispos)
+    @dispoid = Disponibilite.find(@dispos)
     redirect_to action: 'edit', id: @dispoid
     #respond_with(@disponibilites)
   end
@@ -30,7 +30,7 @@ class DisponibilitesController < ApplicationController
       @dispos = Disponibilite.where(:user_id => current_user.id)
 
       #Récupère l'id des dispos
-      @dispoid = Info.find(@dispos)
+      @dispoid = Disponibilite.find(@dispos)
       redirect_to action: 'edit', id: @dispoid
       #redirect_to action: 'index'
     end
@@ -46,7 +46,7 @@ class DisponibilitesController < ApplicationController
     #Récupère les dispos de l'user connecté
     @dispos = Disponibilite.where(:user_id => current_user.id)
     #Récupère l'id des dispos
-    @dispoid = Info.find(@dispos)
+    @dispoid = Disponibilite.find(@dispos)
     redirect_to action: 'edit', id: @dispoid
     #respond_with(@disponibilite)
   end
@@ -56,7 +56,7 @@ class DisponibilitesController < ApplicationController
     #Récupère les dispos de l'user connecté
     @dispos = Disponibilite.where(:user_id => current_user.id)
     #Récupère l'id des dispos
-    @dispoid = Info.find(@dispos)
+    @dispoid = Disponibilite.find(@dispos)
     redirect_to :root, id: @dispoid, :notice => 'Vos disponibilités ont bien été modifiées'
     
     #respond_with(@disponibilite)

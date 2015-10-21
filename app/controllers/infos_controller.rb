@@ -26,7 +26,7 @@ class InfosController < ApplicationController
 
       #Récupère l'id des infos
       @infoid = Info.find(@infos)
-      redirect_to action: 'show'
+      redirect_to action: 'show', id: @infoid
       #redirect_to action: 'index'
     end
   end
