@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get 'pages/validation'
 
   get 'pages/bienvenue'
+
+  get 'pages/reparations'
   
   root 'pages#index'
   

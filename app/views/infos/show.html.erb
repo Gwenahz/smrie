@@ -1,29 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h1>Mes informations personnelles</h1><br>
 
-<p>
-  <strong>Nom:</strong>
-  <%= @info.nom %>
-</p>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Prenom:</strong>
-  <%= @info.prenom %>
-</p>
+  <p>
+    <strong>Nom:</strong>
+    <%= @info.nom %>
+  </p>
 
-<p>
-  <strong>Adresse:</strong>
-  <%= @info.adresse %>
-</p>
+  <p>
+    <strong>Prenom:</strong>
+    <%= @info.prenom %>
+  </p>
 
-<p>
-  <strong>Cp:</strong>
-  <%= @info.cp %>
-</p>
+  <p>
+    <strong>Adresse:</strong>
+    <%= @info.adresse %>
+  </p>
 
-<p>
-  <strong>Ville:</strong>
-  <%= @info.ville %>
-</p>
+  <p>
+    <strong>Cp:</strong>
+    <%= @info.cp %>
+  </p>
 
-<%= link_to 'Edit', edit_info_path(@info) %> |
-<%= link_to 'Back', infos_path %>
+  <p>
+    <strong>Ville:</strong>
+    <%= @info.ville %>
+  </p>
+
+  <%= link_to 'Modifier mes informations', edit_info_path(@info) %>
+</div>

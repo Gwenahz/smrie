@@ -8,7 +8,11 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
+	      <% if user_signed_in? %>
+	      <a class="navbar-brand" href="/pages/reparations"><%= image_tag "logo.png", :class => "logo" %></a>
+	      <% else %>
 	      <a class="navbar-brand" href="/"><%= image_tag "logo.png", :class => "logo" %></a>
+	      <% end %>
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -27,6 +31,8 @@
 	          	Profil
 	          	<span class="caret"></span></a>
 	          <ul class="dropdown-menu">
+	          	<li><%= link_to "Mes disponibilités", new_disponibilite_path %></li>
+	          	<li><%= link_to "Mes infos perso", new_info_path %></li>
 	          	<li><%= link_to "Modifier Mot de Passe", edit_user_registration_path %></li>
 	            <li role="separator" class="divider"></li>
 	            <li><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>

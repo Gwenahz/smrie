@@ -46,7 +46,7 @@ class ReparationsController < ApplicationController
         @reparation.save
       end
     end
-    redirect_to :pages_bienvenue
+    redirect_to :new_disponibilite
   end
 
   def update

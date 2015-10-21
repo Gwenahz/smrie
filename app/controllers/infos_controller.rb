@@ -6,9 +6,13 @@ class InfosController < ApplicationController
   respond_to :html
 
   def index
-    #@infos = Info.all
+    #Récupère les infos de l'user connecté
     @infos = Info.where(:user_id => current_user.id)
-    respond_with(@infos)
+
+    #Récupère l'id des infos
+    @infoid = Info.find(@infos)
+    redirect_to action: 'show', id: @infoid
+    #redirect_to action: 'index'
   end
 
   def show

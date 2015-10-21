@@ -17,7 +17,14 @@ class DisponibilitesController < ApplicationController
   end
 
   def show
-    respond_with(@disponibilite)
+    #@disponibilites = Disponibilite.all
+    Disponibilite.where(:user_id => current_user.id)
+    #Récupère les dispos de l'user connecté
+    @dispos = Disponibilite.where(:user_id => current_user.id)
+    #Récupère l'id des dispos
+    @dispoid = Disponibilite.find(@dispos)
+    redirect_to action: 'edit', id: @dispoid
+    #respond_with(@disponibilites)
   end
 
   def new
@@ -47,7 +54,7 @@ class DisponibilitesController < ApplicationController
     @dispos = Disponibilite.where(:user_id => current_user.id)
     #Récupère l'id des dispos
     @dispoid = Disponibilite.find(@dispos)
-    redirect_to action: 'edit', id: @dispoid
+    redirect_to :pages_bienvenue
     #respond_with(@disponibilite)
   end
 
@@ -57,7 +64,7 @@ class DisponibilitesController < ApplicationController
     @dispos = Disponibilite.where(:user_id => current_user.id)
     #Récupère l'id des dispos
     @dispoid = Disponibilite.find(@dispos)
-    redirect_to :root, id: @dispoid, :notice => 'Vos disponibilités ont bien été modifiées'
+    redirect_to :pages_reparations, id: @dispoid, :notice => 'Vos disponibilités ont bien été modifiées'
     
     #respond_with(@disponibilite)
   end
