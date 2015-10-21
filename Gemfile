@@ -11,6 +11,7 @@ gem 'jbuilder', '~> 2.0'
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '< 2.0'
 gem 'devise'
+gem 'devise-i18n'
 gem 'typeahead-addresspicker-rails'
 gem 'high_voltage', '~> 2.4.0'
 gem 'google-webfonts-rails', '~> 0.0.4'

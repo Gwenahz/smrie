@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   get 'pages/contact'
 
   get 'pages/validation'
+
+  get 'pages/bienvenue'
   
   root 'pages#index'
   

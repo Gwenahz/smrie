@@ -11,149 +11,151 @@
     </div>
   <% end %>
 
-  <table>
-    <tr>
-      <th>Lundi</th>
-      <th>Mardi</th>
-      <th>Mercredi</th>
-      <th>Jeudi</th>
-      <th>Vendredi</th>
-      <th>Samedi</th>
-      <th>Dimanche</th>
-    </tr>
-    <tr>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :amlundi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :ammardi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :ammercredi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :amjeudi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :amvendredi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :amsamedi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Matin" %><br>
-          <%= f.check_box :amdimanche %>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmlundi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmmardi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmmercredi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmjeudi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmvendredi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmsamedi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Après-midi" %><br>
-          <%= f.check_box :pmdimanche %>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :slundi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :smardi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :smercredi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :sjeudi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :svendredi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :ssamedi %>
-        </div>
-      </td>
-      <td>
-        <div class="field">
-          <%= f.label "Soir" %><br>
-          <%= f.check_box :sdimanche %>
-        </div>
-      </td>
-    </tr>
-  </table>
+  <div class="table-responsive text-center">
+    <table class="table table-bordered">
+      <tr>
+        <th class="text-center">Lundi</th>
+        <th class="text-center">Mardi</th>
+        <th class="text-center">Mercredi</th>
+        <th class="text-center">Jeudi</th>
+        <th class="text-center">Vendredi</th>
+        <th class="text-center">Samedi</th>
+        <th class="text-center">Dimanche</th>
+      </tr>
+      <tr>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :amlundi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :ammardi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :ammercredi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :amjeudi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :amvendredi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :amsamedi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Matin" %><br>
+            <%= f.check_box :amdimanche %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmlundi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmmardi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmmercredi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmjeudi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmvendredi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmsamedi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Après-midi" %><br>
+            <%= f.check_box :pmdimanche %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :slundi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :smardi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :smercredi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :sjeudi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :svendredi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :ssamedi %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <%= f.label "Soir" %><br>
+            <%= f.check_box :sdimanche %>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

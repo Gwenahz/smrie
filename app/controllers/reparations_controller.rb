@@ -10,12 +10,16 @@ class ReparationsController < ApplicationController
   end
 
   def show
-    respond_with(@reparation)
+    if @reparation.id_user == current_user.id
+      respond_with(@reparation)
+    else
+      redirect_to :reparations
+    end
   end
 
   def new
     #Vérification de l'authentification de l'user sinon redirection vers :root
-    if user_signed_in?
+    if user_signed_in? or admin_signed_in?
       #if current_user.idphones?
         @panne = Panne.all
       
@@ -34,15 +38,15 @@ class ReparationsController < ApplicationController
 
   def create
     current_user.idphones.each do |phone|
-    Reparation.new(reparation_params).id_panne.each do |panne|
-      @reparation = Reparation.new(reparation_params)
-      @reparation.id_user = current_user.id
-      @reparation.id_smartphone = phone
-      @reparation.id_panne = panne
-      @reparation.save
+      Reparation.new(reparation_params).id_panne.each do |panne|
+        @reparation = Reparation.new(reparation_params)
+        @reparation.id_user = current_user.id
+        @reparation.id_smartphone = phone
+        @reparation.id_panne = panne
+        @reparation.save
+      end
     end
-  end
-    respond_with(@reparation)
+    redirect_to :pages_bienvenue
   end
 
   def update
