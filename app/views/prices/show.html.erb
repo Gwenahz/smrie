@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id smartphone:</strong>
+  <%= @price.id_smartphone %>
+</p>
+
+<p>
+  <strong>Id panne:</strong>
+  <%= @price.id_panne %>
+</p>
+
+<p>
+  <strong>Prix:</strong>
+  <%= @price.prix %>
+</p>
+
+<%= link_to 'Edit', edit_price_path(@price) %> |
+<%= link_to 'Back', prices_path %>

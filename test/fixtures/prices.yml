@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_smartphone: 1
+  id_panne: 1
+  prix: 9.99
+
+two:
+  id_smartphone: 1
+  id_panne: 1
+  prix: 9.99

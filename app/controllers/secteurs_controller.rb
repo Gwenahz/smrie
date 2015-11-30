@@ -7,12 +7,15 @@ class SecteursController < ApplicationController
 
   def index
     #@secteurs = Secteur.all
+    #Secteur.where(:user_id => current_user.id)
     @secteurs = Secteur.where(:user_id => current_user.id)
+    #@secteurid = Secteur.find(@secteurs)
+    #redirect_to action: 'new'
     respond_with(@secteurs)
   end
 
   def show
-    respond_with(@secteur)
+    redirect_to action: 'index'
   end
 
   def new

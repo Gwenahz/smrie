@@ -4,28 +4,38 @@
   <p id="notice"><%= notice %></p>
 
   <p>
-    <strong>Nom:</strong>
+    <strong>Nom :</strong>
     <%= @info.nom %>
   </p>
 
   <p>
-    <strong>Prenom:</strong>
+    <strong>Prénom :</strong>
     <%= @info.prenom %>
   </p>
 
   <p>
-    <strong>Adresse:</strong>
+    <strong>Adresse :</strong>
     <%= @info.adresse %>
   </p>
 
   <p>
-    <strong>Cp:</strong>
+    <strong>Complément d'adresse :</strong>
+    <%= @info.adressebis %>
+  </p>
+
+  <p>
+    <strong>Code postal :</strong>
     <%= @info.cp %>
   </p>
 
   <p>
-    <strong>Ville:</strong>
+    <strong>Ville :</strong>
     <%= @info.ville %>
+  </p>
+
+  <p>
+    <strong>Numéro de téléphone :</strong>
+    <%= @info.numtel %>
   </p>
 
   <%= link_to 'Modifier mes informations', edit_info_path(@info) %>
