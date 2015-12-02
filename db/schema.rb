@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911132045) do
+ActiveRecord::Schema.define(version: 20151202151550) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -79,6 +79,8 @@ ActiveRecord::Schema.define(version: 20150911132045) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "numtel"
+    t.string   "adressebis"
   end
 
   create_table "pannes", force: true do |t|
@@ -89,6 +91,15 @@ ActiveRecord::Schema.define(version: 20150911132045) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+  end
+
+  create_table "prices", force: true do |t|
+    t.integer  "id_smartphone"
+    t.integer  "id_panne"
+    t.decimal  "prix"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "stock"
   end
 
   create_table "reparations", force: true do |t|
@@ -105,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150911132045) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "near"
   end
 
   create_table "smartphones", force: true do |t|
@@ -117,6 +129,16 @@ ActiveRecord::Schema.define(version: 20150911132045) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+  end
+
+  create_table "stocks", force: true do |t|
+    t.integer  "id_smartphone"
+    t.integer  "id_panne"
+    t.decimal  "prix"
+    t.integer  "stock"
+    t.string   "couleur"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

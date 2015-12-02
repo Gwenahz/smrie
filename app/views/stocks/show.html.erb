@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id smartphone:</strong>
+  <%= @stock.id_smartphone %>
+</p>
+
+<p>
+  <strong>Id panne:</strong>
+  <%= @stock.id_panne %>
+</p>
+
+<p>
+  <strong>Prix:</strong>
+  <%= @stock.prix %>
+</p>
+
+<p>
+  <strong>Stock:</strong>
+  <%= @stock.stock %>
+</p>
+
+<p>
+  <strong>Couleur:</strong>
+  <%= @stock.couleur %>
+</p>
+
+<%= link_to 'Edit', edit_stock_path(@stock) %> |
+<%= link_to 'Back', stocks_path %>
