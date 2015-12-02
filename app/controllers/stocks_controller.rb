@@ -5,6 +5,7 @@ class StocksController < ApplicationController
 
   def index
     @stocks = Stock.all
+    #@smartphone = Smartphone.where(:id => :id_smartphone)
     respond_with(@stocks)
   end
 

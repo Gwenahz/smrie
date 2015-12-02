@@ -7,5 +7,6 @@ class Smartphone < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :reparation
+  belongs_to :stock
   
 end
