@@ -57,7 +57,7 @@ class InfosController < ApplicationController
     end
 
     def info_params
-      params.require(:info).permit(:nom, :prenom, :adresse, :cp, :ville)
+      params.require(:info).permit(:nom, :prenom, :adresse, :cp, :ville, :numtel, :adressebis)
     end
 
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
