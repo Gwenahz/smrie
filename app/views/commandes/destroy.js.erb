@@ -1,0 +1,4 @@
+$('.delete_commande').bind('ajax:success', function() {
+   $(this).closest('tr').fadeOut();
+   document.querySelector('.monTexte').innerHTML = "HEY";
+});

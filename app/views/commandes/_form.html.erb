@@ -1,0 +1,37 @@
+<%= form_for(@commande) do |f| %>
+  <% if @commande.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@commande.errors.count, "error") %> prohibited this commande from being saved:</h2>
+
+      <ul>
+      <% @commande.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :modele %><br>
+    <%= f.text_field :modele %>
+  </div>
+  <div class="field">
+    <%= f.label :panne %><br>
+    <%= f.text_field :panne %>
+  </div>
+  <div class="field">
+    <%= f.label :prix %><br>
+    <%= f.text_field :prix %>
+  </div><br><br>
+  <%= link_to 'test', test_commandes_path, :remote => true %>
+  <br><br>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  <div class="monTexte"></div>
+
+  
+
+<% end %>
+
+

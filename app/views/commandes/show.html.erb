@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Modele:</strong>
+  <%= @commande.modele %>
+</p>
+
+<p>
+  <strong>Panne:</strong>
+  <%= @commande.panne %>
+</p>
+
+<p>
+  <strong>Prix:</strong>
+  <%= @commande.prix %>
+</p>
+
+<%= link_to 'Edit', edit_commande_path(@commande) %> |
+<%= link_to 'Back', commandes_path %>

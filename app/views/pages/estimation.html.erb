@@ -1,0 +1,17 @@
+<div class="container">
+	<h1>Estimation Prix</h1>
+	<%= form_tag({:action => "prix"}, {remote: true, :id => "form_prix"}) do %>
+  		<div class="col-md-4">
+    		<%= collection_select("modele", "", Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true}) %>
+  		</div>
+  		<div class="col-md-4">
+    		<%= collection_select("panne", "", Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true}) %>
+  		</div>
+  		<div class="col-md-4">
+  			<%= submit_tag("Prix de ma réparation", class: "btn btn-success btn-block") %>
+  		</div>
+	<% end %>
+
+	<br><br><br>
+	<div class="monPrix text-center"></div>
+</div>

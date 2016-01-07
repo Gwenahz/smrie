@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :commandes do
+    collection do
+      post 'test'
+    end
+  end
+
   resources :stocks
 
   resources :helps
@@ -36,7 +42,11 @@ Rails.application.routes.draw do
   get 'pages/bienvenue'
 
   get 'pages/reparations'
-  
+
+  get 'pages/estimation'
+
+  post 'pages/prix' => 'pages#prix'
+
   root 'pages#index'
   
   # root 'smartphones#index'

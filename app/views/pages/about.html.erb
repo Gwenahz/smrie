@@ -1,3 +1,203 @@
+<div class="container">
+	<h1><%= @title="À Propos - " %></h1>
+	<p>Bienvenue sur le site de La Smartphonerie ! Réparer votre smartphone n'a jamais été aussi simple !</p><br>
 
-<h1><%= @title="À Propos - " %></h1>
-<p>Bienvenue sur le site de La Smartphonerie ! Réparer votre smartphone n'a jamais été aussi simple !</p>
+<div class="container" style="background-color: rgba(0,0,0,0.5); padding: 20px 0px 20px 15px;">
+  <div class="col-md-3">
+    <%= collection_select(:help, :modele, Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", id: "monModele", :onchange => {:remote => true, :controller => PagesController, :action => 'test'}}) %>
+  </div>
+  <div name="panne" id="panne" class="col-md-3">
+    <%= collection_select(:help, :panne, Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control"}) %>
+  </div>
+  <div class="col-md-3">
+    <button onclick="changeEtape('choix')" class="btn btn-success">RÉPARER MON SMARTPHONE !</button>  </div>
+    <%= button_to "New", action: "test" %>
+
+    
+    
+  </div>
+
+
+	<div id="prix" style="display:block" class="results">
+		<p>Afficher prix</p>
+	</div>
+
+	<div id="panne" style="display:block">
+		<input type="text" name="Smartphone">
+		<input type="text" name="Panne">
+		<button onclick="changeEtape('choix');">Valider</button>
+	</div>
+
+	<div id="choix" style="display:none">
+		<button onclick="changeEtape('panne');">Retour</button>
+		<p>prix</p>
+		<button onclick="changeEtape('calendrier');calendrier();">Call a smarty</button>
+		<p>prix</p>
+		<button onclick="changeEtape('calendrier');calendrier();">Réparer moi-même</button>
+	</div>
+
+	<div id="calendrier" style="display:none">
+		<button onclick="changeEtape('choix');">Retour</button>
+		<!--<button onclick="calendrier();">remplir</button>-->
+		<center><table width=60% border=1>
+			<tr>
+				<td id="dp0" onclick="changeEtape('heure');"></td>
+				<td id="dp1" onclick="changeEtape('heure');"></td>
+				<td id="dp2" onclick="changeEtape('heure');"></td>
+				<td id="dp3" onclick="changeEtape('heure');"></td>
+				<td id="dp4" onclick="changeEtape('heure');"></td>
+				<td id="dp5" onclick="changeEtape('heure');"></td>
+				<td id="dp6" onclick="changeEtape('heure');"></td>
+			</tr>
+		</table></center>
+		<!--<p id="today">vide</p>
+		<p id="dp1">vide</p>
+		<p id="dp2">vide</p>
+		<p id="dp3">vide</p>
+		<p id="dp4">vide</p>
+		<p id="dp5">vide</p>
+		<p id="dp6">vide</p>	-->
+		<button onclick="changeEtape('heure');">Valider</button>
+	</div>
+
+	<div id="heure" style="display:none">
+		<button onclick="changeEtape('calendrier');">Retour</button>
+		<p>Votre créneau horaire :</p>
+		<input type="time" name="heureDebut">
+		<input type="time" name="heureFin">
+		<button onclick="changeEtape('infos');">Valider</button>
+	</div>
+
+	<div id="infos" style="display:none">
+		<button onclick="changeEtape('heure');">Retour</button>
+		<p>Prenom</p>
+		<p>Nom</p>
+		<p>Adresse</p>
+		<p>mail</p>
+		<p>téléphone</p>
+		<button onclick="">Valider</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	function monPrix() {
+		mymodele = $( "#monModele option:selected" ).text();
+		// <% @stock = Stock.find(1) %>
+		document.querySelector('.results').innerHTML = "<%= @stock.prix  %>";
+	}
+
+      // La fonction qui change les images. Peut pointer vers une image spécifique, ou bien être appelée vide, pour passer ç celle d'apres
+    function changeEtape(etape) {
+		switch (etape) {
+			case 'panne':
+				// Afficher la div 1
+				document.getElementById('panne').style.display = 'block';
+				document.getElementById('choix').style.display = 'none';
+				document.getElementById('calendrier').style.display = 'none';
+				document.getElementById('heure').style.display = 'none';
+				document.getElementById('infos').style.display = 'none';
+				break;
+			case 'choix':
+				// Afficher la div 2
+				document.getElementById('panne').style.display = 'none';
+				document.getElementById('choix').style.display = 'block';
+				document.getElementById('calendrier').style.display = 'none';
+				document.getElementById('heure').style.display = 'none';
+				document.getElementById('infos').style.display = 'none';
+				break;
+			case 'calendrier':
+				// Afficher la div 3
+				document.getElementById('panne').style.display = 'none';
+				document.getElementById('choix').style.display = 'none';
+				document.getElementById('calendrier').style.display = 'block';
+				document.getElementById('heure').style.display = 'none';
+				document.getElementById('infos').style.display = 'none';
+				break;
+			case 'heure':
+				// Afficher la div 4
+				document.getElementById('panne').style.display = 'none';
+				document.getElementById('choix').style.display = 'none';
+				document.getElementById('calendrier').style.display = 'none';
+				document.getElementById('heure').style.display = 'block';
+				document.getElementById('infos').style.display = 'none';
+				break;
+			case 'infos':
+				// Afficher la div 5
+				document.getElementById('panne').style.display = 'none';
+				document.getElementById('choix').style.display = 'none';
+				document.getElementById('calendrier').style.display = 'none';
+				document.getElementById('heure').style.display = 'none';
+				document.getElementById('infos').style.display = 'block';
+				break;
+			default:
+				// Instructions à exécuter lorsqu'aucune des valeurs
+				instructions_def;
+				break;
+		}
+	}
+	
+    function calendrier(){
+			date = new Date;
+			annee = date.getFullYear();
+			m = date.getMonth();
+			mois = new Array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+			j= date.getDate();
+			jour = date.getDay();
+			jours = new Array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi');
+			//resultat = annee+" "+jours[jour]+" "+j+" "+mois[m];
+			//document.getElementById("today").innerHTML = resultat;
+			
+			for (i=0; i<7; i++){
+				jj = jour + i;
+				dd = j + i;
+				mm = m ;
+				aa = annee ;
+				if (jour + i > 6){
+					jj = jj - 7;
+				};
+				
+				//test 
+				if(mm==0 || mm==2 || mm==4 || mm==6 || mm==7 || mm==9){
+					if (j + i > 31){
+						dd = dd - 31;
+						mm = mm + 1 ;
+					};
+				}else if(mm==11){
+					if (j+i>31){
+						dd = dd - 31;
+						mm = mm - 11 ;
+						aa = aa + 1 ;
+					};
+				}else if(mm==3 || mm==5 || mm==8 || mm==10){
+					if (j+i>30){
+						dd = dd - 30;
+						mm = mm + 1 ;
+					};
+				}else if(mm==1){
+					test = aa%400;
+					test2 = aa%4;
+					test3 = aa%100;
+					if(test==0||(test2==0&&test3>0)){
+					//année bisextile 29 jours
+						if (j+i>29){
+							dd = dd - 29;
+							mm = mm + 1 ;
+						};
+					}else{
+					//année classique 28 jours
+						if (j+i>28){
+							dd = dd - 28;
+							mm = mm + 1 ;
+						};
+					};
+				};
+				
+				//resultat = aa +" "+ jours[jj] +" "+ dd +" "+ mois[mm];
+				resultat = jours[jj] +" "+ dd +" "+ mois[mm];
+				document.getElementById('dp'+i).innerHTML = resultat;
+			};
+			
+			return true;
+	}; 
+</script>

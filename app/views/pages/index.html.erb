@@ -8,7 +8,26 @@
                 <!-- Trigger the modal with a button 
                 <button onclick="_gaq.push(['_trackEvent', 'LandingButton1', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><strong>RÉPARER MON SMARTPHONE</strong></button>
                 </br></br>-->
-
+                <div class="container" style="background-color: rgba(0,0,0,0.5); padding: 20px 0px 20px 15px;">
+                  <%= form_tag({:action => "prix"}, {remote: true, :id => "form_prix"}) do %>
+                      <div class="col-md-4">
+                        <%= collection_select("modele", "", Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true, :onchange => "modele_select()"}) %>
+                      </div>
+                      <div class="col-md-4">
+                        <%= collection_select("panne", "", Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
+                      </div>
+                      <div class="col-md-4">
+                        <%= submit_tag("PRIX DE MA RÉPARATION", class: "btn btn-success btn-block") %>
+                      </div>
+                  <% end %>
+                  <br>
+                  <h4 class="monPrix text-center"></h4>
+                  <h2 id="monPrix" class="text-center"></h2>
+                  <div id="bt_reparer" class="text-center" style="display:none">
+                    <button onclick="_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing', 'clicked'])" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
+                  </div>
+                    
+                  </div>
                 <%= render :partial => "helps/form" %>
             </div>
         </div>
@@ -142,7 +161,7 @@
                         <li class="timeline-inverted">
                             <div class="timeline-image">
                                 <h4>VOTRE
-                                    <br>SMARTPONE
+                                    <br>SMARTPHONE
                                     <br>EST RÉPARÉ !</h4>
                             </div>
                         </li>
@@ -156,6 +175,18 @@
         </div>
     </section>
 
+    <script type="text/javascript">
+
+        function modele_select() {
+            monModele = document.getElementById("modele_").value;
+            document.getElementById('help_modele').value = monModele;
+        }
+
+        function panne_select() {
+            maPanne = document.getElementById("panne_").value;
+            document.getElementById('help_panne').value = maPanne;
+        }
+    </script>
 
     <!-- Plugin JavaScript -->
     <%= javascript_include_tag 'classie', 'data-turbolinks-track' => true %>
