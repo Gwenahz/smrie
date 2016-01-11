@@ -17,11 +17,27 @@
 }
 
 .header-landing {
-    margin-top: -50px;
+    margin-top: -155px;
     text-align: center;
     color: #fff;
     background-attachment: scroll;
     background-image: image-url('header.jpeg');
+    background-position: center center;
+    background-repeat: none;
+    z-index: -1;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.header-landing-bis {
+    margin-top: -300px;
+    text-align: center;
+    color: #fff;
+    height: 850px;
+    background-attachment: scroll;
+    background-image: image-url('header2.jpg');
     background-position: center center;
     background-repeat: none;
     z-index: -1;
@@ -53,6 +69,7 @@
 
 .intro-lead-in {
     margin-bottom: 20px;
+    margin-top: -20px;
     font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 20px;
     font-style: italic;

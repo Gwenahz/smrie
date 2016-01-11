@@ -1,0 +1,195 @@
+
+    <!-- Header -->
+    <header id="reparer-smartphone" class="header-landing-bis">
+        <div class="container">
+            <div class="intro-text">
+            </br></br><br><br></br></br><br><br></br></br><br><br></br></br></br></br>
+                <h1 class="intro-heading">Pas besoin de vous déplacer, on arrive !<h1>
+                <h2 class="intro-lead-in">Nous réparons votre smartphone à domicile ou au bureau !</h2>
+                <!-- Trigger the modal with a button 
+                <button onclick="_gaq.push(['_trackEvent', 'LandingButton1', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><strong>RÉPARER MON SMARTPHONE</strong></button>
+                </br></br>-->
+                <div class="container" style="background-color: rgba(0,0,0,0.5); padding: 20px 0px 20px 15px;">
+                  <%= form_tag({:action => "prix"}, {remote: true, :id => "form_prix"}) do %>
+                      <div class="col-md-4">
+                        <%= collection_select("modele", "", Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true, :onchange => "modele_select()"}) %>
+                      </div>
+                      <div class="col-md-4">
+                        <%= collection_select("panne", "", Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
+                      </div>
+                      <div class="col-md-4">
+                        <%= submit_tag("RÉPARER MON SMARTPHONE", class: "btn btn-success btn-block", id: "bt_prix", onclick: "_gaq.push(['_trackEvent', 'Bouton_Home_Affichage_Prix', 'clicked'])") %>
+                      </div>
+                  <% end %>
+                  <br>
+                  <h4 class="monPrix text-center"></h4>
+                  <h2 id="monPrix" class="text-center"></h2>
+                  <div id="bt_reparer" class="text-center" style="display:none">
+                    <button onclick="_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing', 'clicked'])" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
+                  </div>
+                    
+                  </div>
+                <%= render :partial => "helps/form" %>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services" class="section-landing">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-mouse-pointer fa-stack-1x text-primary"></i>
+                    </span>
+                    <h4 class="service-heading">Simple</h4>
+                    <p class="text-muted">Réservez en 1 clic en indiquant votre panne et vos coordonnées.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-home fa-stack-1x text-primary"></i>
+                    </span>
+                    <h4 class="service-heading">Pratique</h4>
+                    <p class="text-muted">Nous nous adaptons à vos contraintes. Nous réparons votre smartphone à domicile ou au bureau. </p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-paper-plane fa-stack-1x text-primary"></i>
+                    </span>
+                    <h4 class="service-heading">Rapide</h4>
+                    <p class="text-muted">Nos réparations durent en moyenne 20 minutes.</p>
+                </div>
+            </div><br><br>
+            <div class="col-lg-12 text-center">
+                <!-- Trigger the modal with a button -->
+               <a href="#reparer-smartphone"><button onclick="_gaq.push(['_trackEvent', 'LandingButton2', 'clicked'])" type="button" class="btn btn-success btn-lg"><strong>RÉPARER MON SMARTPHONE</strong></button></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio" class="section-landing bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Il paraît qu'ils sont fans !</h2>
+                    <h3 class="section-subheading text-muted">Notre mission c'est de vous redonner le sourire et vous nous le rendez bien ! <3</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <blockquote class="twitter-tweet" lang="fr"><p lang="fr" dir="ltr">.<a href="https://twitter.com/LaSmartphonerie">@lasmartphonerie</a> a réparé mon nexus5, thanks god, un écran tout neuf ça change la vie ! <a href="https://twitter.com/hashtag/merci?src=hash">#merci</a></p>&mdash; Julie Poupat (@JuliePoupat) <a href="https://twitter.com/JuliePoupat/status/645685901281132544">20 Septembre 2015</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <blockquote class="twitter-tweet" lang="fr"><p lang="fr" dir="ltr">Merci <a href="https://twitter.com/LaSmartphonerie">@LaSmartphonerie</a> d&#39;avoir réparé mon écran ! Mon Samsung est comme neuf, l&#39;impression d&#39;avoir un nouveau téléphone ! <a href="https://twitter.com/hashtag/happy?src=hash">#happy</a></p>&mdash; Marine Seïté (@MarineSeite) <a href="https://twitter.com/MarineSeite/status/645904130989535232">21 Septembre 2015</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <blockquote class="twitter-tweet" lang="fr"><p lang="fr" dir="ltr">Service au top chez <a href="https://twitter.com/LaSmartphonerie">@LaSmartphonerie</a> 😀😀 mon iPhone vous remercie !</p>&mdash; Marie M (@MarieMQL) <a href="https://twitter.com/MarieMQL/status/645705462193623040">20 Septembre 2015</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            </div><br><br>
+            <div class="col-lg-12 text-center">
+                <!-- Trigger the modal with a button -->
+                <a href="#reparer-smartphone"><button onclick="_gaq.push(['_trackEvent', 'LandingButton3', 'clicked'])" type="button" class="btn btn-success btn-lg"><strong>RÉPARER MON SMARTPHONE</strong></button></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-landing">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Comment ça marche ? </h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <!-- <img class="img-circle img-responsive" src="" alt=""> -->
+                                <br><br>
+                                <i class="fa fa-mobile fa-5x"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Étape 1 :</h4>
+                                    <h4 class="subheading">Indiquez-nous votre panne</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">En cliquant sur le bouton "Réparer mon Smartphone", vous pouvez renseigner votre panne et vos coordonnées</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <br><br>
+                                <i class="fa fa-phone fa-5x"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Étape 2 :</h4>
+                                    <h4 class="subheading">Nous vous contactons dans l'heure</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Nous vous contactons dans l'heure afin de fixer un rendez-vous pour réparer votre smartphone</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <br><br>
+                                <i class="fa fa-wrench fa-5x"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Étape 3 :</h4>
+                                    <h4 class="subheading">Votre réparateur répare votre smartphone</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Votre réparateur se déplace au lieu de rendez-vous de votre choix pour effectuer la réparation</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <h4>VOTRE
+                                    <br>SMARTPHONE
+                                    <br>EST RÉPARÉ !</h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div><br><br><br>
+        <div class="col-lg-12 text-center">
+            <!-- Trigger the modal with a button -->
+            <a href="#reparer-smartphone"><button onclick="_gaq.push(['_trackEvent', 'LandingButton4', 'clicked'])" type="button" class="btn btn-success btn-lg"><strong>RÉPARER MON SMARTPHONE</strong></button></a>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+
+        function modele_select() {
+            monModele = document.getElementById("modele_").value;
+            document.getElementById('help_modele').value = monModele;
+        }
+
+        function panne_select() {
+            maPanne = document.getElementById("panne_").value;
+            document.getElementById('help_panne').value = maPanne;
+        }
+    </script>
+
+    <!-- Plugin JavaScript -->
+    <%= javascript_include_tag 'classie', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'cbpAnimatedHeader', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'agency', 'data-turbolinks-track' => true %>

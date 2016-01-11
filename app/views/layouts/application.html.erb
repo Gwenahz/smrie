@@ -72,7 +72,12 @@
 	  		fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-	<%= render'layouts/header' %>
+	<% if current_page?(pages_home_path) %>
+  		<%= render'layouts/headerhome' %>
+	<% else %>
+		<%= render'layouts/header' %>
+	<% end %>
+	
 
 	<div class="container">
 		<% flash.each do |name, msg| %>
