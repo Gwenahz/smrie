@@ -1,16 +1,19 @@
 class HelpsController < ApplicationController
   before_action :set_help, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_admin!, only: [:index, :show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :show, :edit, :update, :destroy]
 
   respond_to :html
 
   def index
     @helps = Help.all
     respond_with(@helps)
+
   end
 
   def show
     respond_with(@help)
+
+    @la_demande = Help.find(params[:id])
   end
 
   def new
@@ -19,19 +22,23 @@ class HelpsController < ApplicationController
   end
 
   def edit
+    @la_demande = Help.find(params[:id])
+    @la_demande.attribuer = current_user.id
+    @la_demande.save
+    redirect_to "/helps"
   end
 
   def create
     @help = Help.new(help_params)
     @help.save
     respond_to do |format|
-      format.html { 
+      format.html {
         if @help.save
-          redirect_to pages_validation_path 
+          redirect_to pages_validation_path
 
           # Sends email to user when user is created.
           UserMailer.help_email(@help).deliver
-        else 
+        else
           flash[:error] = "Oups ! Quelque chose s'est mal passé"
           redirect_to root_path
         end
@@ -59,7 +66,7 @@ class HelpsController < ApplicationController
     end
 
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
-    def check_admin
-      before_action :authenticate_admin!
+    def check_user
+      before_action :authenticate_user!
     end
 end

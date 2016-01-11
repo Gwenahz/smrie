@@ -1,54 +1,61 @@
+
 <h1>Demandes de réparation</h1>
 
 <table class="table table-hover">
   <thead>
     <tr>
-      <% if current_user.prenom =! 'admin' %>
       <th>Nom</th>
       <th>Prenom</th>
-      <%end%>
       <th>Code Postale</th>
       <th>Modele</th>
       <th>Panne</th>
       <th>Gain</th>
       <th>Date</th>
-      <% if current_user.prenom =! 'admin' %>
       <th>Téléphone</th>
       <th>Email</th>
-      <%end%>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @helps.each do |help| %>
-      <tr>
-        <% if current_user.prenom =! 'admin' %>
-        <td><%= help.nom %></td>
-        <td><%= help.prenom %></td>
-        <%end%>
-        <td><%= help.cp %></td>
-        <td><%= help.modele %></td>
-        <td><%= help.panne %></td>
-        <td>30€</td>
-        <td>Demain Après-Midi</td>
-        <% if current_user.prenom =! 'admin' %>
-        <td><%= help.numtel %></td>
-        <td><%= help.mail %></td>
-        <%end%>
-        <td><%= link_to 'Prendre', help, class: "btn btn-success" %></td>
-        <td><%= link_to 'Refuser', help, class: "btn btn-danger"  %></td>
-      </tr>
+      <% if help.attribuer == current_user.id || help.attribuer == nil %>
+        <tr>
+          <% if admin_signed_in? || help.attribuer == current_user.id %>
+            <td><%= help.nom %></td>
+            <td><%= help.prenom %></td>
+          <%else%>
+            <td></td>
+            <td></td>
+          <%end%>
+          <td><%= help.cp %></td>
+          <td><%= help.modele %></td>
+          <td><%= help.panne %></td>
+          <td>30€</td>
+          <td>Demain Après-Midi</td>
+          <% if admin_signed_in? || help.attribuer == current_user.id %>
+            <td><%= help.numtel %></td>
+            <td><%= help.mail %></td>
+          <%else%>
+            <td></td>
+            <td></td>
+          <%end%>
+          <% if help.attribuer != current_user.id %>
+            <td>
+              <td><%= link_to 'Prendre', edit_help_path(help), class: "btn btn-success"  %></td>
+            </td>
+          <% end %>
+          <% if admin_signed_in? %>
+            <td><%= link_to 'Show', help %></td>
+            <td><%= link_to 'Destroy', help, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%else%>
+            <td></td>
+            <td></td>
+          <%end%>
+        </tr>
+      <% end %>
+    <% end %>
     </tbody>
   </table>
-      <% if current_user.prenom =! 'admin' %>
-        <td><%= link_to 'Show', help %></td>
-        <td><%= link_to 'Edit', edit_help_path(help) %></td>
-        <td><%= link_to 'Destroy', help, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <%end%>
-      </tr>
-    <% end %>
-
-
 <br>
 <%= link_to 'New Help', new_help_path %>

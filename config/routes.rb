@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :infos
 
   devise_for :admins
-  
+
   resources :admins
 
   resources :reparations
@@ -20,10 +20,11 @@ Rails.application.routes.draw do
 
   devise_for  :users,
               :controllers => { registrations: 'registrations'}
-              
+
   resources :users, only: [:index]
-  
+
   resources :smartphones
+
 
   get 'pages/index'
 
@@ -36,9 +37,12 @@ Rails.application.routes.draw do
   get 'pages/bienvenue'
 
   get 'pages/reparations'
-  
+
   root 'pages#index'
-  
+
+  get 'helps/:id' => 'helps#show'
+  patch 'helps' => 'helps#edit'
+
   # root 'smartphones#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
