@@ -72,7 +72,7 @@
 	  		fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-	<% if current_page?(pages_home_path) %>
+	<% if current_page?(root_path) %>
   		<%= render'layouts/headerhome' %>
 	<% else %>
 		<%= render'layouts/header' %>

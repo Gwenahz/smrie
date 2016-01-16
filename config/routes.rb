@@ -49,7 +49,7 @@ Rails.application.routes.draw do
 
   post 'pages/prix' => 'pages#prix'
 
-  root 'pages#index'
+  root 'pages#home'
   
   # root 'smartphones#index'
 

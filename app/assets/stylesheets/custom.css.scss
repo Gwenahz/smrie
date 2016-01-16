@@ -1,3 +1,27 @@
+.header-landing-bis {
+    margin-top: -300px;
+    text-align: center;
+    color: #fff;
+    height: 850px;
+    background-attachment: scroll;
+    background-image: image-url('header2.jpg');
+    background-position: center center;
+    background-repeat: none;
+    z-index: -1;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.promobar {
+  background-color: #60b050;
+  margin-top: -1px;
+  height : 50px;
+  color: #FFF;
+  padding: 12px 0 0 0;
+}
+
 .navbar-sous {
   margin-bottom: -5px;
 	background-color: #60b050;
@@ -6,9 +30,9 @@
 	//box-shadow: 0px 2px 10px #999;
 }
 
-.a {
+.mesliens {
+  text-decoration: none;
   background-color: transparent;
-  color: #999999;
 }
 
 .logo{
@@ -72,6 +96,7 @@ footer {
 footer {
     padding: 25px 0;
     text-align: center;
+    background-color: #444;
 }
 
 footer span.copyright {
@@ -79,6 +104,7 @@ footer span.copyright {
     text-transform: none;
     font-family: 'Varela Round', 'Verdana' sans-serif;
     line-height: 40px;
+    color: #fff;
 }
 
 footer ul.quicklinks {
@@ -102,4 +128,24 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+a {
+  &:visited {
+  }
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+a.homelink {
+  color: #fff;
+  &:visited {
+  color: #fff;
+  }
+  &:hover {
+    color: #35AA63;
+    text-decoration: none;
+  }
 }

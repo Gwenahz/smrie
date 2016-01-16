@@ -1,4 +1,6 @@
 document.querySelector('.monPrix').innerHTML = "<br><br>Nous venons réparer votre <%= @smartphone.modele %> pour";
-document.querySelector('#monPrix').innerHTML = "<%= @stock.prix.to_i %>€"
+document.querySelector('#monPrix').innerHTML = "<%= @stock.prix.to_i-10 %>€ <span style='text-decoration: line-through; font-size:16px;'><%= @stock.prix.to_i %>€</span>"
 document.querySelector('#bt_reparer').style.display = 'block';
 document.getElementById('bt_prix').value = "PRIX DE MA RÉPARATION"
+document.getElementById('bt_prix').className = "btn btn-block btn-default"
+
