@@ -28,7 +28,8 @@
 			</li>
 	      	<% if user_signed_in? %>
 	      	<% else %>
-			<li><%= link_to "Devenir Smarty", new_user_registration_path, :class => "homelink" %></li>
+			<li><%= link_to "Devenir Smarty", pages_devenir_smarty_path, :class => "homelink" %></li>
+			<a class="homelink" href="/pages/devenir_smarty">Rejoindre la communauté</a>
 			<% end %>
 
 			<% if user_signed_in? %>

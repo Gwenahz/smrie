@@ -5,7 +5,7 @@
     		<%= collection_select("modele", "", Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true}) %>
   		</div>
   		<div class="col-md-4">
-    		<%= collection_select("panne", "", Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true}) %>
+    		<%= collection_select("panne", "", Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, onchange: "this.form.submit();"}) %>
   		</div>
   		<div class="col-md-4">
   			<%= submit_tag("Prix de ma réparation", class: "btn btn-success btn-block") %>

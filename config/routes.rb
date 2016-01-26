@@ -47,6 +47,8 @@ Rails.application.routes.draw do
 
   get 'pages/estimation'
 
+  get 'pages/devenir_smarty'
+
   post 'pages/prix' => 'pages#prix'
 
   root 'pages#home'
