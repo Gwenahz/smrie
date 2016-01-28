@@ -45,6 +45,8 @@ Rails.application.routes.draw do
 
   get 'pages/reparations'
 
+  get 'pages/borne'
+
   get 'pages/estimation'
 
   get 'pages/devenir_smarty'
