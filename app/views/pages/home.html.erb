@@ -24,7 +24,7 @@
                   <h4 class="monPrix text-center"></h4>
                   <h2 id="monPrix" class="text-center"></h2>
                   <div id="bt_reparer" class="text-center" style="display:none">
-                    <button onclick="_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
+                    <button onclick="_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" id="bt_modal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
                   </div>
                     
                   </div>
@@ -108,7 +108,15 @@
             document.getElementById('help_panne').value = maPanne;
         }
 
-        mixpanel.track("Video play");
+        mixpanel.track("Homepage avec Prix");
+
+        $("#bt_prix").click(function(event) {
+            mixpanel.track("Affichage prix");
+        })
+
+        $("#bt_modal").click(function(event) {
+            mixpanel.track("Affichage formulaire popup");
+        })
     </script>
 
     <!-- Plugin JavaScript -->
