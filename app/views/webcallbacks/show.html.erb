@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Numtel:</strong>
+  <%= @webcallback.numtel %>
+</p>
+
+<p>
+  <strong>Modele:</strong>
+  <%= @webcallback.modele %>
+</p>
+
+<p>
+  <strong>Panne:</strong>
+  <%= @webcallback.panne %>
+</p>
+
+<p>
+  <strong>Cp:</strong>
+  <%= @webcallback.cp %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @webcallback.email %>
+</p>
+
+<p>
+  <strong>Sms:</strong>
+  <%= @webcallback.sms %>
+</p>
+
+<%= link_to 'Edit', edit_webcallback_path(@webcallback) %> |
+<%= link_to 'Back', webcallbacks_path %>

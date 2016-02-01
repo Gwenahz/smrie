@@ -1,0 +1,35 @@
+<h1>Listing webcallbacks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Numtel</th>
+      <th>Modele</th>
+      <th>Panne</th>
+      <th>Cp</th>
+      <th>Email</th>
+      <th>Sms</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @webcallbacks.each do |webcallback| %>
+      <tr>
+        <td><%= webcallback.numtel %></td>
+        <td><%= webcallback.modele %></td>
+        <td><%= webcallback.panne %></td>
+        <td><%= webcallback.cp %></td>
+        <td><%= webcallback.email %></td>
+        <td><%= webcallback.sms %></td>
+        <td><%= link_to 'Show', webcallback %></td>
+        <td><%= link_to 'Edit', edit_webcallback_path(webcallback) %></td>
+        <td><%= link_to 'Destroy', webcallback, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Webcallback', new_webcallback_path %>

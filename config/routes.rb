@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :webcallbacks
+
   resources :commandes do
     collection do
       post 'test'
@@ -51,9 +53,11 @@ Rails.application.routes.draw do
 
   get 'pages/devenir_smarty'
 
+  get 'pages/landing_wcb'
+
   post 'pages/prix' => 'pages#prix'
 
-  root 'pages#home'
+  root 'pages#landing_wcb'
   
   # root 'smartphones#index'
 
