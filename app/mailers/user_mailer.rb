@@ -15,7 +15,7 @@ class UserMailer < ActionMailer::Base
 
   def wcb_email(webcallback)
     @wcb = webcallback
-    @url  = 'http://www.lasmartphonerie.com/users/sign_in'
+    @url  = 'http://www.lasmartphonerie.com/webcallbacks/'+@wcb.id
     mail(to: 'hello@lasmartphonerie.com', subject: '[WCB] Nouvelle demande de rappel !')
   end
 end
