@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Conseiller</th>
       <th>Numtel</th>
       <th>Modele</th>
       <th>Panne</th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @webcallbacks.each do |webcallback| %>
       <tr>
+        <td><%= webcallback.conseiller %></td>
         <td><%= webcallback.numtel %></td>
         <td><%= webcallback.modele %></td>
         <td><%= webcallback.panne %></td>

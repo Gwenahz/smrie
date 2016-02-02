@@ -36,7 +36,6 @@ class WebcallbacksController < ApplicationController
 
   def update
     @webcallback.update(webcallback_params)
-    respond_with(@webcallback)
   end
 
   def destroy
@@ -50,7 +49,7 @@ class WebcallbacksController < ApplicationController
     end
 
     def webcallback_params
-      params.require(:webcallback).permit(:numtel, :modele, :panne, :cp, :email, :sms)
+      params.require(:webcallback).permit(:numtel, :modele, :panne, :cp, :email, :sms, :conseiller)
     end
 
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user

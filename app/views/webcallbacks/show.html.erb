@@ -1,34 +1,60 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Numtel:</strong>
-  <%= @webcallback.numtel %>
-</p>
+  <%= form_for @webcallback, :remote => true do |f| %>
+    <% if @webcallback.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@webcallback.errors.count, "error") %> prohibited this webcallback from being saved:</h2>
 
-<p>
-  <strong>Modele:</strong>
-  <%= @webcallback.modele %>
-</p>
+        <ul>
+        <% @webcallback.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <%= f.select :conseiller, options_for_select([ "", "Gwenael", "Cédric", "Yorick", "Yoann" ]) %>
+    <%= f.submit "VALIDER", class: "btn btn-success" %>
+  <% end %>
 
-<p>
-  <strong>Panne:</strong>
-  <%= @webcallback.panne %>
-</p>
+  <br>
+  <p>
+    <strong>Qui s'occupe de l'appel :</strong>
+    <div class="conseiller"><%= @webcallback.conseiller %></div>
+  </p>
+  <br>
 
-<p>
-  <strong>Cp:</strong>
-  <%= @webcallback.cp %>
-</p>
+  <p>
+    <strong>Numtel:</strong>
+    <%= @webcallback.numtel %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @webcallback.email %>
-</p>
+  <p>
+    <strong>Modele:</strong>
+    <%= @webcallback.modele %>
+  </p>
 
-<p>
-  <strong>Sms:</strong>
-  <%= @webcallback.sms %>
-</p>
+  <p>
+    <strong>Panne:</strong>
+    <%= @webcallback.panne %>
+  </p>
 
-<%= link_to 'Edit', edit_webcallback_path(@webcallback) %> |
-<%= link_to 'Back', webcallbacks_path %>
+  <p>
+    <strong>Cp:</strong>
+    <%= @webcallback.cp %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= @webcallback.email %>
+  </p>
+
+  <p>
+    <strong>Sms:</strong>
+    <%= @webcallback.sms %>
+  </p>
+
+  <%= link_to 'Edit', edit_webcallback_path(@webcallback) %> |
+  <%= link_to 'Back', webcallbacks_path %>
+
+</div>
