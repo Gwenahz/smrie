@@ -55,6 +55,8 @@ Rails.application.routes.draw do
 
   get 'pages/landing_wcb'
 
+  get 'pages/ce'
+
   post 'pages/prix' => 'pages#prix'
 
   root 'pages#landing_wcb'
