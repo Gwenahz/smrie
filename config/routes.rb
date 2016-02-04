@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
   get 'pages/landing_wcb'
 
-  get '/ce' => 'pages#ce'
+  get 'ce' => 'pages#ce'
 
   post 'pages/prix' => 'pages#prix'
 
