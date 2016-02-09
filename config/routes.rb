@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
   get 'pages/estimation'
 
-  get 'pages/devenir_smarty'
+  get 'devenir_smarty' => 'pages#devenir_smarty'
 
   get 'pages/landing_wcb'
 
