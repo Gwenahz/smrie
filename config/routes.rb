@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
 
+  resources :orders do
+    collection do
+      get '/:id/new_creneau' => 'orders#new_creneau'
+      get '/:id/new_adresse' => 'orders#new_adresse'
+      post 'prix' => 'orders#prix'
+      get '/:id/devis' => 'orders#devis'
+    end
+  end
+
   resources :webcallbacks
 
   resources :commandes do
@@ -55,11 +64,19 @@ Rails.application.routes.draw do
 
   get 'pages/landing_wcb'
 
+  get 'pages/landing_help'
+
   get 'ce' => 'pages#ce'
+
+  get 'faq' => 'pages#faq'
+
+  get 'cgv' => 'pages#cgv'
 
   post 'pages/prix' => 'pages#prix'
 
-  root 'pages#landing_wcb'
+  post 'pages/show_modal' => 'pages#show_modal'
+
+  root 'pages#landing_help'
   
   # root 'smartphones#index'
 

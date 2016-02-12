@@ -1,0 +1,23 @@
+<div class="container"><br>
+	<div class="col-md-2"></div>
+	<div class="col-md-8  panel panel-default">
+		<h1 class="text-center text-green">Où vous voulez<br><%= image_tag("tea-cup.svg", size: "150") %></h1>
+		<h4  class="text-center">Choisissez la date et le créneau horaire de votre intervention</h4><br>
+		
+		
+	    <div class="col-md-12">
+	   		<%= render 'form_adresse' %>
+	   		<br>
+	   	</div>
+        </div>
+	</div>
+	<div class="col-md-2"></div>
+</div><br>
+
+
+
+
+
+
+
+<%= link_to 'Revenir en arrière', orders_path %>

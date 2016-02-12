@@ -1,0 +1,59 @@
+<div class="container">
+  <h1>Liste des Commandes</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Prenom</th>
+        <th>Nom</th>
+        <th>Modele</th>
+        <th>Panne</th>
+        <th>Prix</th>
+        <th>Date reparation</th>
+        <th>Heure reparation</th>
+        <th>Cp</th>
+        <th>Ville</th>
+        <th>Numtel</th>
+        <th>Email</th>
+        <th>Code reparation</th>
+        <th>Statut</th>
+        <th>Paye</th>
+        <th>Reparateur</th>
+        <th>Commentaire</th>
+        <th>Demande</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @orders.order(id: :desc).each do |order| %>
+        <tr>
+          <td><%= order.prenom %></td>
+          <td><%= order.nom %></td>
+          <td><%= order.modele %></td>
+          <td><%= order.panne %></td>
+          <td><%= order.prix %></td>
+          <td><%= order.date_reparation %></td>
+          <td><%= order.heure_reparation %></td>
+          <td><%= order.cp %></td>
+          <td><%= order.ville %></td>
+          <td><%= order.numtel %></td>
+          <td><%= order.email %></td>
+          <td><%= order.code_reparation %></td>
+          <td><%= order.statut %></td>
+          <td><%= order.paye %></td>
+          <td><%= order.reparateur %></td>
+          <td><%= order.commentaire %></td>
+          <td><%= order.demande_id %></td>
+          <td><%= link_to 'Show', order %></td>
+          <td><%= link_to 'Edit', edit_order_path(order) %></td>
+          <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <%= link_to 'New Order', new_order_path %>
+</div>

@@ -19,6 +19,9 @@ class PagesController < ApplicationController
     #end
   end
 
+  def show_modal
+  end
+
   def test
   	@letest = "Montest"
   end

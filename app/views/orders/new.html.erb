@@ -1,0 +1,21 @@
+<div class="container"><br>
+	<div class="col-md-2"></div>
+	<div class="col-md-8  panel panel-default">
+		<h1 class="text-center">Nouvelle commande</h1><br>
+	 	<div>
+		    <%= form_tag({:action => "prix"}, {remote: true, :id => "form_prix"}) do %>
+		        <div class="col-md-6">
+		        	<%= collection_select("demande", "", Help.all, :nom, :nom, {prompt: "Sélectionnez la demande"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
+		        </div>
+		        <div class="col-md-6">
+		            <%= submit_tag("IMPORTER DEMANDE", class: "btn btn-info btn-block", id: "bt_prix") %>
+		        </div>
+		    <% end %>
+		    <div class="col-md-12">
+		   		<%= render 'form' %>
+		   		<br>
+		   	</div>
+        </div>
+	</div>
+	<div class="col-md-2"></div>
+</div><br>

@@ -1,0 +1,44 @@
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <br>
+  <div class="field">
+    <%= f.label :marque %><br>
+    <%= f.text_field :marque, :class => "form-control", :id => "marque", :placeholder => "Marque",:required => true %>
+  </div>
+  <div class="field">
+    <%= f.label :modele %><br>
+    <%= f.text_field :modele, :class => "form-control", :id => "modele", :placeholder => "Modèle",:required => true %>
+  </div>
+  <div class="field">
+    <%= f.label :panne %><br>
+    <%= f.text_field :panne, :class => "form-control", :id => "panne", :placeholder => "Panne",:required => true %>
+  </div>
+  <div class="field">
+    <%= f.label :couleur %><br>
+    <%= f.text_field :couleur, :class => "form-control", :id => "couleur", :placeholder => "Couleur",:required => true %>
+  </div>
+  <div class="field">
+    <%= f.label :prix %><br>
+    <%= f.text_field :prix, :class => "form-control", :id => "prix", :placeholder => "Prix",:required => true %>
+  </div>
+
+  <%= f.hidden_field :nom, :value => "", :id => "nom" %>
+  <%= f.hidden_field :prenom, :value => "", :id => "prenom" %>
+  <%= f.hidden_field :cp, :value => "", :id => "cp" %>
+  <%= f.hidden_field :email, :value => "", :id => "email" %>
+  <%= f.hidden_field :numtel, :value => "", :id => "numtel" %>
+
+  <div class="actions">
+    <%= f.submit "CREER COMMANDE", class: "btn btn-success btn-block" %>
+  </div>
+<% end %>

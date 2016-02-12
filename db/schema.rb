@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202000000) do
+ActiveRecord::Schema.define(version: 20160209222336) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -89,6 +89,34 @@ ActiveRecord::Schema.define(version: 20160202000000) do
     t.integer  "user_id"
     t.string   "numtel"
     t.string   "adressebis"
+  end
+
+  create_table "orders", force: true do |t|
+    t.string   "marque"
+    t.string   "modele"
+    t.string   "panne"
+    t.string   "couleur"
+    t.decimal  "prix"
+    t.date     "date_reparation"
+    t.string   "heure_reparation"
+    t.boolean  "bureau"
+    t.string   "entreprise"
+    t.text     "adresse"
+    t.text     "adresse2"
+    t.string   "cp"
+    t.string   "ville"
+    t.string   "prenom"
+    t.string   "nom"
+    t.string   "numtel"
+    t.string   "email"
+    t.string   "code_reparation"
+    t.string   "statut"
+    t.boolean  "paye"
+    t.string   "reparateur"
+    t.text     "commentaire"
+    t.string   "demande_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pannes", force: true do |t|

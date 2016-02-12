@@ -1,0 +1,28 @@
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Selectionnez la date qui vous convient" %><br>
+    <%= f.date_field :date_reparation, :class => "form-control", required: 'true' %>
+  </div>
+  <br>
+  <div class="field">
+    <%= f.label "Sélectionnez le créneau horaire qui vous arrange" %><br>
+    <%= f.select :heure_reparation, "<option>9h00-10h00</option><<option>10h00-11h00</option><option>11h00-12h00</option><option>12h00-13h00</option><option>13h00-14h00</option><option>14h00-15h00</option><option>15h00-16h00</option><option>16h00-17h00</option><option>17h00-18h00</option><option>18h00-19h00</option><option>19h00-20h00</option><option>20h00-21h00</option><option>21h00-22h00</option>".html_safe, {:include_blank => "Sélectionnez votre créneau horaire"}, {required: 'true', class: 'form-control'} %>
+  </div>
+
+  <br>
+  <div class="actions text-right">
+    <%= f.submit "VALIDER", class: "btn btn-success" %>
+  </div>
+<% end %>

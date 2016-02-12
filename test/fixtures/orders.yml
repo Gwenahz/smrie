@@ -1,0 +1,51 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  marque: MyString
+  modele: MyString
+  panne: MyString
+  couleur: MyString
+  prix: 9.99
+  date_reparation: 2016-02-09
+  heure_reparation: MyString
+  bureau: false
+  entreprise: MyString
+  adresse: MyText
+  adresse2: MyText
+  cp: MyString
+  ville: MyString
+  prenom: MyString
+  nom: MyString
+  numtel: MyString
+  email: MyString
+  code_reparation: MyString
+  statut: MyString
+  paye: false
+  reparateur: MyString
+  commentaire: MyText
+  demande_id: MyString
+
+two:
+  marque: MyString
+  modele: MyString
+  panne: MyString
+  couleur: MyString
+  prix: 9.99
+  date_reparation: 2016-02-09
+  heure_reparation: MyString
+  bureau: false
+  entreprise: MyString
+  adresse: MyText
+  adresse2: MyText
+  cp: MyString
+  ville: MyString
+  prenom: MyString
+  nom: MyString
+  numtel: MyString
+  email: MyString
+  code_reparation: MyString
+  statut: MyString
+  paye: false
+  reparateur: MyString
+  commentaire: MyText
+  demande_id: MyString

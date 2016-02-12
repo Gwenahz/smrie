@@ -15,7 +15,7 @@
   </thead>
 
   <tbody>
-    <% @webcallbacks.each do |webcallback| %>
+    <% @webcallbacks.order(id: :desc).each do |webcallback| %>
       <tr>
         <td><%= webcallback.conseiller %></td>
         <td><%= webcallback.numtel %></td>

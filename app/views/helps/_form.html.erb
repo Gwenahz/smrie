@@ -20,10 +20,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Dites nous en plus</h4>
+            <h4 class="modal-title" id="myModalLabel">Laissez-nous revenir vers vous</h4>
           </div>
-          <%= f.hidden_field :modele, :value => "" %>
-          <%= f.hidden_field :panne, :value => "" %>
+          <%= f.hidden_field :modele, :value => "", id: "help_modele" %>
+          <%= f.hidden_field :panne, :value => "", id: "help_panne" %>
+          <%= f.hidden_field :cp, :value => "", id: "help_cp" %>
           <div class="modal-body">
             <div class="form-group col-md-6">
               <%= f.label "Prénom" %><br>
@@ -41,15 +42,11 @@
               <%= f.label "Numéro de téléphone" %><br>
               <%= f.text_field :numtel, :class => "form-control", :placeholder => "Numéro de téléphone", :required => true %>
             </div>
-            <div class="col-md-12">
-              <%= f.label "Entreprise" %><br>
-              <%= f.text_field :cp, :class => "form-control", :placeholder => "Entreprise", :required => true %>
-            </div>
             <div class="form-group col-md-12">
               <br>
-              <%= f.submit "VALIDER", class: "btn btn-success btn-block", :onclick => "_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing-Infos-Remplies', 'clicked'])" %>
+              <%= f.submit "OBTENIR MON DEVIS", class: "btn btn-success btn-block", :onclick => "_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing-Infos-Remplies', 'clicked'])" %>
             </div>
-            <div class="form-group">Nous vous rappelons dans l'heure !</div>
+            <div class="container"></div>
           <% end %>
                     </div>
         </div>

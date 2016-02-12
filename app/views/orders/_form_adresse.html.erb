@@ -1,0 +1,87 @@
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field col-md-6">
+      <%= f.label "Prénom" %><br>
+      <%= f.text_field :prenom, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-6">
+      <%= f.label :nom %><br>
+      <%= f.text_field :nom, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-12">
+      <%= f.label :adresse %><br>
+      <%= f.text_field :adresse, :class => "form-control", placeholder: "Adresse", :required => true %>
+    </div>
+    <div class="field col-md-12">
+      <%= f.label "Complément d'adresse"%><br>
+      <%= f.text_field :adresse2, :class => "form-control", placeholder: "(Etage, Code d'accès, etc...)" %>
+    </div>
+    <div class="field col-md-4">
+      <%= f.label "Code Postal" %><br>
+      <%= f.text_field :cp, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-8">
+      <%= f.label "Ville" %><br>
+      <%= f.text_field :ville, :id => "address", :class => "typeahead form-control", :placeholder => "Ville", :required => true %>
+    </div>
+    <script>
+      // instantiate the addressPicker suggestion engine
+      var addressPicker = new AddressPicker({autocompleteService: {types: ['(cities)'], componentRestrictions: { country: 'FR' }}});
+
+      // instantiate the typeahead UI
+      $('#address').typeahead(null, {
+        displayKey: 'description',
+        source: addressPicker.ttAdapter()
+      });
+
+      $('#address').on('keyup keypress', function(e) {
+        var code = e.keyCode || e.which;
+        if (code == 13) { 
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      $('#checkbox').on('click', function() {
+          if($("#checkbox").is(":checked")){
+              alert("message1");
+          }else{
+              alert("message1");
+          }
+        }
+      });
+    </script>
+
+    <div class="col-md-12"><br><hr></div>
+
+    <div class="field col-md-5">
+      <%= f.label "Numéro de téléphone" %><br>
+      <%= f.text_field :numtel, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-7">
+      <%= f.label "E-mail" %><br>
+      <%= f.text_field :email, :class => "form-control", :required => true %>
+    </div>
+
+    <div class="field col-md-12"><br>
+      <%= f.check_box :bureau, :class => "", id: "checkbox" %><%= f.label "Je souhaite que ma réparation soit faite au bureau" %>
+    </div>
+    <div class="field">
+      <%= f.label "Nom de votre entreprise" %><br>
+      <%= f.text_field :entreprise, :class => "form-control" %>
+    </div>
+    <div class="actions text-right"><br>
+      <%= f.submit "VALIDER", class: "btn btn-success" %>
+    </div>
+<% end %>
