@@ -22,6 +22,11 @@ class StocksController < ApplicationController
   def edit
   end
 
+  def prix
+    @mon_prix = params[:prix]
+    @stock.update(@stock)
+  end
+
   def create
     @stock = Stock.new(stock_params)
     @stock.save
@@ -30,6 +35,7 @@ class StocksController < ApplicationController
 
   def update
     @stock.update(stock_params)
+    #flash[:notice] = "GOOD"
     respond_with(@stock)
   end
 

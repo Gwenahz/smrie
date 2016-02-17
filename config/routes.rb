@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :stocks
+  resources :stocks do
+    collection do
+      post 'prix' => 'stocks#prix'
+    end
+  end
 
   resources :helps
 

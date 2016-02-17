@@ -4,10 +4,10 @@
     <div class="container" style="background-color: rgba(0,0,0,0.5); padding: 20px 0px 20px 15px;">
                   <%= form_tag({:action => "prix"}, {remote: true, :id => "form_prix"}) do %>
                       <div class="col-md-4">
-                        <%= collection_select("modele", "", Smartphone.all, :modele, :modele, {prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true, :onchange => "modele_select()"}) %>
+                        <%= collection_select("modele", "", Smartphone.all, :modele, :modele, {:include_blank => "Autre", prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true, :onchange => "modele_select()"}) %>
                       </div>
                       <div class="col-md-4">
-                        <%= collection_select("panne", "", Panne.all, :name, :name, {prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
+                        <%= collection_select("panne", "", Panne.all, :name, :name, {:include_blank => "Autre", prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
                       </div>
                       <div class="col-md-4">
                         <%= submit_tag("RÉPARER MON SMARTPHONE", class: "btn btn-success btn-block", id: "bt_prix", onclick: "_gaq.push(['_trackEvent', 'Bouton_Home_Affichage_Prix', 'clicked'])") %>
@@ -19,7 +19,7 @@
                   <div id="bt_reparer" class="text-center" style="display:none">
                     <button onclick="_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" id="bt_modal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
                   </div>
-                    <%= render :partial => "helps/form" %>
+                    <%= render :partial => "helps/form_ce" %>
                   </div>
   </div>
 </header>

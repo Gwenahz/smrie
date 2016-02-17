@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-      <% @stocks.each do |stock| %>
+      <% @stocks.order(id_smartphone: :asc).each do |stock| %>
         <tr>
           <td>
             (<%= stock.id_smartphone %>)
@@ -30,7 +30,13 @@
               @panne.name 
             %>
           </td>
-          <td><%= stock.prix %></td>
+          <td>
+            <div>
+              <% @stock = Stock.find(stock.id) %>
+              <%= render 'form_prix' %>
+              <div id="input_prix"></div>
+            </div>
+          </td>
           <td><%= stock.stock %></td>
           <td><%= stock.couleur %></td>
           <td><%= link_to 'Show', stock %></td>
