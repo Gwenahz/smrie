@@ -1,0 +1,5 @@
+	document.querySelector('.monPrix').innerHTML = "<br><br>Le prix pour la réparation de votre <%= @smartphone.modele %> est de";
+	document.querySelector('#monPrix').innerHTML = "<%= @stock.prix.to_i%>€"
+	document.querySelector('#bt_reparer').style.display = 'block';
+	document.querySelector('#bt_prix').style.display = 'none';
+	mixpanel.track("affichage prix modele cedric");

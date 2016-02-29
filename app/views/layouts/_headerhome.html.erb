@@ -19,7 +19,7 @@
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav navbar-right">
-			<li><% if current_page?('/')%>
+			<li><% if current_page?('/')  || current_page?(landing_prix_path) || current_page?(landing_prix_end_path)%>
 				<%= link_to "Comment ça marche", '#how-it-works', :class => "homelink" %>
 				<% end %>
 			</li>

@@ -74,13 +74,25 @@ Rails.application.routes.draw do
 
   get 'faq' => 'pages#faq'
 
+  get 'landing-prix' => 'pages#landing_prix'
+
+  get 'landing-prix-end' => 'pages#landing_prix_fin'
+
   get 'cgv' => 'pages#cgv'
 
   post 'pages/prix' => 'pages#prix'
 
+  post 'pages/landingprix' => 'pages#landingprix'
+
   post 'pages/show_modal' => 'pages#show_modal'
 
-  root 'pages#landing_help'
+  post 'pages/show_lieu' => 'pages#show_lieu'
+
+  post 'pages/show_date' => 'pages#show_date'
+
+  post 'pages/show_devis' => 'pages#show_devis'
+
+  root 'pages#landing_prix'
   
   # root 'smartphones#index'
 

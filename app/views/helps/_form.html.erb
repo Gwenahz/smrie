@@ -25,6 +25,10 @@
           <%= f.hidden_field :modele, :value => "", id: "help_modele" %>
           <%= f.hidden_field :panne, :value => "", id: "help_panne" %>
           <%= f.hidden_field :cp, :value => "", id: "help_cp" %>
+          <%= f.hidden_field :adresse, :value => "", id: "help_adresse" %>
+          <%= f.hidden_field :ville, :value => "", id: "help_ville" %>
+          <%= f.hidden_field :date, :value => "", id: "help_date" %>
+          <%= f.hidden_field :heure, :value => "", id: "help_heure" %>
           <div class="modal-body">
             <div class="form-group col-md-6">
               <%= f.label "Prénom" %><br>
@@ -44,7 +48,7 @@
             </div>
             <div class="form-group col-md-12">
               <br>
-              <%= f.submit "OBTENIR MON DEVIS", class: "btn btn-success btn-block", :onclick => "_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing-Infos-Remplies', 'clicked'])" %>
+              <%= f.submit "RÉSERVER", class: "btn btn-success btn-block", :onclick => "_gaq.push(['_trackEvent', 'Bouton-Reparer-Landing-Infos-Remplies', 'clicked'])" %>
             </div>
             <div class="container"></div>
           <% end %>

@@ -1,0 +1,7 @@
+document.getElementById('help_date').value = "<%= @date%>";
+document.getElementById('help_heure').value = "<%= @heure%>";
+
+
+document.querySelector('#c_date').style.display = 'none';
+document.querySelector('#c_devis').style.display = 'block';
+mixpanel.track("Affichage prix modele yorick");

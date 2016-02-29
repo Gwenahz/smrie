@@ -42,6 +42,10 @@
 	<script src="https://rawgithub.com/sgruhier/typeahead-addresspicker/master/bower_components/typeahead.js/dist/typeahead.bundle.js"></script>
 	<script src="https://rawgithub.com/sgruhier/typeahead-addresspicker/master/dist/typeahead-addresspicker.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0-alpha/css/bootstrap-datepicker.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0-alpha/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0-alpha/locales/bootstrap-datepicker.fr.min.js"></script>
+
 
     <%= javascript_include_tag 'jsKeyboard', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'main', 'data-turbolinks-track' => true %>
@@ -83,7 +87,7 @@ mixpanel.init("62fed8654a7630146bdc48e2945a0604");</script><!-- end Mixpanel -->
 	  		fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-	<% if current_page?(root_path) %>
+	<% if current_page?(root_path) || current_page?(landing_prix_path) || current_page?(landing_prix_end_path) %>
   		<%= render'layouts/headerhome' %>
 	<% elsif current_page?(pages_borne_path) %>
 	<% else %>

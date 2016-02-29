@@ -1,0 +1,6 @@
+document.getElementById('help_adresse').value = "<%= @adresse %>";
+document.getElementById('help_cp').value = "<%= @cp %>";
+document.getElementById('help_ville').value = "<%= @ville %>";
+
+show_date();
+mixpanel.track("Affichage date modele yorick");

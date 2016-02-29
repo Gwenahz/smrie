@@ -1,0 +1,195 @@
+   <!-- Header -->
+    <header id="reparer-smartphone" class="header-landing">
+        <div class="container">
+            <div class="intro-text">
+                <h1 class="intro-heading">Votre smartphone réparé, chez vous !<h1>
+                <h2 class="intro-lead-in">Nous réparons votre smartphone à domicile ou au bureau !<br><i class="fa fa-check-square-o fa-stack fa-2x"></i> Réparateurs certifiés<i class="fa fa-check-square-o fa-stack fa-2x"></i> Déplacement offert <i class="fa fa-check-square-o fa-stack fa-2x"></i> Garantie 1 an</h2>
+                <!-- Trigger the modal with a button 
+                <button onclick="_gaq.push(['_trackEvent', 'LandingButton1', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><strong>RÉPARER MON SMARTPHONE</strong></button>
+                </br></br>-->
+                <div class="container">
+                      <div class="col-md-12 text-center"  style="background-color: rgba(58,175,133,0.8); padding: 0px 20px 20px 15px; border-radius: 10px;">
+                        <h3>Sélectionnez votre modèle et votre panne</h3><br>
+                      <%= form_tag({:action => "landingprix"}, {remote: true, :id => "form_prix"}) do %>
+                      <div class="col-md-6">
+                        <%= collection_select("modele", "", Smartphone.all, :modele, :modele, {:include_blank => "Autre", prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true, :onchange => "modele_select()"}) %>
+                      </div>
+                      <div class="col-md-6">
+                        <%= collection_select("panne", "", Panne.all, :name, :name, {:include_blank => "Autre", prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
+                      </div>
+                      <div id="bt-form" class="col-md-12" style="display:none"><br>
+                        <%= submit_tag("VALIDER", class: "btn btn-danger btn-lg btn-block", id: "bt_prix") %>
+                      </div>
+                      <div id="bt-modal" class="col-md-12">
+                      </div>
+                  <% end %>
+                  <br>
+                  <h4 class="monPrix text-center"></h4>
+                  <h2 id="monPrix" class="text-center"></h2>
+                  <div id="bt_reparer" class="text-center" style="display:none">
+                    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal" id="bt_modal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
+                  </div>
+                    <%= render :partial => "helps/form" %>
+                  </div>
+                                <%= render :partial => "helps/form" %>
+
+            </div>
+        </div><br><br>
+    </header>
+
+    <!-- How-it-works Section -->
+    <section id="how-it-works" class="section-landing">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Comment ça marche ?</h2>
+                    <br>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <%= image_tag("computer.svg", size: "200") %>
+                    <h4 class="service-heading"><strong>Votre devis gratuit en 1 clic</strong></h4>
+                    <p class="text-muted">Nous diagnostiquons votre panne et nous vous proposons un tarif juste et sans surprise.</p>
+                </div>
+                <div class="col-md-4">
+                    <%= image_tag("calendar.svg", size: "200") %>
+                    <h4 class="service-heading"><strong>Vous choisissez où et quand</strong></h4>
+                    <p class="text-muted">Nous fixons un RDV avec un Smarty en fonction de vos disponibilités.</p>
+                </div>
+                <div class="col-md-4">
+                    <%= image_tag("tea-cup.svg", size: "200") %>
+                    <h4 class="service-heading"><strong>Vous pouvez vous détendre</strong></h4>
+                    <p class="text-muted">Votre Smarty répare votre smartphone en 20 minutes pendant que vous vous détendez.</p>
+                </div>
+            </div><br><br>
+            <div class="col-lg-12 text-center">
+                <!-- Trigger the modal with a button -->
+               <a href="#reparer-smartphone"><button onclick="_gaq.push(['_trackEvent', 'LandingButton2', 'clicked'])" type="button" class="btn btn-success btn-lg" style="background-color: #3aaf85"><strong>RÉPARER MON SMARTPHONE</strong></button></a>
+            </div>
+        </div>
+    </section>
+
+<section style="background-color:#3aaf85; color:#fff">
+  <div class="container text-center">
+    <div class="col-md-12">
+      <h2 class="text-center">Pourquoi choisir La Smartphonerie ?</h2></br>
+      
+      <div class="col-md-6">
+          <%= image_tag("rapide.svg", size: "125", :class => "col-md-4") %>
+          <div class="col-md-8">
+            <h3 class="text-left">Rapidité</h3>
+            <p class="text-left">
+              Nos interventions durent en moyenne 25 minutes chrono
+            </p>
+          </div>
+      </div>
+      <div class="col-md-6">
+        <%= image_tag("house.svg", size: "125", :class => "col-md-4") %>
+          <h3 class="text-left">Simplicité</h3>
+          <p class="text-left">
+            Vous n'avez pas à vous déplacer, nos Smarty se déplacent et interviennent directement à votre domicile ou à votre bureau
+          </p>
+      </div><br><br>
+      
+      <div class="col-md-6">
+          <%= image_tag("garantie.svg", size: "125", :class => "col-md-4") %>
+          <div class="col-md-8">
+            <h3 class="text-left">Sérénité</h3>
+            <p class="text-left">
+              Nos réparations sont garanties 1 an (pièces et main d'œuvre)
+            </p>
+          </div>
+      </div>
+      <div class="col-md-6">
+        <%= image_tag("reparateur.svg", size: "125", :class => "col-md-4") %>
+          <h3 class="text-left">Fiabilité</h3>
+          <p class="text-left">
+            Nos Smarty sont tous des professionnels compétents, certifiés et sympatiques
+          </p>
+      </div>
+    </div>
+  </div><br><br>
+  <div class="col-lg-12 text-center">
+                <!-- Trigger the modal with a button -->
+               <a href="#reparer-smartphone"><button onclick="_gaq.push(['_trackEvent', 'LandingButton2', 'clicked'])" type="button" class="btn btn-default btn-lg" style="background-color: #3aaf85; border: 2px solid; border-radius: 10px; border-color:#FFF; color:#FFF"><strong>RÉPARER MON SMARTPHONE</strong></button></a>
+            </div><br><br>
+</section>
+
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio" class="section-landing bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Ils sont fans !</h2>
+                    <h3 class="section-subheading text-muted">Notre mission c'est de vous redonner le sourire et vous nous le rendez bien ! <3</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <blockquote class="twitter-tweet" lang="fr"><p lang="fr" dir="ltr">.<a href="https://twitter.com/LaSmartphonerie">@lasmartphonerie</a> a réparé mon nexus5, thanks god, un écran tout neuf ça change la vie ! <a href="https://twitter.com/hashtag/merci?src=hash">#merci</a></p>&mdash; Julie Poupat (@JuliePoupat) <a href="https://twitter.com/JuliePoupat/status/645685901281132544">20 Septembre 2015</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <blockquote class="twitter-tweet" lang="fr"><p lang="fr" dir="ltr">Merci <a href="https://twitter.com/LaSmartphonerie">@LaSmartphonerie</a> d&#39;avoir réparé mon écran ! Mon Samsung est comme neuf, l&#39;impression d&#39;avoir un nouveau téléphone ! <a href="https://twitter.com/hashtag/happy?src=hash">#happy</a></p>&mdash; Marine Seïté (@MarineSeite) <a href="https://twitter.com/MarineSeite/status/645904130989535232">21 Septembre 2015</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <blockquote class="twitter-tweet" lang="fr"><p lang="fr" dir="ltr">Service au top chez <a href="https://twitter.com/LaSmartphonerie">@LaSmartphonerie</a> 😀😀 mon iPhone vous remercie !</p>&mdash; Marie M (@MarieMQL) <a href="https://twitter.com/MarieMQL/status/645705462193623040">20 Septembre 2015</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            </div><br><br>
+            <div class="col-lg-12 text-center">
+                <!-- Trigger the modal with a button -->
+                <a href="#reparer-smartphone"><button onclick="_gaq.push(['_trackEvent', 'LandingButton3', 'clicked'])" type="button" class="btn btn-success btn-lg" style="background-color: #3aaf85;"><strong>RÉPARER MON SMARTPHONE</strong></button></a>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+
+        function modele_select() {
+            monModele = document.getElementById("modele_").value;
+            document.getElementById('help_modele').value = monModele;
+
+            if (monModele == "" || maPanne == "") {
+                document.querySelector('#bt-modal').innerHTML = "<br><button type='button' class='btn btn-danger btn-lg btn-block' data-toggle='modal' data-target='#myModal' id='bt_modal'><strong>VALIDER</strong></button>";
+                document.querySelector('#bt-form').style.display = 'none';
+                document.querySelector('#bt-modal').style.display = 'block';
+              } else if (monModele != "" && maPanne != "") {
+                  document.querySelector('#bt-form').style.display = 'block';
+                  document.querySelector('#bt-modal').style.display = 'none';
+                  document.querySelector('#bt_prix').style.display = 'block';
+
+            };
+        }
+
+        function panne_select() {
+            maPanne = document.getElementById("panne_").value;
+            document.getElementById('help_panne').value = maPanne;
+
+            if (monModele == "" || maPanne == "") {
+                document.querySelector('#bt-modal').innerHTML = "<br><button type='button' class='btn btn-danger btn-lg btn-block' data-toggle='modal' data-target='#myModal' id='bt_modal'><strong>VALIDER</strong></button>";
+                document.querySelector('#bt-form').style.display = 'none';
+                document.querySelector('#bt-modal').style.display = 'block';
+              } else if (monModele != "" && maPanne != "") {
+                  document.querySelector('#bt-form').style.display = 'block';
+                  document.querySelector('#bt-modal').style.display = 'none';
+                  document.querySelector('#bt_prix').style.display = 'block';
+
+            };
+        }
+
+        function bt_modal() {
+           mixpanel.track("Clic sur bouton reparer");
+        }
+
+        mixpanel.track("Homepage");
+        mixpanel.track("Homepage modele cedric");
+
+    </script>
+
+    <!-- Plugin JavaScript -->
+    <%= javascript_include_tag 'classie', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'cbpAnimatedHeader', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'agency', 'data-turbolinks-track' => true %>

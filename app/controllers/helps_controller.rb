@@ -55,7 +55,7 @@ class HelpsController < ApplicationController
     end
 
     def help_params
-      params.require(:help).permit(:nom, :prenom, :cp, :modele, :panne, :mail, :numtel)
+      params.require(:help).permit(:nom, :prenom, :cp, :modele, :panne, :mail, :numtel, :ville, :adresse, :date, :heure)
     end
 
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user
