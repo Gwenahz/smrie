@@ -1,3 +1,11 @@
+<div id="animation" style="display:block; background-color:#3aaf85; height:200%; width:100%;" onclick="lancerBorne();">
+	<div class="col-md-6 col-sm-6">
+		<div style="padding-top:30px"><%= image_tag "logo-white.png", :class => "logo" %></div>
+	</div> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<div class="text-center" style="color:white;"> TOUCHEZ L'ECRAN</div>
+</div>
+
+<div id="maborne" style="display:none;">
 <div class="" style="display:block; background-color:#3aaf85; height:90px;">
 	<div class="container col-md-12 col-sm-12">
 		<div class="col-md-6 col-sm-6">
@@ -9,10 +17,10 @@
 		</div>
 	</div>
 </div>
-<div class="" style="display:block;">
+<div class="" style="display:none;" id="bt-cancel">
 	<div class="container col-sm-12">
 		<div class="col-sm-3">
-			<div style="padding-top:10px"><button onclick="retour_accueil();" class="btn btn-default"> < Revenir en arrière</button></div>
+			<div style="padding-top:10px"><button onclick="retour_accueil();" class="btn btn-default"> < Annuler</button></div>
 		</div> 
 		<div class=" col-sm-9">
 		</div>
@@ -26,7 +34,7 @@
 	
 	<div class="col-sm-12">
 		<div id="marques" style="display:block;">
-			<h3 class="">Sélectionnez votre marque de smartphone :</h3>
+			<h3 class="">Sélectionnez la marque de votre smartphone :</h3>
 			<button onclick="apple_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "logo-apple-black.svg", size: "100" %><br><br><hr><strong>APPLE</strong></button>
 			<button onclick="samsung_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "samsung_logo.svg", size: "115" %><hr><strong>SAMSUNG</strong></button>
 			<button onclick="nokia_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "nokia_logo.svg", size: "115" %><hr><strong>NOKIA</strong></button>
@@ -37,28 +45,28 @@
 	<div class="col-sm-12">
 		<div id="apple-modeles" style="display:none;">
 			<h3>Sélectionnez votre modèle :</h3>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 4</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 4S</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 5</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5C.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 5C</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 5S</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6 Plus</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6S</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6S Plus</strong></button>
+			<button onclick="click_pannes('iPhone 4');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 4</strong></button>
+			<button onclick="click_pannes('iPhone 4S');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 4S</strong></button>
+			<button onclick="click_pannes('iPhone 5');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 5</strong></button>
+			<button onclick="click_pannes('iPhone 5C');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5C.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 5C</strong></button>
+			<button onclick="click_pannes('iPhone 5S');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 5S</strong></button>
+			<button onclick="click_pannes('iPhone 6');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6</strong></button>
+			<button onclick="click_pannes('iPhone 6 Plus');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6 Plus</strong></button>
+			<button onclick="click_pannes('iPhone 6S');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6S</strong></button>
+			<button onclick="click_pannes('iPhone 6S Plus');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>iPhone 6S Plus</strong></button>
 		</div>
 	</div>
 
 	<div id="samsung-modeles" style="display:none;">
 			<h3>Sélectionnez votre modèle :</h3>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S3</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4 Mini</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5C.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5 Mini</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6 Edge</strong></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Autre</strong></button>
+			<button onclick="click_pannes('Galaxy S3');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S3</strong></button>
+			<button onclick="click_pannes('Galaxy S4');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4</strong></button>
+			<button onclick="click_pannes('Galaxy S4 mini');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4 Mini</strong></button>
+			<button onclick="click_pannes('Galaxy S5');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5C.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5</strong></button>
+			<button onclick="click_pannes('Galaxy S5 Mini');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5 Mini</strong></button>
+			<button onclick="click_pannes('Galaxy S6');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6</strong></button>
+			<button onclick="click_pannes('Galaxy S6 Edge');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6 Edge</strong></button>
+			<button onclick="click_pannes('Autre');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Autre</strong></button>
 		</div>
 
 		<div class="col-md-8">
@@ -82,34 +90,85 @@
 
 	<div class="col-sm-12">
 		<div id="pannes" style="display:none;">
-			<h3>Sélectionnez le problème de votre smartphone :</h3>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Broken-Wall-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon écran est <br> cassé</h4></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Battery-Low-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>ma batterie est <br> HS</h4></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "water_dammage.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> a pris l'eau</h4></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Button-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon bouton est <br> défectueux</h4></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Power-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> ne s'allume plus</h4></button>
-			<button onclick="click_pannes();" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "autre-panne.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>Autre</h4></button>
+			<h3>Sélectionnez la panne de votre smartphone :</h3>
+			<button onclick="choix_contact('Ecran cassé');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Broken-Wall-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon écran est <br> cassé</h4></button>
+			<button onclick="choix_contact('Batterie HS');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Battery-Low-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>ma batterie est <br> HS</h4></button>
+			<button onclick="choix_contact('Oxydation');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "water_dammage.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> a pris l'eau</h4></button>
+			<button onclick="choix_contact('Bouton défectueux');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Button-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon bouton est <br> défectueux</h4></button>
+			<button onclick="choix_contact('Ne s'allume plus);" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Power-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> ne s'allume plus</h4></button>
+			<button onclick="choix_contact('Autre');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "autre-panne.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>Autre</h4></button>
 		</div>
 	</div>
 
+<div>
 	<div class="col-sm-12 text-center"  id="web-call-back" style="display:none;">
 		<h3>Saisissez votre numéro de téléphone :</h3>
 		<p><i>Un de nos experts vous contactera dans quelques minutes</i></p><br>
-	<input id="mon_champ" onclick="lancer_clavier()" class="input input-group text-center" name="username" type="text" placeholder="Tapez ici pour saisir votre numéro"><br>
-	
-	<div id="keyboard" style="display:none;">
-		<button  onclick="retour_accueil();" class="btn btn-success">Valider</button>
-		<hr>
-		<div id="virtualKeyboard"></div>
+		<%= render :partial => "webcallbacks/form" %><br><br><br>
+
 	</div>
+
+	<div class="col-sm-12 text-center"  id="help-tel" style="display:none;">
+		<h3>Saisissez votre numéro de téléphone :</h3>
+		<p><i>Un Smarty vous contactera dans quelques minutes</i></p><br>
+		<%= render :partial => "helps/form_borne_tel" %><br><br><br>
+
+	</div>
+
+	<div class="col-sm-12 text-center"  id="help-sms" style="display:none;">
+		<h3>Saisissez votre numéro de téléphone :</h3>
+		<p><i>Vous recevrez votre devis par SMS dans quelques instants</i></p><br>
+		<%= render :partial => "helps/form_borne_tel" %><br><br><br>
+
+	</div>
+
+	<div class="col-sm-12 text-center"  id="help-mail" style="display:none;">
+		<h3>Saisissez votre adresse email :</h3>
+		<p><i>Vous recevrez votre devis par email dans quelques instants</i></p><br>
+		<%= render :partial => "helps/form_borne_mail" %><br><br><br>
+
+	</div>
+	<div class="col-md-12" id="virtualKeyboard" style="display:none;"></div>
 </div>
+
+	<div class="col-sm-12 text-center"  id="choix-contact" style="display:none;">
+		<h3>Comment souhaitez-vous obtenir votre devis ?</h3><br>
+		
+		<button  onclick="help_tel();" class="btn btn-success" style="background-color:#3aaf85; border:none; height:70px; width:250px; padding: 10px 10px 10px 10px;">Par téléphone</button><br><br>
+		<button  onclick="help_mail();" class="btn btn-success"  style="background-color:#3aaf85; border:none; height:70px; width:250px; padding: 10px 10px 10px 10px;">Par email</button><br><br>
+		<button  onclick="help_sms();" class="btn btn-success"  style="background-color:#3aaf85; border:none; height:70px; width:250px; padding: 10px 10px 10px 10px;">Par SMS</button><br><br>
+	</div>
 	
 </div>
+</div>
+
 
 
 
 
 <script type="text/javascript">
+
+function lancerBorne(){
+	document.getElementById('animation').style.display = 'none';
+	document.getElementById('maborne').style.display = 'block';
+
+	timer = setTimeout(reloadPage, 15000);
+}
+
+document.onclick = function() {
+	clearTimeout(timer);
+	myTimer();
+}
+
+
+function myTimer(){
+	timer = setTimeout(reloadPage, 15000);
+}
+
+function reloadPage() {
+	window.location.reload();
+}
+
 $('#mon_champ').blur(function () {
     var self = $(this);
     if (self.val() != "") {
@@ -124,32 +183,58 @@ $('#mon_champ').blur(function () {
 	function apple_modeles() {
 		document.getElementById('marques').style.display = 'none';
 		document.getElementById('apple-modeles').style.display = 'block';
+		document.getElementById('bt-cancel').style.display = 'block';
+
+		document.getElementById('help_cp').value = "BORNE EFREI VILLEJUIF";
+		document.getElementById('help__cp').value = "BORNE EFREI VILLEJUIF";
 	}
 
 	function lancer_clavier() {
-		document.getElementById('keyboard').style.display = 'block';
-	}
-
-	function wcb_bt_valider() {
-		document.getElementById('keyboard').style.display = 'block';
+		document.getElementById('virtualKeyboard').style.display = 'block';
+		document.getElementById('wcb_submit').style.display = 'block';
+		document.getElementById('helptel_submit').style.display = 'block';
+		document.getElementById('helpmail_submit').style.display = 'block';
 	}
 
 	function web_call_back() {
-		document.getElementById('marques').style.display = 'none';
 		document.getElementById('apple-modeles').style.display = 'none';
+		document.getElementById('samsung-modeles').style.display = 'none';
+		document.getElementById('nokia-modeles').style.display = 'none';
+		document.getElementById('pannes').style.display = 'none';
+		document.getElementById('marques').style.display = 'none';
+		document.getElementById('choix-contact').style.display = 'none';
 		document.getElementById('web-call-back').style.display = 'block';
+		document.getElementById('bt-cancel').style.display = 'block';
+		document.getElementById('help-tel').style.display = 'none';
+		document.getElementById('help-mail').style.display = 'none';
+		document.getElementById('help-sms').style.display = 'none';
 	}
 
 	function samsung_modeles() {
 		document.getElementById('marques').style.display = 'none';
 		document.getElementById('samsung-modeles').style.display = 'block';
+		document.getElementById('bt-cancel').style.display = 'block';
+
 	}
 
-	function click_pannes() {
+	function click_pannes(modele) {
 		document.getElementById('apple-modeles').style.display = 'none';
 		document.getElementById('samsung-modeles').style.display = 'none';
 		document.getElementById('nokia-modeles').style.display = 'none';
 		document.getElementById('pannes').style.display = 'block';
+		document.getElementById('help_modele').value = modele;
+		document.getElementById('help__modele').value = modele;
+
+	}
+
+	function choix_contact(panne) {
+		document.getElementById('apple-modeles').style.display = 'none';
+		document.getElementById('samsung-modeles').style.display = 'none';
+		document.getElementById('nokia-modeles').style.display = 'none';
+		document.getElementById('pannes').style.display = 'none';
+		document.getElementById('choix-contact').style.display = 'block';
+		document.getElementById('help_panne').value = panne;
+		document.getElementById('help__panne').value = panne;
 	}
 
 	function retour_accueil() {
@@ -158,5 +243,66 @@ $('#mon_champ').blur(function () {
 		document.getElementById('nokia-modeles').style.display = 'none';
 		document.getElementById('pannes').style.display = 'none';
 		document.getElementById('marques').style.display = 'block';
+		document.getElementById('bt-cancel').style.display = 'none';
+		document.getElementById('choix-contact').style.display = 'none';
+		document.getElementById('web-call-back').style.display = 'none';
+		document.getElementById('virtualKeyboard').style.display = 'none';
+		document.getElementById('help-tel').style.display = 'none';
+		document.getElementById('help-mail').style.display = 'none';
+		document.getElementById('help-sms').style.display = 'none';
+		document.getElementById('mon_champ').value = "";
+	}
+
+	function help_tel() {
+		document.getElementById('apple-modeles').style.display = 'none';
+		document.getElementById('samsung-modeles').style.display = 'none';
+		document.getElementById('nokia-modeles').style.display = 'none';
+		document.getElementById('pannes').style.display = 'none';
+		document.getElementById('marques').style.display = 'none';
+		document.getElementById('bt-cancel').style.display = 'block';
+		document.getElementById('choix-contact').style.display = 'none';
+		document.getElementById('web-call-back').style.display = 'none';
+		document.getElementById('help-tel').style.display = 'block';
+		document.getElementById('help-mail').style.display = 'none';
+		document.getElementById('wcb_submit').style.display = 'none';
+		document.getElementById('helptel_submit').style.display = 'none';
+		document.getElementById('virtualKeyboard').style.display = 'none';
+	}
+
+	function help_mail() {
+		document.getElementById('apple-modeles').style.display = 'none';
+		document.getElementById('samsung-modeles').style.display = 'none';
+		document.getElementById('nokia-modeles').style.display = 'none';
+		document.getElementById('pannes').style.display = 'none';
+		document.getElementById('marques').style.display = 'none';
+		document.getElementById('bt-cancel').style.display = 'block';
+		document.getElementById('choix-contact').style.display = 'none';
+		document.getElementById('web-call-back').style.display = 'none';
+		document.getElementById('help-tel').style.display = 'none';
+		document.getElementById('help-sms').style.display = 'none';
+		document.getElementById('wcb_submit').style.display = 'none';
+		document.getElementById('helptel_submit').style.display = 'none';
+		document.getElementById('virtualKeyboard').style.display = 'none';
+		document.getElementById('help-mail').style.display = 'block';
+	}
+
+	function help_sms() {
+
+		document.getElementById('help_mail').value = "SMS";
+
+		document.getElementById('apple-modeles').style.display = 'none';
+		document.getElementById('samsung-modeles').style.display = 'none';
+		document.getElementById('nokia-modeles').style.display = 'none';
+		document.getElementById('pannes').style.display = 'none';
+		document.getElementById('marques').style.display = 'none';
+		document.getElementById('bt-cancel').style.display = 'block';
+		document.getElementById('choix-contact').style.display = 'none';
+		document.getElementById('web-call-back').style.display = 'none';
+		document.getElementById('help-tel').style.display = 'block';
+		document.getElementById('help-mail').style.display = 'none';
+		document.getElementById('help-sms').style.display = 'none';
+		document.getElementById('wcb_submit').style.display = 'none';
+		document.getElementById('helptel_submit').style.display = 'none';
+		document.getElementById('virtualKeyboard').style.display = 'none';
 	}
 </script>

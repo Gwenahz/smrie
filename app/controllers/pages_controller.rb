@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
 
+  respond_to :html, :js
+
   def index
   end
   
@@ -19,6 +21,9 @@ class PagesController < ApplicationController
     #end
   end
 
+  def show
+  end
+
   def prix
   	@modele = params[:modele]
   	@panne = params[:panne]
@@ -27,6 +32,7 @@ class PagesController < ApplicationController
   	@id_smartphone = @smartphone.id
   	@id_ma_panne = @ma_panne.id
   	@stock = Stock.find_by(id_smartphone: @id_smartphone, id_panne: @id_ma_panne)
+    #respond_to :js
     #respond_to do |format|
       #format.js 
     #end

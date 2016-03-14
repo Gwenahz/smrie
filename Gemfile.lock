@@ -66,6 +66,8 @@ GEM
       thor (~> 0.14)
     google-webfonts-rails (0.0.4)
       activesupport (> 3.2.0, < 5.0)
+    haml (4.0.7)
+      tilt
     high_voltage (2.4.0)
     hike (1.2.3)
     i18n (0.7.0)
@@ -175,6 +177,7 @@ DEPENDENCIES
   devise-i18n
   figaro
   google-webfonts-rails (~> 0.0.4)
+  haml
   high_voltage (~> 2.4.0)
   jbuilder (~> 2.0)
   jquery-form-validator-rails

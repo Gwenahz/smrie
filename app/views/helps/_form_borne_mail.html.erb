@@ -1,0 +1,32 @@
+<% @help = Help.new %>
+<%= form_for(@help) do |f| %>
+  <% if @help.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><%= pluralize(@help.errors.count, "error") %> prohibited this help from being saved:</h4>
+
+      <ul>
+      <% @help.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+          <%= f.hidden_field :modele, :value => "", id: "help__modele" %>
+          <%= f.hidden_field :panne, :value => "", id: "help__panne" %>
+          <%= f.hidden_field :cp, :value => "", id: "help__cp" %>
+          <%= f.hidden_field :adresse, :value => "", id: "help__adresse" %>
+          <%= f.hidden_field :ville, :value => "", id: "help__ville" %>
+          <%= f.hidden_field :date, :value => "", id: "help__date" %>
+          <%= f.hidden_field :heure, :value => "", id: "help__heure" %>
+            
+            <div class="col-md-2"></div>
+            <div class="form-group col-md-8">
+              <%= f.text_field :mail, :class => "form-control text-center", :placeholder => "Tapez ici pour saisir votre email", :required => true, :onclick => "lancer_clavier()", :style => "height:50px; padding:10px 10px 10px 10px;" %>
+              <br>
+              <%= f.submit "VALIDER", class: "btn btn-danger btn-block", :id => "helpmail_submit", :style => "display:none;" %>
+              </div>
+            <div class="col-md-2"></div>
+          <% end %>   

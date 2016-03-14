@@ -186,26 +186,19 @@ var jsKeyboard = {
             ],
         smallLetter: [
 
-        { value: 49 },{ value: 50 },{ value: 51 },{ value: 52 },{ value: 53 },{ value: 54 },
-                { value: 55 },{ value: 56 },{ value: 57 },{ value: 48 },
-                { value: "Delete", isChar: "false", onclick: "jsKeyboard.del()", buttonClass: "button button_del", keyClass: "key key_del" },
+                { value: 49 },{ value: 50 },{ value: 51 },{ value: 52 },{ value: 53 },{ value: 54 },
+                { value: 55 },{ value: 56 },{ value: 57 },{ value: 48 },{value: "", isChar: "false"},
         // 1st row
-                { value: 113 },{ value: 119 },{ value: 101 },{ value: 114 },{ value: 116 },
-                { value: 121 },{ value: 117 },{ value: 105 },{ value: 111 },{ value: 112 },
-                { value: "Delete", isChar: "false", onclick: "jsKeyboard.del()", buttonClass: "button button_del", keyClass: "key key_del" },
+                { value: 97},{ value: 122 },{ value: 101 },{ value: 114 },{ value: 116 },
+                { value: 121 },{ value: 117 },{ value: 105 },{ value: 111 },{ value: 112 },{value: "Effacer", isChar: "false", onclick: "jsKeyboard.del()", buttonClass: "button button_del", keyClass: "key key_del" },
+                { value: "", isChar: "false" },
         // 2nd row
-                { value: 97, buttonClass: "button button_a" },{ value: 115 },{ value: 100 },{ value: 102 },
-                { value: 103 },{ value: 104 },{ value: 106 },{ value: 107 },{ value: 108 },
-                { value: "Enter", isChar: "false", buttonClass: "button button_enter", onclick: "jsKeyboard.enter();", keyClass: "key key_enter" },
+                { value: 113 },{ value: 115 },{ value: 100 },{ value: 102 },
+                { value: 103 },{ value: 104 },{ value: 106 },{ value: 107 },{ value: 108 },{ value: 109 },{value: "", isChar: "false"},
         // 3rd row
-                { value: "ABC", isChar: "false", buttonClass: "button button_capitalletterleft", onclick: "jsKeyboard.changeToCapitalLetter();", keyClass: "key key_capitalletterleft" },
-                { value: 122 },{ value: 120 },{ value: 99 },{ value: 118 },{ value: 98 },
-                { value: 110 },{ value: 109 },{ value: 44 },{ value: 46 },{ value: 64 },
-        // 4th row
-                { value: "123", isChar: "false", buttonClass: "button button_numberleft", onclick: "jsKeyboard.changeToNumber();", keyClass: "key key_number" },
-                // { value: 32, buttonClass: "button button_space" },
-                { value: "Space", isChar: "false", buttonClass: "button button_space", onclick: "jsKeyboard.space();", keyClass: "key key_space" },
-                { value: "#%+", isChar: "false", buttonClass: "button button_symbolsright", onclick: "jsKeyboard.changeToSymbols();", keyClass: "key key_symbols" }
+                { value: 64 },{ value: 46 },{ value: 119 },{ value: 120 },{ value: 99 },{ value: 118 },{ value: 98 },
+                { value: 110 },{ value: 46 },{ value: 64 }
+        
             ],
         number: [
         // 1st row

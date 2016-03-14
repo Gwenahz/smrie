@@ -17,6 +17,7 @@ gem 'high_voltage', '~> 2.4.0'
 gem 'google-webfonts-rails', '~> 0.0.4'
 gem 'jquery-form-validator-rails'
 gem 'figaro'
+gem 'haml'
 
 group :production do
   gem 'pg'
