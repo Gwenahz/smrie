@@ -27,10 +27,15 @@ class HelpsController < ApplicationController
     respond_to do |format|
       format.html { 
         if @help.save
-          redirect_to pages_validation_path 
-
+          if @help.cp == ""
+            redirect_to pages_validation_path 
           # Sends email to user when user is created.
           UserMailer.help_email(@help).deliver
+        else
+          redirect_to pages_validation_borne_path 
+          # Sends email to user when user is created.
+          UserMailer.help_email(@help).deliver
+        end
         else 
           flash[:error] = "Oups ! Quelque chose s'est mal passé"
           redirect_to root_path

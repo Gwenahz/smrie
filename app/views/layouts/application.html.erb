@@ -90,7 +90,7 @@ mixpanel.init("62fed8654a7630146bdc48e2945a0604");</script><!-- end Mixpanel -->
 	</script>
 	<% if current_page?(root_path) || current_page?(landing_prix_path) || current_page?(landing_prix_end_path) %>
   		<%= render'layouts/headerhome' %>
-	<% elsif current_page?(pages_borne_path) %>
+	<% elsif current_page?(pages_borne_path)  || current_page?(pages_validation_borne_path) %>
 	<% else %>
 		<%= render'layouts/header' %>
 	<% end %>
@@ -109,7 +109,7 @@ mixpanel.init("62fed8654a7630146bdc48e2945a0604");</script><!-- end Mixpanel -->
 	
 	<%= yield %>
 
-	<% if current_page?(pages_borne_path) %>
+	<% if current_page?(pages_borne_path) || current_page?(pages_validation_borne_path)  %>
 	<% else %>
 		<%= render'layouts/footer' %>
 	<% end %>

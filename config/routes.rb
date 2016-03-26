@@ -56,6 +56,8 @@ Rails.application.routes.draw do
 
   get 'pages/validation'
 
+  get 'pages/validation_borne'
+
   get 'pages/bienvenue'
 
   get 'pages/reparations'

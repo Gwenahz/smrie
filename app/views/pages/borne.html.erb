@@ -1,8 +1,18 @@
-<div id="animation" style="display:block; background-color:#3aaf85; height:200%; width:100%;" onclick="lancerBorne();">
-	<div class="col-md-6 col-sm-6">
+<div id="animation" style="display:block; background-color:#3aaf85; height:140%; width:100%; " onclick="lancerBorne();">
+	<div class="col-md-12 col-sm-12">
 		<div style="padding-top:30px"><%= image_tag "logo-white.png", :class => "logo" %></div>
-	</div> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<div class="text-center" style="color:white;"> TOUCHEZ L'ECRAN</div>
+	</div><br>
+	<div class=" col-md-6 col-sm-6 text-center" style="color:white; position:relative;">
+			<%= image_tag("phone-casse.png", :id => "brokenphone", :style => "position:absolute; height:600px; width:541px;") %>
+			<br><br><br>
+			<%= image_tag("batterie-hs.png", :id => "batteriehs", :style => "position:absolute; padding:0px 0 0 0; height:492px; width:548px;") %>
+			<br><br><br><br>
+			<%= image_tag("slogan.png", :id => "slogan", :style => "position:absolute; padding:0px 0px 0 0; height:158px; width:500px;") %>
+			<br><br><br><br><br><br><br><br><br><br><br>
+			<%= image_tag("bt-touchez-ecran.png", :id => "bttouchscreen", :style => "position:absolute; padding:0px 0 0 0; height:180px; width:500px;") %>
+		</div>		
+
+	
 </div>
 
 <div id="maborne" style="display:none;">
@@ -13,7 +23,7 @@
 		</div> 
 		<div class=" col-md-6 col-sm-6 text-right">
 			<p></p>
-			<button onclick="web_call_back()" class="btn btn-danger"><div class="col-md-12 col-sm-12"><div class="col-md-2 col-sm-2" style="padding:10px 10px 0 0;"><i class="fa fa-phone fa-3x"></i></div><div class="col-md-10 col-sm-10"><strong>Besoin d'aide ?</strong><br> Faites-vous rappeler <br>  gratuitement par un expert</div><div></button>
+			<button onclick="web_call_back('webcallback')" class="btn btn-danger"><div class="col-md-12 col-sm-12"><div class="col-md-2 col-sm-2" style="padding:10px 10px 0 0;"><i class="fa fa-phone fa-3x"></i></div><div class="col-md-10 col-sm-10"><strong>Besoin d'aide ?</strong><br> Faites-vous rappeler <br>  gratuitement par un expert</div><div></button>
 		</div>
 	</div>
 </div>
@@ -33,12 +43,12 @@
 <div class="container" style="width:800px; height:600px;">
 	
 	<div class="col-sm-12">
-		<div id="marques" style="display:block;">
+		<div id="marques" style="display:block;"><br><br>
 			<h3 class="">Sélectionnez la marque de votre smartphone :</h3>
 			<button onclick="apple_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "logo-apple-black.svg", size: "100" %><br><br><hr><strong>APPLE</strong></button>
 			<button onclick="samsung_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "samsung_logo.svg", size: "115" %><hr><strong>SAMSUNG</strong></button>
 			<button onclick="nokia_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "nokia_logo.svg", size: "115" %><hr><strong>NOKIA</strong></button>
-			<button onclick="other_modeles();" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "autre.svg", size: "115" %><hr><strong>AUTRE</strong></button>
+			<button onclick="web_call_back('autre marque');" class="btn btn-default col-sm-5" style="height:225px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 5px;"><%= image_tag "autre.svg", size: "115" %><hr><strong>AUTRE</strong></button>
 		</div>
 	</div>
 
@@ -59,34 +69,28 @@
 
 	<div id="samsung-modeles" style="display:none;">
 			<h3>Sélectionnez votre modèle :</h3>
-			<button onclick="click_pannes('Galaxy S3');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S3</strong></button>
-			<button onclick="click_pannes('Galaxy S4');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone4S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4</strong></button>
-			<button onclick="click_pannes('Galaxy S4 mini');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4 Mini</strong></button>
-			<button onclick="click_pannes('Galaxy S5');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5C.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5</strong></button>
-			<button onclick="click_pannes('Galaxy S5 Mini');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone5S.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5 Mini</strong></button>
-			<button onclick="click_pannes('Galaxy S6');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6</strong></button>
-			<button onclick="click_pannes('Galaxy S6 Edge');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6 Edge</strong></button>
-			<button onclick="click_pannes('Autre');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "iphone6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Autre</strong></button>
+			<button onclick="click_pannes('Galaxy S3');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys3.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S3</strong></button>
+			<button onclick="click_pannes('Galaxy S4');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys4.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4</strong></button>
+			<button onclick="click_pannes('Galaxy S4 mini');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys4mini.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S4 Mini</strong></button>
+			<button onclick="click_pannes('Galaxy S5');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys5.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5</strong></button>
+			<button onclick="click_pannes('Galaxy S5 Mini');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys5mini.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S5 Mini</strong></button>
+			<button onclick="click_pannes('Galaxy S6');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys6.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6</strong></button>
+			<button onclick="click_pannes('Galaxy S6 Edge');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "galaxys6edge.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Galaxy S6 Edge</strong></button>
+			<button onclick="click_pannes('Autre Samsung');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "autre.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Autre</strong></button>
 		</div>
 
-		<div class="col-md-8">
 		<div id="nokia-modeles" style="display:none;">
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 520</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 620</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 625</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 630</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 635</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 800</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 900</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 920</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 925</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 930</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 1020</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 1320</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Lumia 1520</button>
-			<button class="btn btn-success col-md-2" style="height:150px; margin:10px 10px 10px 10px;"><br><br><br><br><hr>Autre</button>
+			<h3>Sélectionnez votre modèle :</h3>
+			<button onclick="click_pannes('Lumia 520');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia520.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 520</strong></button>
+			<button onclick="click_pannes('Lumia 550');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia550.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 550</strong></button>
+			<button onclick="click_pannes('Lumia 640');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia640.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 640</strong></button>
+			<button onclick="click_pannes('Lumia 650');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia650.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 650</strong></button>
+			<button onclick="click_pannes('Lumia 820');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia820.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 820</strong></button>
+			<button onclick="click_pannes('Lumia 925');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia925.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 925</strong></button>
+			<button onclick="click_pannes('Lumia 950');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia950.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 950</strong></button>
+			<button onclick="click_pannes('Lumia 1520');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "lumia1520.png", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Lumia 1520</strong></button>
+			<button onclick="click_pannes('Autre Nokia');" class="btn btn-default col-sm-3" style="height:150px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "autre.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><strong>Autre</strong></button>
 		</div>
-	</div>
 
 	<div class="col-sm-12">
 		<div id="pannes" style="display:none;">
@@ -95,7 +99,7 @@
 			<button onclick="choix_contact('Batterie HS');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Battery-Low-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>ma batterie est <br> HS</h4></button>
 			<button onclick="choix_contact('Oxydation');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "water_dammage.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> a pris l'eau</h4></button>
 			<button onclick="choix_contact('Bouton défectueux');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Button-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon bouton est <br> défectueux</h4></button>
-			<button onclick="choix_contact('Ne s'allume plus);" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Power-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> ne s'allume plus</h4></button>
+			<button onclick="choix_contact('Ne s allume plus');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "Power-256.png", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>mon smartphone <br> ne s'allume plus</h4></button>
 			<button onclick="choix_contact('Autre');" class="btn btn-default col-sm-3" style="height:200px; margin:10px 10px 10px 10px; background-color:transparent; border-width: 3px;"><%= image_tag "autre-panne.svg", size: "100" %><hr style="margin:5px 0 5px 0;"><h4>Autre</h4></button>
 		</div>
 	</div>
@@ -134,9 +138,9 @@
 	<div class="col-sm-12 text-center"  id="choix-contact" style="display:none;">
 		<h3>Comment souhaitez-vous obtenir votre devis ?</h3><br>
 		
-		<button  onclick="help_tel();" class="btn btn-success" style="background-color:#3aaf85; border:none; height:70px; width:250px; padding: 10px 10px 10px 10px;">Par téléphone</button><br><br>
-		<button  onclick="help_mail();" class="btn btn-success"  style="background-color:#3aaf85; border:none; height:70px; width:250px; padding: 10px 10px 10px 10px;">Par email</button><br><br>
-		<button  onclick="help_sms();" class="btn btn-success"  style="background-color:#3aaf85; border:none; height:70px; width:250px; padding: 10px 10px 10px 10px;">Par SMS</button><br><br>
+		<button  onclick="help_tel();" class="btn btn-success" style="background-color:#3aaf85; border:none; height:120px; width:300px; padding: 10px 10px 10px 10px;"><div class="col-md-2 col-sm-2" style="padding:10px 0 0 20px;"><i class="fa fa-phone fa-3x"></i></div><div class="col-md-9 col-sm-9"><h3>Par téléphone</h3></div></button><br><br>
+		<button  onclick="help_mail();" class="btn btn-success"  style="background-color:#3aaf85; border:none; height:120px; width:300px; padding: 10px 10px 10px 10px;"><div class="col-md-2 col-sm-2" style="padding:10px 0 0 20px;"><i class="fa fa-laptop fa-3x"></i></div><div class="col-md-9 col-sm-9"><h3>Par email</h3></div></button><br><br>
+		<button  onclick="help_sms();" class="btn btn-success"  style="background-color:#3aaf85; border:none; height:120px; width:300px; padding: 10px 10px 10px 10px;"><div class="col-md-2 col-sm-2" style="padding:10px 0 0 20px;"><i class="fa fa-envelope fa-3x"></i></div><div class="col-md-9 col-sm-9"><h3>Par SMS</h3></div></button><br><br>
 	</div>
 	
 </div>
@@ -145,14 +149,35 @@
 
 
 
-
 <script type="text/javascript">
+
+myAnim();
+
+function myAnim(){
+var bttouch = document.getElementById('bttouchscreen')
+
+TweenMax.from("#brokenphone", 0.5, {opacity:0, scale:5, delay:1});
+TweenMax.to("#brokenphone", 0.5, {opacity:0, delay:5});
+
+TweenMax.from("#batteriehs", 0.5, {opacity:0, scale:5, delay:6});
+TweenMax.to("#batteriehs", 0.5, {opacity:0, delay:9});
+
+TweenMax.from("#slogan", 0.5, {opacity:0, scale:5, delay:10});
+TweenMax.from(bttouch, 1, {opacity:0, scale:2, ease:Bounce.easeOut, delay:10});
+
+TweenMax.to("#brokenphone", 0, {opacity:1, delay:15});
+TweenMax.to("#batteriehs", 0, {opacity:1, delay:15, onComplete:myAnim});
+
+}
+
+
 
 function lancerBorne(){
 	document.getElementById('animation').style.display = 'none';
 	document.getElementById('maborne').style.display = 'block';
 
 	timer = setTimeout(reloadPage, 15000);
+	mixpanel.track("CARREFOUR MONTESSON - clic sur borne");
 }
 
 document.onclick = function() {
@@ -185,8 +210,10 @@ $('#mon_champ').blur(function () {
 		document.getElementById('apple-modeles').style.display = 'block';
 		document.getElementById('bt-cancel').style.display = 'block';
 
-		document.getElementById('help_cp').value = "BORNE EFREI VILLEJUIF";
-		document.getElementById('help__cp').value = "BORNE EFREI VILLEJUIF";
+		document.getElementById('help_cp').value = "BORNE CARREFOUR MONTESSON";
+		document.getElementById('help__cp').value = "BORNE CARREFOUR MONTESSON";
+
+		mixpanel.track("CARREFOUR MONTESSON - clic sur marque APPLE");
 	}
 
 	function lancer_clavier() {
@@ -196,7 +223,7 @@ $('#mon_champ').blur(function () {
 		document.getElementById('helpmail_submit').style.display = 'block';
 	}
 
-	function web_call_back() {
+	function web_call_back(info) {
 		document.getElementById('apple-modeles').style.display = 'none';
 		document.getElementById('samsung-modeles').style.display = 'none';
 		document.getElementById('nokia-modeles').style.display = 'none';
@@ -208,12 +235,25 @@ $('#mon_champ').blur(function () {
 		document.getElementById('help-tel').style.display = 'none';
 		document.getElementById('help-mail').style.display = 'none';
 		document.getElementById('help-sms').style.display = 'none';
+
+		mixpanel.track("CARREFOUR MONTESSON - demande webcallback - "+info);
 	}
 
 	function samsung_modeles() {
 		document.getElementById('marques').style.display = 'none';
 		document.getElementById('samsung-modeles').style.display = 'block';
 		document.getElementById('bt-cancel').style.display = 'block';
+
+		mixpanel.track("CARREFOUR MONTESSON - clic sur marque SAMSUNG");
+
+	}
+
+	function nokia_modeles() {
+		document.getElementById('marques').style.display = 'none';
+		document.getElementById('nokia-modeles').style.display = 'block';
+		document.getElementById('bt-cancel').style.display = 'block';
+
+		mixpanel.track("CARREFOUR MONTESSON - clic sur marque NOKIA");
 
 	}
 
@@ -225,6 +265,8 @@ $('#mon_champ').blur(function () {
 		document.getElementById('help_modele').value = modele;
 		document.getElementById('help__modele').value = modele;
 
+		mixpanel.track("CARREFOUR MONTESSON - modèle sélectionné : "+modele);
+
 	}
 
 	function choix_contact(panne) {
@@ -235,6 +277,8 @@ $('#mon_champ').blur(function () {
 		document.getElementById('choix-contact').style.display = 'block';
 		document.getElementById('help_panne').value = panne;
 		document.getElementById('help__panne').value = panne;
+
+		mixpanel.track("CARREFOUR MONTESSON - panne sélectionnée : "+panne);
 	}
 
 	function retour_accueil() {
@@ -251,6 +295,8 @@ $('#mon_champ').blur(function () {
 		document.getElementById('help-mail').style.display = 'none';
 		document.getElementById('help-sms').style.display = 'none';
 		document.getElementById('mon_champ').value = "";
+
+		mixpanel.track("CARREFOUR MONTESSON - Clic Bouton Annuler");
 	}
 
 	function help_tel() {
@@ -267,6 +313,8 @@ $('#mon_champ').blur(function () {
 		document.getElementById('wcb_submit').style.display = 'none';
 		document.getElementById('helptel_submit').style.display = 'none';
 		document.getElementById('virtualKeyboard').style.display = 'none';
+
+		mixpanel.track("CARREFOUR MONTESSON - Choix devis TELEPHONE");
 	}
 
 	function help_mail() {
@@ -284,6 +332,8 @@ $('#mon_champ').blur(function () {
 		document.getElementById('helptel_submit').style.display = 'none';
 		document.getElementById('virtualKeyboard').style.display = 'none';
 		document.getElementById('help-mail').style.display = 'block';
+
+		mixpanel.track("CARREFOUR MONTESSON - Choix devis MAIL");
 	}
 
 	function help_sms() {
@@ -304,5 +354,7 @@ $('#mon_champ').blur(function () {
 		document.getElementById('wcb_submit').style.display = 'none';
 		document.getElementById('helptel_submit').style.display = 'none';
 		document.getElementById('virtualKeyboard').style.display = 'none';
+
+		mixpanel.track("CARREFOUR MONTESSON - Choix devis SMS");
 	}
 </script>

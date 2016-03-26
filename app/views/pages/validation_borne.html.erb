@@ -1,0 +1,14 @@
+<div class="container text-center">
+	<br><br><br>
+	<%= image_tag("phone-icon.svg", size: "300") %>
+	<h1>Merci !<br>Nous revenons vers vous au plus vite !</h1>
+</div>
+<script type="text/javascript">
+    mixpanel.track("Demande borne effectuée");
+    $(document).ready(function () {
+    // Handler for .ready() called.
+    window.setTimeout(function () {
+        location.href = window.history.back(1);;
+    }, 5000);
+});
+</script>
