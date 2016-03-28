@@ -10,9 +10,7 @@
 			<%= image_tag("slogan.png", :id => "slogan", :style => "position:absolute; padding:0px 0px 0 0; height:158px; width:500px;") %>
 			<br><br><br><br><br><br><br><br><br><br><br>
 			<%= image_tag("bt-touchez-ecran.png", :id => "bttouchscreen", :style => "position:absolute; padding:0px 0 0 0; height:180px; width:500px;") %>
-		</div>		
-
-	
+		</div>			
 </div>
 
 <div id="maborne" style="display:none;">
@@ -114,7 +112,7 @@
 
 	<div class="col-sm-12 text-center"  id="help-tel" style="display:none;">
 		<h3>Saisissez votre numéro de téléphone :</h3>
-		<p><i>Un Smarty vous contactera dans quelques minutes</i></p><br>
+		<p><i>Vous recevrez votre devis dans quelques minutes</i></p><br>
 		<%= render :partial => "helps/form_borne_tel" %><br><br><br>
 
 	</div>
@@ -178,6 +176,13 @@ function lancerBorne(){
 
 	timer = setTimeout(reloadPage, 15000);
 	mixpanel.track("CARREFOUR MONTESSON - clic sur borne");
+
+	document.getElementById('help_cp').value = "BORNE CARREFOUR MONTESSON";
+	document.getElementById('help__cp').value = "BORNE CARREFOUR MONTESSON";
+
+	document.getElementById('help__mail').value = "";
+	document.getElementById('help_tel').value = "";
+	document.getElementById('mon_champ').value = "";
 }
 
 document.onclick = function() {
@@ -209,9 +214,6 @@ $('#mon_champ').blur(function () {
 		document.getElementById('marques').style.display = 'none';
 		document.getElementById('apple-modeles').style.display = 'block';
 		document.getElementById('bt-cancel').style.display = 'block';
-
-		document.getElementById('help_cp').value = "BORNE CARREFOUR MONTESSON";
-		document.getElementById('help__cp').value = "BORNE CARREFOUR MONTESSON";
 
 		mixpanel.track("CARREFOUR MONTESSON - clic sur marque APPLE");
 	}
