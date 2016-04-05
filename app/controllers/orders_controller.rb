@@ -63,7 +63,7 @@ class OrdersController < ApplicationController
     if @order.adresse.blank?
       redirect_to action: 'new_adresse', id: @order
     else
-      respond_with(@order)
+      redirect_to pages_validation_path
     end
   end
 
