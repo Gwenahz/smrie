@@ -74,6 +74,10 @@ Rails.application.routes.draw do
 
   get 'ce' => 'pages#ce'
 
+  get 'diagnostic' => 'pages#diagnostic'
+
+  get 'devis' => 'pages#devis'
+
   get 'faq' => 'pages#faq'
 
   get 'landing-prix' => 'pages#landing_prix'

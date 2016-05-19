@@ -62,6 +62,14 @@ class PagesController < ApplicationController
   def show_modal
   end
 
+  def devis
+    @stockparam = params[:stock]
+    @stock = Stock.find(@stockparam)
+    @stock_id = @stock.id
+    @smartphone = Smartphone.find(@stock_id)
+    @panne = Panne.find(@stock_id)
+  end
+
   def test
   	@letest = "Montest"
   end
