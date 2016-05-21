@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Couleur:</strong>
+  <%= @couleur.couleur %>
+</p>
+
+<p>
+  <strong>Smartphone:</strong>
+  <%= @couleur.smartphone %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @couleur.code %>
+</p>
+
+<%= link_to 'Edit', edit_couleur_path(@couleur) %> |
+<%= link_to 'Back', couleurs_path %>

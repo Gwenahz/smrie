@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :couleurs
+
   resources :orders do
     collection do
       get '/:id/new_creneau' => 'orders#new_creneau'
@@ -75,6 +77,8 @@ Rails.application.routes.draw do
   get 'ce' => 'pages#ce'
 
   get 'diagnostic' => 'pages#diagnostic'
+
+  get 'diagnosticbis' => 'pages#diagnosticbis'
 
   get 'devis' => 'pages#devis'
 
