@@ -10,26 +10,36 @@
 	    </div>
 	    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 	      <div class="panel-body">
-	        <% @a = 0 %>
-	        <% @aa = 0 %>
-	        <% Smartphone.where(marque: 'apple').to_a.each do |smartphone| %>
-	        	<% @a = @a+1 %>
-	        	
-		      	<a class="btn btn-primary btn-block" role="button" data-toggle="collapse" href="#collapse<%=@a%>" aria-expanded="false" aria-controls="collapse<%=@a%>">
-					<%= smartphone.modele %>
-				</a>
-				<div class="collapse" id="collapse<%=@a%>">
-					<div class="well">
-						<% @applepannes = Couleur.where(smartphone: smartphone.id).to_a.count %>
-						<%= @applepannes  %>
-				    	<% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
-					    	<div>
-					    		<%= couleur.couleur %>
-			      			</div>
-				    	<% end %>
-					</div>
-				</div><br>
-		    <% end %>
+	      	<% @a = 0 %>
+		    <% @b = 0 %>
+			<% Smartphone.where(marque: 'apple').to_a.each do |smartphone| %>
+			<% @a = @a+1 %>
+			<button class="btn btn-success btn-block" data-toggle="collapse" data-target="#applecouleur<%= @a %>"><%= smartphone.modele %></button>
+			<div id="applecouleur<%= @a %>" class="collapse">
+				<% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+				<% @b = @b+1 %>
+				<button class="btn btn-default btn-block" data-toggle="collapse" data-target="#applepanne<%= @b %>"><%= couleur.couleur %></button>
+				<div id="applepanne<%= @b %>" class="collapse">
+					<% nbapplepanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+					<% if (nbapplepanne >= 1) %>
+						<% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |stock| %>
+							<div>
+								
+								<%= link_to Panne.find(stock.id_panne).name, {:action => "devis", :stock => stock} %>
+							</div>
+						<% end %>
+					<% else %>
+						<% Stock.where(:id_smartphone => smartphone.id).to_a.each do |stock| %>
+							<div>
+								
+								<%= link_to Panne.find(stock.id_panne).name, {:action => "devis", :stock => stock} %>
+							</div>
+						<% end %>
+					<% end %>
+				</div>
+				<% end %>
+			</div><br>
+			<% end %>
 	      </div>
 	    </div>
 	  </div>
