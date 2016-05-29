@@ -16,7 +16,7 @@
 			</p>
 			<p class="text-center"><br>
 				Le tarif de la réparation de votre <%= @smartphone.modele %> est de : <br>
-			<h3 class="text-center"><%= @stock.prix.to_i %>€</h3>
+			<h3 class="text-center"><%= @stock.prix.to_i+@majparam %>€</h3>
 			</p><br>
 			<div class="text-center">
 				<%= link_to "Réserver ma réparation" %><br>

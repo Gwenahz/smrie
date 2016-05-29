@@ -25,14 +25,14 @@
 						<% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |stock| %>
 							<div>
 								
-								<%= link_to Panne.find(stock.id_panne).name, {:action => "devis", :stock => stock} %>
+								<%= link_to Panne.find(stock.id_panne).name, {:action => "diagnostic", :stock => stock} %>
 							</div>
 						<% end %>
 					<% else %>
 						<% Stock.where(:id_smartphone => smartphone.id).to_a.each do |stock| %>
 							<div>
 								
-								<%= link_to Panne.find(stock.id_panne).name, {:action => "devis", :stock => stock} %>
+								<%= link_to Panne.find(stock.id_panne).name, {:action => "diagnostic", :stock => stock} %>
 							</div>
 						<% end %>
 					<% end %>
