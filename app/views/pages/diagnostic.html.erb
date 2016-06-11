@@ -1,12 +1,9 @@
-<header class="header-bg-vert">
-  <div class="container intro-text">
-    <h1>Votre <%= @smartphone.modele %> sera bientôt réparé !</h1>
-    <h4>Nos supers Smartys ont hâte de vous redonner le sourire. Vous n'avez plus qu'à nous dire quand :)</h4>
-</header>
-
-<section class="">
-  <div class="container">
-  	<p>Sélectionnez votre créneau horaire :</p>
+<div class="container"><br>
+	<div class="col-md-12  panel panel-default">
+		<h1 class="text-center text-green">Quand vous voulez<br><%= image_tag("calendar-reservation.svg", size: "150") %></h1>
+		<h4  class="text-center">Votre smartphone sera bientôt réparé ;) <br><br> Choisissez la date et le créneau horaire de votre réparation</h4><br>
+		
+	    <div class="col-md-12">
     <div class="col-md-12">
     	<% @mtoday = 20 %>
 	<% @mtomorrow = 10 %>
@@ -14,9 +11,9 @@
 	<% @date = DateTime.current.in_time_zone('Paris') %>
 	<% @setdate = DateTime.current.in_time_zone('Paris').beginning_of_day() %>
 	<% @time = @date.strftime("%H").to_i %>
-	<div>
-		<table class="table table-striped">
-		  <thead>
+	<div id="no-more-tables">
+		<table class="table table-striped col-md-12 table-condensed cf">
+		  <thead class="cf">
 		    <tr>
 		      <th></th>
 		      <th>Aujourd'hui <br> <i><%= l(@date, format: '%d %b %Y') %></i></th>
@@ -32,129 +29,80 @@
 		  <tbody>
 		    <tr>
 		      <th scope="row"><strong>Matin</strong><br><i>8h à 13h</i></th>
-		      <td><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdayam"} %></td>
-		      <td><%= link_to "#{@stock.prix.to_i+@mtomorrow}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prix2m1am"} %></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdayam"} %></td>
+		      <td data-title="Demain"><%= link_to "#{@stock.prix.to_i+@mtomorrow}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prix2m1am"} %></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
 		    </tr>
 		    <tr>
 		      <th scope="row"><strong>Après-midi</strong><br><i>13h à 19h</i></th>
-		      <td><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdaypm"} %></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdaypm"} %></td>
+		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
 		    </tr>
 		    <tr>
 		      <th scope="row"><strong>Soir</strong><br><i>19h à 23h</i></th>
-		      <td><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdaynight"} %></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdaynight"} %></td>
+		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
 		    </tr>
 		    <tr>
 		      <th scope="row"><strong>Nuit</strong><br><i>23h à 8h</i></th>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="Aujourd'hui"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
 		    </tr>
 		  </tbody>
 		</table>
 	</div>
     </div>
-  </div>
-</section>
+	   	</div>
+        </div>
+	</div>
+</div><br>
 
-<section class="bg-light-gray">
-  <div class="container text-center">
-    <div class="col-md-12">
-      <h2 class="text-center">Comment ça marche ?</h2></br>
-      
-      <div class="col-md-6">
-          <%= image_tag("client.svg", size: "150", :class => "col-md-4") %>
-          <div class="col-md-8">
-            <h3 class="text-green text-left">Les Clients</h3>
-            <p class="text-left">
-              Grâce à La Smartphonerie, vous pourrez redonner le sourire à 10 personnes par jour en moyenne. <br>
-              <strong>Nous ne facturons ni abonnement, ni forfait !</strong>
-            </p>
-          </div>
-      </div>
-      <div class="col-md-6">
-        <%= image_tag("phone-icon.svg", size: "150", :class => "col-md-4") %>
-          <h3 class="text-green text-left">Le SAV</h3>
-          <p class="text-left">
-            Les pièces sont garanties par La Smartphonerie. En cas de problème, nous gérons directement la relation avec le client. <br>
-            <strong>Vous continuez votre activité.</strong><br>
-            <strong>.</strong>
-          </p>
-      </div><br><br>
-      
-      <div class="col-md-6">
-          <%= image_tag("independance.svg", size: "150", :class => "col-md-4") %>
-          <div class="col-md-8">
-            <h3 class="text-green text-left">L'indépendance</h3>
-            <p class="text-left">
-              Vous pouvez rendre service où vous voulez et quand vous voulez. <br>
-              <strong>Vous fixez vous même le tarif de vos réparations, vos disponibilités et votre périmètre d'intervention</strong><br>
-            </p>
-          </div>
-      </div>
-      <div class="col-md-6">
-        <%= image_tag("logistique.svg", size: "150", :class => "col-md-4") %>
-          <h3 class="text-green text-left">La Logistique</h3>
-          <p class="text-left">
-            Nous nous occupons de fournir les pièces détachées aux clients et de leur livrer avant votre
-            intervention. <br>
-            <strong>Vous n’avez pas de frais à avancer.</strong><br>
-            <strong>Vous n’avez pas de stock à gérer.</strong>
-          </p>
-      </div>
-    </div>
-  </div>
-  <div class="text-center"><br><br>
-      <a class="typeform-share btn btn-success btn-lg" href="https://lasmartphonerie.typeform.com/to/div2OC" data-mode="2" target="_blank">Rejoindre la communauté</a>
-<script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'share.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}id=id+'_';if(!gi.call(d,id)){qs=ce.call(d,'link');qs.rel='stylesheet';qs.id=id;qs.href=b+'share-button.css';s=gt.call(d,'head')[0];s.appendChild(qs,s)}})()</script>
-    </div>
-</section>
+  
 
 <% if @time >= 5 %>
 	<script type="text/javascript">
-		document.getElementById('prixdayam').innerHTML = "";
-		document.getElementById('prixdayam').className = "";
+		document.getElementById('prixdayam').innerHTML = "indispo.";
+		document.getElementById('prixdayam').className = "btn btn-sm btn-default disabled";
 	</script>
 <% end %>
 <% if @time > 12 %>
 	<script type="text/javascript">
-		document.getElementById('prixdaypm').innerHTML = "";
-		document.getElementById('prixdaypm').className = "";
+		document.getElementById('prixdaypm').innerHTML = "indispo.";
+		document.getElementById('prixdaypm').className = "btn btn-sm btn-default disabled";
 	</script>
 <% end %>
 <% if @time > 18 %>
 	<script type="text/javascript">
-		document.getElementById('prixdaynight').innerHTML = "";
-		document.getElementById('prixdaynight').className = "";
+		document.getElementById('prixdaynight').innerHTML = "indispo.";
+		document.getElementById('prixdaynight').className = "btn btn-sm btn-default disabled";
 	</script>
 <% end %>
 <% if @time > 23 %>
 	<script type="text/javascript">
-		document.getElementById('prixdaynight').innerHTML = "";
-		document.getElementById('prixdaynight').className = "";
+		document.getElementById('prixdaynight').innerHTML = "indispo.";
+		document.getElementById('prixdaynight').className = "btn btn-sm btn-default disabled";
 	</script>
 <% end %>
