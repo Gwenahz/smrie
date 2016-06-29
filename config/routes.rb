@@ -109,7 +109,7 @@ Rails.application.routes.draw do
 
   get 'home_yield' => 'pages#home_yield'
 
-  root 'pages#landing_prix'
+  root 'pages#home_yield'
   
   # root 'smartphones#index'
 
