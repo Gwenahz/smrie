@@ -55,8 +55,8 @@ class OrdersController < ApplicationController
     @order.code_reparation = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
     @order.save
     #respond_with(@order)
-    UserMailer.order_email_team(@order).deliver
     redirect_to pages_validation_path
+    UserMailer.order_email_team(@order).deliver
   end
 
   def update
