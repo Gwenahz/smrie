@@ -1,7 +1,7 @@
 <div class="container"><br>
 	<div class="col-md-12  panel panel-default">
 		<h1 class="text-center text-green">Quand vous voulez<br><%= image_tag("calendar-reservation.svg", size: "150") %></h1>
-		<h4  class="text-center">Votre <strong><%= Smartphone.find(@stock.id_smartphone).modele %></strong> sera bientôt réparé ;) <br><br> Choisissez la date et le créneau horaire de votre réparation : <i><%= Panne.find(@stock.id_smartphone).name %></i> </h4><br>
+		<h4  class="text-center">Votre <strong><%= Smartphone.find(@stock.id_smartphone).modele %></strong> sera bientôt réparé ;) <br><br> Choisissez la date et le créneau horaire de votre réparation : <i><%= Panne.find(@stock.id_panne).name %></i> </h4><br>
 		
     <div class="col-md-12">
     <% @mtoday = 20 %>
