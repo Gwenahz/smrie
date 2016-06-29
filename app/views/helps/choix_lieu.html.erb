@@ -1,0 +1,118 @@
+<div class="container"><br>
+	<div class="col-md-2"></div>
+	<div class="col-md-8  panel panel-default">
+		<h1 class="text-center text-green">Où vous voulez<br><%= image_tag("lieu-pin.svg", size: "150") %></h1>
+		<h4  class="text-center">Où souhaitez vous que votre Smarty chouchoute votre <%= @modele %> ?</h4><br>
+		
+		
+	    <div class="col-md-12">
+<% @help = Help.new %>        
+<%= form_for(@help) do |f| %>
+  <% if @help.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@help.errors.count, "error") %> prohibited this help from being saved:</h2>
+
+      <ul>
+      <% @help.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= f.hidden_field :typeform, :value => "site_yield" %>
+    <%= f.hidden_field :prix, :value => @prix %>
+    <%= f.hidden_field :idstock, :value => @idstock %>
+    <%= f.hidden_field :date, :value => @madate %>
+    <%= f.hidden_field :heure, :value => @heure %>
+    <%= f.hidden_field :modele, :value => @modele %>
+    <%= f.hidden_field :panne, :value => @panne %>
+    <%= f.hidden_field :commentaire, :value => @commentaire %>
+
+    <div class="field col-md-6">
+      <%= f.label "Prénom*" %><br>
+      <%= f.text_field :prenom, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-6">
+      <%= f.label "Nom*" %><br>
+      <%= f.text_field :nom, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-12">
+      <%= f.label "Adresse*" %><br>
+      <%= f.text_field :adresse, :class => "form-control", placeholder: "Adresse", :required => true %>
+    </div>
+    <div class="field col-md-12">
+      <%= f.label "Complément d'adresse"%><br>
+      <%= f.text_field :compladresse, :class => "form-control", placeholder: "(Etage, Code d'accès, etc...)" %>
+    </div>
+    <div class="field col-md-4">
+      <%= f.label "Code Postal*" %><br>
+      <%= f.text_field :cp, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-8">
+      <%= f.label "Ville*" %><br>
+      <%= f.text_field :ville, :id => "address", :class => "typeahead form-control", :placeholder => "Ville", :required => true %>
+    </div>
+    <script>
+      // instantiate the addressPicker suggestion engine
+      var addressPicker = new AddressPicker({autocompleteService: {types: ['(cities)'], componentRestrictions: { country: 'FR' }}});
+
+      // instantiate the typeahead UI
+      $('#address').typeahead(null, {
+        displayKey: 'description',
+        source: addressPicker.ttAdapter()
+      });
+
+      $('#address').on('keyup keypress', function(e) {
+        var code = e.keyCode || e.which;
+        if (code == 13) { 
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      $('#checkbox').on('click', function() {
+          if($("#checkbox").is(":checked")){
+              alert("message1");
+          }else{
+              alert("message1");
+          }
+        }
+      });
+    </script>
+
+    <div class="col-md-12"><br><hr></div>
+
+    <div class="field col-md-5">
+      <%= f.label "Numéro de téléphone*" %><br>
+      <%= f.text_field :numtel, :class => "form-control", :required => true %>
+    </div>
+    <div class="field col-md-7">
+      <%= f.label "E-mail*" %><br>
+      <%= f.text_field :mail, :class => "form-control", :required => true %>
+    </div>
+
+    
+    <div class="field col-md-12">
+      <%= f.label "Nom de votre entreprise (si vous souhaitez un réparation au bureau)" %><br>
+      <%= f.text_field :entreprise, :class => "form-control" %>
+    </div>
+
+    <div class="field col-md-12">
+      <%= f.label "Souhaitez vous nous préciser quelque chose ?" %><br>
+      <%= f.text_area :commentaire, :class => "form-control", :placeholder => "Vous pouvez nous préciser ici une heure exacte d'intervention ou un détail sur votre smartphone" %>
+    </div>
+    <div class="actions text-right col-md-12"><br>
+      <%= f.submit "VALIDER", class: "btn btn-green" %>
+    </div>
+<% end %>
+	   		<br>
+	   	</div>
+        </div>
+	</div>
+	<div class="col-md-2"></div>
+</div><br>
+
+<script type="text/javascript">
+  mixpanel.track("page_infos_lieu");
+</script>

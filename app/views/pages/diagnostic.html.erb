@@ -3,9 +3,8 @@
 		<h1 class="text-center text-green">Quand vous voulez<br><%= image_tag("calendar-reservation.svg", size: "150") %></h1>
 		<h4  class="text-center">Votre smartphone sera bientôt réparé ;) <br><br> Choisissez la date et le créneau horaire de votre réparation</h4><br>
 		
-	    <div class="col-md-12">
     <div class="col-md-12">
-    	<% @mtoday = 20 %>
+    <% @mtoday = 20 %>
 	<% @mtomorrow = 10 %>
 	<% @mnight = 50 %>
 	<% @date = DateTime.current.in_time_zone('Paris') %>
@@ -29,52 +28,67 @@
 		  <tbody>
 		    <tr>
 		      <th scope="row"><strong>Matin</strong><br><i>8h à 13h</i></th>
-		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdayam"} %></td>
-		      <td data-title="Demain"><%= link_to "#{@stock.prix.to_i+@mtomorrow}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prix2m1am"} %></td>
-		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-green", :id => "prixdayam"} %></td>
+		      <td data-title="Demain">
+
+		      	<% @help = Help.new %>
+				<%= form_for(@help) do |f| %>
+					<%= f.hidden_field :typeform, :value => "site_yield" %>
+					<%= f.hidden_field :prix, :value => @stock.prix+@mtomorrow %>
+					<%= f.hidden_field :idstock, :value => @stock.id %>
+					<%= f.hidden_field :date, :value => l(@date.tomorrow, format: '%d %b %Y') %>
+					<%= f.hidden_field :heure, :value => "8h-13h" %>
+					<%= f.hidden_field :modele, :value => Smartphone.find(@stock.id_smartphone).modele %>
+					<%= f.hidden_field :panne, :value => Panne.find(@stock.id_panne).name %>
+					<%= f.hidden_field :commentaire, :value => @stock.couleur %>
+					
+					<%= f.hidden_field :heure, :value => "8h-13h" %>
+					<%= f.submit "#{@stock.prix.to_i+@mtomorrow}€", class: "btn btn-lg btn-green", id: "prix2m1am", :onclick => "mixpanel.track('choix-prix-demain');" %>
+				<% end %>
+				</td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
 		    </tr>
 		    <tr>
 		      <th scope="row"><strong>Après-midi</strong><br><i>13h à 19h</i></th>
-		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdaypm"} %></td>
-		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
-		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-green", :id => "prixdaypm"} %></td>
+		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
 		    </tr>
 		    <tr>
 		      <th scope="row"><strong>Soir</strong><br><i>19h à 23h</i></th>
-		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-success", :id => "prixdaynight"} %></td>
-		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
-		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
-		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="Aujourd'hui"><%= link_to "#{@stock.prix.to_i+@mtoday}€", {:action => "devis", :stock => @stock, :maj => @mtoday}, {:class => "btn btn-lg btn-green", :id => "prixdaynight"} %></td>
+		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mtomorrow %>€</a></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green-light"><%= @stock.prix.to_i %>€</a></td>
 		    </tr>
 		    <tr>
 		      <th scope="row"><strong>Nuit</strong><br><i>23h à 8h</i></th>
-		      <td data-title="Aujourd'hui"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
-		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-success"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="Aujourd'hui"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="Demain"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>"><a href="#" class="btn btn-lg btn-green"><%= @stock.prix.to_i+@mnight %>€</a></td>
 		    </tr>
 		  </tbody>
 		</table>
 	</div>
-    </div>
 	   	</div>
         </div>
 	</div>

@@ -8,33 +8,15 @@
                 <button onclick="_gaq.push(['_trackEvent', 'LandingButton1', 'clicked'])" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><strong>RÉPARER MON SMARTPHONE</strong></button>
                 </br></br>-->
                 <div class="container">
-                      <div class="col-md-12 text-center"  style="background-color: rgba(58,175,133,0.8); padding: 0px 20px 20px 15px; border-radius: 10px;">
-                        <h3>Sélectionnez votre modèle et votre panne</h3><br>
-                      <%= form_tag({:action => "landingprix"}, {remote: true, :id => "form_prix"}) do %>
-                      <div class="col-md-6">
-                        <%= collection_select("modele", "", Smartphone.all, :modele, :modele, {:include_blank => "Autre", prompt: "Sélectionnez votre modèle", :selected => @nom},{class: "form-control", :required => true, :onchange => "modele_select()"}) %>
-                      </div>
-                      <div class="col-md-6">
-                        <%= collection_select("panne", "", Panne.all, :name, :name, {:include_blank => "Autre", prompt: "Sélectionnez votre panne"},{class: "form-control", :required => true, :onchange => "panne_select()"}) %>
-                      </div>
-                      <div id="bt-form" class="col-md-12" style="display:none"><br>
-                        <%= submit_tag("VALIDER", class: "btn btn-danger btn-lg btn-block", id: "bt_prix") %>
-                      </div>
-
-                      <div id="bt-modal" class="col-md-12">
-                      </div>
-                  <% end %>
-                  <br>
-                  <h4 class="monPrix text-center"></h4>
-                  <h2 id="monPrix" class="text-center"></h2>
-                  <div id="bt_reparer" class="text-center" style="display:none">
+                      <div class="col-md-12 text-center"  style="background-color: rgba(58,175,133,0.8); padding: 0px 20px 20px 15px; border-radius: 10px;">  
+                        <br><br><div>
                     <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal" id="bt_modal"><strong>RÉSERVER MA RÉPARATION !</strong></button>
-                  </div>
-                    <%= render :partial => "helps/form" %>
-                  </div>
-                                <%= render :partial => "helps/form" %>
 
-            </div><br><br><h3>Ou appelez-nous au <strong><a href="tel:0980808313" style="color:#FFF;">09 80 80 83 13</a></strong></h3>
+                    <br><br><h3>Ou appelez-nous au <strong><a href="tel:0980808313" style="color:#FFF;">09 80 80 83 13</a></strong></h3>
+                    </div>
+                    <%= render :partial => "pages/selectphone" %>
+                  </div>
+            </div>
         </div><br><br>
     </header>
 
@@ -148,46 +130,7 @@
     </section>
 
     <script type="text/javascript">
-
-        function modele_select() {
-            monModele = document.getElementById("modele_").value;
-            document.getElementById('help_modele').value = monModele;
-
-            if (monModele == "" || maPanne == "") {
-                document.querySelector('#bt-modal').innerHTML = "<br><button type='button' class='btn btn-danger btn-lg btn-block' data-toggle='modal' data-target='#myModal' id='bt_modal'><strong>VALIDER</strong></button>";
-                document.querySelector('#bt-form').style.display = 'none';
-                document.querySelector('#bt-modal').style.display = 'block';
-              } else if (monModele != "" && maPanne != "") {
-                  document.querySelector('#bt-form').style.display = 'block';
-                  document.querySelector('#bt-modal').style.display = 'none';
-                  document.querySelector('#bt_prix').style.display = 'block';
-
-            };
-        }
-
-        function panne_select() {
-            maPanne = document.getElementById("panne_").value;
-            document.getElementById('help_panne').value = maPanne;
-
-            if (monModele == "" || maPanne == "") {
-                document.querySelector('#bt-modal').innerHTML = "<br><button type='button' class='btn btn-danger btn-lg btn-block' data-toggle='modal' data-target='#myModal' id='bt_modal'><strong>VALIDER</strong></button>";
-                document.querySelector('#bt-form').style.display = 'none';
-                document.querySelector('#bt-modal').style.display = 'block';
-              } else if (monModele != "" && maPanne != "") {
-                  document.querySelector('#bt-form').style.display = 'block';
-                  document.querySelector('#bt-modal').style.display = 'none';
-                  document.querySelector('#bt_prix').style.display = 'block';
-
-            };
-        }
-
-        function bt_modal() {
-           mixpanel.track("Clic sur bouton reparer");
-        }
-
         mixpanel.track("Homepage");
-        mixpanel.track("Homepage modele cedric");
-
     </script>
 
     <!-- Plugin JavaScript -->

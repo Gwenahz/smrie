@@ -1,0 +1,36 @@
+<% @help = Help.new %>
+<%= form_for(@help) do |f| %>
+  <% if @help.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><%= pluralize(@help.errors.count, "error") %> prohibited this help from being saved:</h4>
+
+      <ul>
+      <% @help.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group col-md-12">
+    <%= f.label "Quel est votre modèle ?" %><br>
+    <%= f.text_field :modele, :class => "form-control", :placeholder => "Saisissez votre modèle", :required => true %>
+  </div>
+  <div class="form-group col-md-12">
+    <%= f.label "Quel est votre panne ?" %><br>
+    <%= f.text_field :panne, :class => "form-control", :placeholder => "Saisissez votre panne", :required => true %>
+  </div>
+  <div class="form-group col-md-6">
+    <%= f.label "Nom et prénom*" %><br>
+    <%= f.text_field :prenom, :class => "form-control", :placeholder => "Nom et prénom",:required => true %>
+  </div>
+  <div class="form-group col-md-6">
+    <%= f.label "Numéro de téléphone ou email*" %><br>
+    <%= f.text_field :numtel, :class => "form-control", :placeholder => "Numéro de tel ou email", :required => true %>
+  </div>
+  <div class="form-group col-md-12">
+    <br>
+    <%= f.submit "VALIDER", class: "btn btn-green btn-block", :onclick => "mixpanel.track('Click bouton réserver modele cedric');" %>
+  </div>
+<% end %>
+    

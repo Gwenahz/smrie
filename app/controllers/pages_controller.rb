@@ -63,10 +63,11 @@ class PagesController < ApplicationController
   end
 
   def devis
-    @stockparam = params[:stock]
+    @helpid = params[:id]
+    @helpidstock = Help.find(@helpid).idstock
     @majparam = params[:maj].to_i
-    @stock = Stock.find(@stockparam)
-    @stock_id = @stock.id
+    @stock_id = @helpidstock
+    @stock = Stock.find(@stock_id)
     @id_smartphone = Stock.find(@stock_id).id_smartphone
     @id_panne = Stock.find(@stock_id).id_panne
     @smartphone = Smartphone.find(@id_smartphone)

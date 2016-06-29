@@ -55,7 +55,7 @@ class OrdersController < ApplicationController
     @order.code_reparation = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
     @order.save
     #respond_with(@order)
-    redirect_to action: 'devis', id: @order
+    redirect_to pages_validation_path
   end
 
   def update
@@ -78,7 +78,7 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:marque, :modele, :panne, :couleur, :prix, :date_reparation, :heure_reparation, :bureau, :entreprise, :adresse, :adresse2, :cp, :ville, :prenom, :nom, :numtel, :email, :code_reparation, :statut, :paye, :reparateur, :commentaire, :demande_id)
+      params.require(:order).permit(:marque, :modele, :panne, :couleur, :prix, :date_reparation, :heure_reparation, :bureau, :entreprise, :adresse, :adresse2, :cp, :ville, :prenom, :nom, :numtel, :email, :code_reparation, :statut, :paye, :reparateur, :commentaire, :demande_id, :note, :promocode, :date)
     end
 
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160521192252) do
+ActiveRecord::Schema.define(version: 20160629131705) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -88,6 +88,13 @@ ActiveRecord::Schema.define(version: 20160521192252) do
     t.string   "ville"
     t.string   "date"
     t.string   "heure"
+    t.string   "compladresse"
+    t.string   "entreprise"
+    t.string   "typeform"
+    t.string   "commentaire"
+    t.integer  "idstock"
+    t.integer  "prix"
+    t.string   "promocode"
   end
 
   create_table "infos", force: true do |t|
@@ -129,6 +136,9 @@ ActiveRecord::Schema.define(version: 20160521192252) do
     t.string   "demande_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "note"
+    t.string   "promocode"
+    t.string   "date"
   end
 
   create_table "pannes", force: true do |t|

@@ -1,0 +1,37 @@
+<% @order = Order.new %>
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.hidden_field :marque, :value => @smartphone.marque %>
+  <%= f.hidden_field :modele, :value => Help.find(@helpid).modele %>
+  <%= f.hidden_field :panne, :value => Help.find(@helpid).panne %>
+  <%= f.hidden_field :couleur, :value => @stock.couleur %>
+  <%= f.hidden_field :prix, :value => @prix %>
+  <%= f.hidden_field :date, :value => @date %>
+  <%= f.hidden_field :heure_reparation, :value => @heure %>
+  <%= f.hidden_field :entreprise, :value => Help.find(@helpid).entreprise %>
+  <%= f.hidden_field :adresse, :value => @adresse %>
+  <%= f.hidden_field :adresse2, :value => Help.find(@helpid).compladresse %>
+  <%= f.hidden_field :cp, :value => Help.find(@helpid).cp %>
+  <%= f.hidden_field :ville, :value => @ville %>
+  <%= f.hidden_field :prenom, :value => @prenom %>
+  <%= f.hidden_field :nom, :value => Help.find(@helpid).nom %>
+  <%= f.hidden_field :numtel, :value => Help.find(@helpid).numtel %>
+  <%= f.hidden_field :email, :value => Help.find(@helpid).mail %>
+  <%= f.hidden_field :commentaire, :value => Help.find(@helpid).commentaire %>
+  <%= f.hidden_field :demande_id, :value => @helpid %>
+  <%= f.hidden_field :promocode, :value => "" %>
+
+  <div class="actions">
+    <%= f.submit "Réserver ma réparation", class: "btn btn-green btn-lg" %>
+  </div>
+<% end %>

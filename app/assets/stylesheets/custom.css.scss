@@ -14,6 +14,16 @@
     -o-background-size: cover;
 }
 
+.btn-green {
+  background-color: #3AAF85;
+  color: #FFF;
+}
+
+.btn-green-light {
+  background-color: #348f6e;
+  color: #FFF;
+}
+
 .promobar {
   background-color: #60b050;
   margin-top: -1px;
@@ -24,7 +34,7 @@
 
 .navbar-sous {
   margin-bottom: -5px;
-	background-color: #60b050;
+	background-color: #3AAF85;
 	width: 100%;
 	height: 5px;
 	//box-shadow: 0px 2px 10px #999;
@@ -121,7 +131,7 @@ footer ul.quicklinks {
 }
 
 .text-green {
-  color: #35AA63
+  color: #3AAF85
 }
 
 input[type=number]::-webkit-inner-spin-button,

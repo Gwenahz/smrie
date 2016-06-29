@@ -27,21 +27,43 @@ class HelpsController < ApplicationController
     respond_to do |format|
       format.html { 
         if @help.save
-          if @help.cp == ""
-            redirect_to pages_validation_path 
-          # Sends email to user when user is created.
-          UserMailer.help_email(@help).deliver
-        else
-          redirect_to pages_validation_borne_path 
-          # Sends email to user when user is created.
-          UserMailer.help_email(@help).deliver
-        end
+          if @help.typeform == "site_yield"
+
+            render "pages/devis", :locals => {:helpid => @help.id}
+          else
+            if @help.typeform == "siteoneprice"
+              redirect_to pages_validation_path 
+              # Sends email to user when user is created.
+              UserMailer.help_email(@help).deliver
+            else
+              if @help.typeform == "borne"
+                redirect_to pages_validation_borne_path 
+                # Sends email to user when user is created.
+                UserMailer.help_email(@help).deliver
+              end
+            end
+          end
         else 
           flash[:error] = "Oups ! Quelque chose s'est mal passé"
           redirect_to root_path
         end
       }
     end
+  end
+
+  def choix_lieu
+    @prix = params[:prix]
+    @idstock = params[:idstock]
+    @madate = params[:madate]
+    @heure = params[:heure]
+    @modele = params[:modele]
+    @panne = params[:panne]
+    @commentaire = params[:commentaire]
+    @heure = params[:heure]
+  end
+
+  def choix_creneau
+    @stock = Stock.find(params[:stock])
   end
 
   def update
@@ -60,7 +82,7 @@ class HelpsController < ApplicationController
     end
 
     def help_params
-      params.require(:help).permit(:nom, :prenom, :cp, :modele, :panne, :mail, :numtel, :ville, :adresse, :date, :heure)
+      params.require(:help).permit(:nom, :prenom, :cp, :modele, :panne, :mail, :numtel, :ville, :adresse, :date, :heure, :compladresse, :entreprise, :typeform, :commentaire, :idstock, :prix, :promocode)
     end
 
     #Vérifie que l'user connecté ne se connecte pas aux infos d'un autre user

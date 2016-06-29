@@ -25,7 +25,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :helps
+  resources :helps do
+    collection do
+      post 'choix_lieu' => 'helps#choix_lieu'
+      get 'choix_creneau' => 'helps#choix_creneau'
+    end
+  end
 
   resources :secteurs
 
@@ -101,6 +106,8 @@ Rails.application.routes.draw do
   post 'pages/show_date' => 'pages#show_date'
 
   post 'pages/show_devis' => 'pages#show_devis'
+
+  get 'home_yield' => 'pages#home_yield'
 
   root 'pages#landing_prix'
   
