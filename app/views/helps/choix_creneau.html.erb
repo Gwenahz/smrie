@@ -6,8 +6,8 @@
     <div class="col-md-12">
     <% @mtoday = 40 %>
 	<% @mtomorrow = 30 %>
-	<% @mjplus1 = 20 %>
-	<% @mnight = 80 %>
+	<% @mjplus2 = 20 %>
+	<% @mnight = 90 %>
 	<% @date = DateTime.current.in_time_zone('Paris') %>
 	<% @setdate = DateTime.current.in_time_zone('Paris').beginning_of_day() %>
 	<% @time = @date.strftime("%H").to_i %>
@@ -61,7 +61,7 @@
 		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
 		      	<%= form_tag({:action => "choix_lieu"}) do %>
 		      		<%= hidden_field_tag :typeform, "site_yield" %>
-					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :prix, @stock.prix+@mjplus2 %>
 					<%= hidden_field_tag :idstock, @stock.id %>
 					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
 					<%= hidden_field_tag :heure, '8h-13h' %>
@@ -69,7 +69,7 @@
 					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
 					<%= hidden_field_tag :commentaire, @stock.couleur %>
 					
-					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-matin');" %>
+					<%= submit_tag "#{@stock.prix.to_i+@mjplus2}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-matin');" %>
 		      	<% end %>
 		      </td>
 		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
@@ -176,7 +176,7 @@
 		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
 		      	<%= form_tag({:action => "choix_lieu"}) do %>
 		      		<%= hidden_field_tag :typeform, "site_yield" %>
-					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :prix, @stock.prix+@mjplus2 %>
 					<%= hidden_field_tag :idstock, @stock.id %>
 					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
 					<%= hidden_field_tag :heure, '13h-19h' %>
@@ -184,7 +184,7 @@
 					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
 					<%= hidden_field_tag :commentaire, @stock.couleur %>
 					
-					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-aprem');" %>
+					<%= submit_tag "#{@stock.prix.to_i+@mjplus2}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-aprem');" %>
 		      	<% end %>
 		      </td>
 		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
@@ -291,7 +291,7 @@
 		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
 		      	<%= form_tag({:action => "choix_lieu"}) do %>
 		      		<%= hidden_field_tag :typeform, "site_yield" %>
-					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :prix, @stock.prix+@mjplus2 %>
 					<%= hidden_field_tag :idstock, @stock.id %>
 					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
 					<%= hidden_field_tag :heure, '19h-23h' %>
@@ -299,7 +299,7 @@
 					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
 					<%= hidden_field_tag :commentaire, @stock.couleur %>
 					
-					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-soir');" %>
+					<%= submit_tag "#{@stock.prix.to_i+@mjplus2}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-soir');" %>
 		      	<% end %>
 		      </td>
 		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
