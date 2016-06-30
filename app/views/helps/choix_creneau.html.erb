@@ -4,9 +4,10 @@
 		<h4  class="text-center">Votre <strong><%= Smartphone.find(@stock.id_smartphone).modele %></strong> sera bientôt réparé ;) <br><br> Choisissez la date et le créneau horaire de votre réparation : <i><%= Panne.find(@stock.id_panne).name %></i> </h4><br>
 		
     <div class="col-md-12">
-    <% @mtoday = 20 %>
-	<% @mtomorrow = 10 %>
-	<% @mnight = 50 %>
+    <% @mtoday = 40 %>
+	<% @mtomorrow = 30 %>
+	<% @mjplus1 = 20 %>
+	<% @mnight = 80 %>
 	<% @date = DateTime.current.in_time_zone('Paris') %>
 	<% @setdate = DateTime.current.in_time_zone('Paris').beginning_of_day() %>
 	<% @time = @date.strftime("%H").to_i %>
