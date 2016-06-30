@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     collection do
       post 'choix_lieu' => 'helps#choix_lieu'
       get 'choix_creneau' => 'helps#choix_creneau'
+      get 'quand' => 'helps#quand'
+      post 'recap' => 'helps#recap'
     end
   end
 
@@ -86,6 +88,8 @@ Rails.application.routes.draw do
   get 'diagnosticbis' => 'pages#diagnosticbis'
 
   get 'devis' => 'pages#devis'
+
+  get 'ou' => 'pages#ou'
 
   get 'faq' => 'pages#faq'
 

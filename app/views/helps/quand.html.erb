@@ -1,0 +1,526 @@
+<div class="container"><br>
+	<div class="col-md-12  panel panel-default">
+		<h1 class="text-center text-green">Quand vous voulez<br><%= image_tag("calendar-reservation.svg", size: "150") %></h1>
+		<h4  class="text-center">Votre <strong><%= Smartphone.find(@stock.id_smartphone).modele %></strong> sera bientôt réparé ;) <br><br> Choisissez la date et le créneau horaire de votre réparation : <i><%= Panne.find(@stock.id_panne).name %></i> </h4><br>
+		
+    <div class="col-md-12">
+    <% @mtoday = 40 %>
+	<% @mtomorrow = 30 %>
+	<% @mjplus2 = 20 %>
+	<% @mnight = 90 %>
+	<% @date = DateTime.current.in_time_zone('Paris') %>
+	<% @setdate = DateTime.current.in_time_zone('Paris').beginning_of_day() %>
+	<% @time = @date.strftime("%H").to_i %>
+	<div id="no-more-tables">
+		<table class="table table-striped col-md-12 table-condensed cf">
+		  <thead class="cf">
+		    <tr>
+		      <th></th>
+		      <th>Aujourd'hui <br> <i><%= l(@date, format: '%d %b %Y') %></i></th>
+		      <th>Demain <br> <i><%= l(@date.tomorrow, format: '%d %b %Y') %></i></th>
+		      <th><%= l(@date +172800, format: '%A') %> <br> <i><%= l(@setdate +172800, format: '%d %b %Y') %></i></i></th>
+		      <th><%= l(@date +259200, format: '%A') %> <br> <i><%= l(@setdate +259200, format: '%d %b %Y') %></i></th>
+		      <th><%= l(@date +345600, format: '%A') %> <br> <i><%= l(@setdate +345600, format: '%d %b %Y') %></i></th>
+		      <th><%= l(@date +432000, format: '%A') %> <br> <i><%= l(@setdate +432000, format: '%d %b %Y') %></i></th>
+		      <th><%= l(@date +518400, format: '%A') %> <br> <i><%= l(@setdate +518400, format: '%d %b %Y') %></i></th>
+		      <th><%= l(@date +604800, format: '%A') %> prochain <br> <i><%= l(@setdate +604800, format: '%d %b %Y') %></i></th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row"><strong>Matin</strong><br><i>8h à 13h</i></th>
+		      <td data-title="Aujourd'hui">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mtoday %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mtoday}€", class: "btn btn-lg btn-green", id: "prixdayam", :onclick => "mixpanel.track('choix-prix-aujourdhui-matin');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="Demain">
+
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mtomorrow %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date.tomorrow, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mtomorrow}€", class: "btn btn-lg btn-green", id: "prix2m1am", :onclick => "mixpanel.track('choix-prix-demain-matin');" %>
+		      	<% end %>
+				</td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mjplus2 %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mjplus2}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-matin');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +259200, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus3-matin');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +345600, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus4-matin');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +432000, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus5-matin');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +518400, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus6-matin');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +604800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '8h-13h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus7-matin');" %>
+		      	<% end %>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><strong>Après-midi</strong><br><i>13h à 19h</i></th>
+		      <td data-title="Aujourd'hui">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mtoday %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mtoday}€", class: "btn btn-lg btn-green", id: "prixdaypm", :onclick => "mixpanel.track('choix-prix-aujourdhui-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="Demain">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mtomorrow %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date.tomorrow, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mtomorrow}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-demain-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mjplus2 %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mjplus2}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +259200, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus3-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +345600, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus4-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +432000, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus5-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +518400, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus6-aprem');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +604800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '13h-19h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus7-aprem');" %>
+		      	<% end %>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><strong>Soir</strong><br><i>19h à 23h</i></th>
+		      <td data-title="Aujourd'hui">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mtoday %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mtoday}€", class: "btn btn-lg btn-green", id: "prixdaynight", :onclick => "mixpanel.track('choix-prix-aujourdhui-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="Demain">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mtomorrow %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date.tomorrow, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mtomorrow}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-demain-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix+@mjplus2 %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mjplus2}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +259200, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus3-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +345600, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus4-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +432000, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus5-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +518400, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus6-soir');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +604800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '19h-23h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i}€", class: "btn btn-lg btn-green-light", id: "", :onclick => "mixpanel.track('choix-prix-jplus7-soir');" %>
+		      	<% end %>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><strong>Nuit</strong><br><i>23h à 8h</i></th>
+		      <td data-title="Aujourd'hui">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-aujourdhui-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="Demain">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date.tomorrow, format: '%d %b %Y') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-demain-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +172800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +172800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus2-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +259200, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +259200, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus3-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +345600, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +345600, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus4-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +432000, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +432000, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus5-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +518400, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +518400, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus6-nuit');" %>
+		      	<% end %>
+		      </td>
+		      <td data-title="<%= l(@date +604800, format: '%A %d %b') %>">
+		      	<%= form_tag({:action => "recap"}) do %>
+		      		<%= hidden_field_tag :typeform, "site_yield" %>
+					<%= hidden_field_tag :prix, @stock.prix.to_i+@mnight %>
+					<%= hidden_field_tag :idstock, @stock.id %>
+					<%= hidden_field_tag :madate, l(@date +604800, format: '%A %d %b') %>
+					<%= hidden_field_tag :heure, '23h-8h' %>
+					<%= hidden_field_tag :modele, Smartphone.find(@stock.id_smartphone).modele %>
+					<%= hidden_field_tag :panne, Panne.find(@stock.id_panne).name %>
+					<%= hidden_field_tag :commentaire, @stock.couleur %>
+					
+					<%= submit_tag "#{@stock.prix.to_i+@mnight}€", class: "btn btn-lg btn-green", id: "", :onclick => "mixpanel.track('choix-prix-jplus6-nuit');" %>
+		      	<% end %>
+		      </td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+	   	</div>
+        </div>
+	</div>
+</div><br>
+
+  
+
+<% if @time >= 5 %>
+	<script type="text/javascript">
+		document.getElementById('prixdayam').className = "btn btn-sm btn-default disabled";
+	</script>
+<% end %>
+<% if @time > 12 %>
+	<script type="text/javascript">
+		document.getElementById('prixdaypm').className = "btn btn-sm btn-default disabled";
+	</script>
+<% end %>
+<% if @time > 18 %>
+	<script type="text/javascript">
+		document.getElementById('prixdaynight').innerHTML = "indispo.";
+		document.getElementById('prixdaynight').className = "btn btn-sm btn-default disabled";
+	</script>
+<% end %>
+<% if @time > 23 %>
+	<script type="text/javascript">
+		document.getElementById('prixdaynight').innerHTML = "indispo.";
+		document.getElementById('prixdaynight').className = "btn btn-sm btn-default disabled";
+	</script>
+<% end %>
+
+<script type="text/javascript">
+	mixpanel.track("page_prix_yield_recap_first");
+</script>

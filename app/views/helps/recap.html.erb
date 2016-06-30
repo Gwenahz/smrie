@@ -1,19 +1,3 @@
-<% @helpid = helpid
-    @helpidstock = Help.find(@helpid).idstock
-    @prenom = Help.find(@helpid).prenom
-    @date = Help.find(@helpid).date
-    @heure = Help.find(@helpid).heure
-    @prix = Help.find(@helpid).prix.to_i
-    @adresse = Help.find(@helpid).adresse
-    @ville = Help.find(@helpid).ville
-    @majparam = params[:maj].to_i
-    @stock_id = @helpidstock
-    @stock = Stock.find(@stock_id)
-    @id_smartphone = Stock.find(@stock_id).id_smartphone
-    @id_panne = Stock.find(@stock_id).id_panne
-    @smartphone = Smartphone.find(@id_smartphone)
-    @panne = Panne.find(@id_panne) %>
-
 <div class="container"><br>
 	<div class="col-md-2"></div>
 	<div class="col-md-8  panel panel-default">
@@ -27,16 +11,15 @@
 			<p>
 				Modèle : <%= @smartphone.marque %><br>
 				Marque : <%= @smartphone.modele %><br>
-				Réparation : <%= @panne.name %><br><br>
-				Prévue le <%= @date %> (<i><%= @heure %></i>) à : <br>
-				<%= @adresse %> - <%= @ville %>
+				Réparation : <%= @panne %><br><br>
+				Prévue le <%= @madate %> (<i><%= @heure %></i>) <br>
 			</p>
 			<p class="text-center"><br>
 				Le tarif de la réparation de votre <%= @smartphone.modele %> est de : <br>
-			<h3 class="text-center"><%= @prix %>€</h3>
+			<h3 class="text-center"><%= @prix.to_i %>€</h3>
 			</p><br>
 			<div class="text-center">
-				<%= render :partial => "orders/form_devis" %>
+				<%= render :partial => "form_for_recap" %>
 				<br>
 				<i>(Le paiement s'éffectue une fois la réparation réalisée)</i>
 			</p>
@@ -85,8 +68,5 @@
 
 
 <script type="text/javascript">
-	mixpanel.track("page_recapitulatif");
+	mixpanel.track("page_recapitulatif_avant_formulaire");
 </script>
-
-
-

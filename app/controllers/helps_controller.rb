@@ -29,7 +29,8 @@ class HelpsController < ApplicationController
         if @help.save
           if @help.typeform == "site_yield"
 
-            render "pages/devis", :locals => {:helpid => @help.id}
+            #render "pages/devis", :locals => {:helpid => @help.id}
+            render "pages/ou", :locals => {:helpid => @help.id}
           else
             if @help.typeform == "siteoneprice"
               redirect_to pages_validation_path 
@@ -62,7 +63,25 @@ class HelpsController < ApplicationController
     @heure = params[:heure]
   end
 
+  def recap
+    @prix = params[:prix]
+    @idstock = params[:idstock]
+    @madate = params[:madate]
+    @heure = params[:heure]
+    @modele = params[:modele]
+    @panne = params[:panne]
+    @commentaire = params[:commentaire]
+    @heure = params[:heure]
+    @idsmartphone = Stock.find_by(id: @idstock).id_smartphone
+    @idpanne = Stock.find_by(id: @idstock).id_panne
+    @smartphone = Smartphone.find_by(id: @idsmartphone)
+  end
+
   def choix_creneau
+    @stock = Stock.find(params[:stock])
+  end
+
+  def quand
     @stock = Stock.find(params[:stock])
   end
 

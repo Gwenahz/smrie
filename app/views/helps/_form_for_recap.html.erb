@@ -1,0 +1,26 @@
+<% @help = Help.new %>
+<%= form_for(@help) do |f| %>
+  <% if @help.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@help.errors.count, "error") %> prohibited this help from being saved:</h2>
+
+      <ul>
+      <% @help.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.hidden_field :typeform, :value => "site_yield" %>
+  <%= f.hidden_field :prix, :value => @prix %>
+  <%= f.hidden_field :idstock, :value => @idstock %>
+  <%= f.hidden_field :date, :value => @madate %>
+  <%= f.hidden_field :heure, :value => @heure %>
+  <%= f.hidden_field :modele, :value => @modele %>
+  <%= f.hidden_field :panne, :value => @panne %>
+  <%= f.hidden_field :commentaire, :value => @commentaire %>
+
+  <div class="actions">
+    <%= f.submit "Réserver ma réparation", class: "btn btn-green btn-lg" %>
+  </div>
+<% end %>
