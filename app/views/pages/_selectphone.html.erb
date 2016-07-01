@@ -71,7 +71,47 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                   <div class="panel-body">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                  <% @c = 0 %>
+                  <% @d = 0 %>
+                <% Smartphone.where(marque: 'samsung').to_a.each do |smartphone| %>
+                <% @c = @c+1 %>
+                <button class="btn btn-green btn-block" data-toggle="collapse" data-target="#samsungcouleur<%= @c %>"><%= smartphone.modele %></button>
+                <div id="samsungcouleur<%= @c %>" class="collapse">
+                  <% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+                  <% @d = @d+1 %>
+                  <button class="btn btn-default btn-block" data-toggle="collapse" data-target="#samsungpanne<%= @d %>"><%= couleur.couleur %></button>
+                  <div id="samsungpanne<%= @d %>" class="collapse">
+                    <hr>
+                    <% nbsamsungpanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+                    <% if (nbsamsungpanne >= 1) %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <% end %>
+                </div><br>
+                <% end %>
+                    <a class="collapsed btn btn-green btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
                       <strong>AUTRE</strong>
                     </a>
                   </div>
