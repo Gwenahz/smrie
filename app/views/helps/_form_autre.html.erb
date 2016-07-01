@@ -12,6 +12,8 @@
       </ul>
     </div>
   <% end %>
+
+  <%= f.hidden_field :typeform, :value => "autre" %>
   <div class="form-group col-md-12">
     <%= f.label "Quel est votre modèle ?" %><br>
     <%= f.text_field :modele, :class => "form-control", :placeholder => "Saisissez votre modèle", :required => true %>
