@@ -41,6 +41,7 @@ class HelpsController < ApplicationController
                 redirect_to pages_validation_borne_path 
                 # Sends email to user when user is created.
                 UserMailer.help_email(@help).deliver
+              else
                 if @help.typeform == "autre"
                   redirect_to pages_validation_borne_path 
                   # Sends email to user when user is created.
