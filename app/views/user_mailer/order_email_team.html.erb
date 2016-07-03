@@ -9,15 +9,17 @@
       <%= @order.created_at %><br><br>
 
       <%= @order.prenom %> <%= @order.nom %><br>
-      <%= @order.cp %><br><br>
+      <%= @order.cp %><br>
+      <%= @order.ville %><br><br>
       <%= @order.modele %><br>
-      <%= @order.panne %><br><br>
+      <%= @order.panne %><br>
+      <%= @order.prix %><br><br>
       <%= @order.email %><br>
       <%= @order.numtel %><br><br>
       <%= @order.date %><br>
       <%= @order.heure_reparation %><br>
 
-      
+      <%= link_to 'Détails commande', order_path(:id => @order.id) %>
       <br>
     </p>
   </body>
