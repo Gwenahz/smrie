@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Une commande de réparation vient d'arriver !</h1>
+    <p>
+      <%= @order.created_at %><br><br>
+
+      <%= @order.prenom %> <%= @order.nom %><br>
+      <%= @order.cp %><br><br>
+      <%= @order.modele %><br>
+      <%= @order.panne %><br><br>
+      <%= @order.email %><br>
+      <%= @order.numtel %><br><br>
+      <%= @order.date %><br>
+      <%= @order.heure_reparation %><br>
+
+      
+      <br>
+    </p>
+  </body>
+</html>
