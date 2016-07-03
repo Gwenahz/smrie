@@ -19,7 +19,7 @@
       <%= @order.date %><br>
       <%= @order.heure_reparation %><br>
 
-      <%= link_to 'Détails commande', order_path(:id => @order.id) %>
+      <%= link_to 'Détails commande', "www.lasmartphonerie.com/orders/"+@order.id.to_s %>
       <br>
     </p>
   </body>
