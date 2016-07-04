@@ -11,75 +11,28 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :marque %><br>
-    <%= f.text_field :marque %>
-  </div>
-  <div class="field">
-    <%= f.label :modele %><br>
-    <%= f.text_field :modele %>
-  </div>
-  <div class="field">
-    <%= f.label :panne %><br>
-    <%= f.text_field :panne %>
-  </div>
-  <div class="field">
-    <%= f.label :couleur %><br>
-    <%= f.text_field :couleur %>
-  </div>
-  <div class="field">
-    <%= f.label :prix %><br>
-    <%= f.text_field :prix %>
-  </div>
-  <div class="field">
-    <%= f.label :date_reparation %><br>
-    <%= f.date_field :date_reparation %>
-  </div>
-  <div class="field">
-    <%= f.label :heure_reparation %><br>
-    <%= f.time_field :heure_reparation %>
-  </div>
-  <div class="field">
-    <%= f.label :bureau %><br>
-    <%= f.check_box :bureau %>
-  </div>
-  <div class="field">
-    <%= f.label :entreprise %><br>
-    <%= f.text_field :entreprise %>
-  </div>
-  <div class="field">
-    <%= f.label :adresse %><br>
-    <%= f.text_area :adresse %>
-  </div>
-  <div class="field">
-    <%= f.label :adresse2 %><br>
-    <%= f.text_area :adresse2 %>
-  </div>
-  <div class="field">
-    <%= f.label :cp %><br>
-    <%= f.text_field :cp %>
-  </div>
-  <div class="field">
-    <%= f.label :ville %><br>
-    <%= f.text_field :ville %>
-  </div>
-  <div class="field">
-    <%= f.label :prenom %><br>
-    <%= f.text_field :prenom %>
-  </div>
-  <div class="field">
-    <%= f.label :nom %><br>
-    <%= f.text_field :nom %>
-  </div>
-  <div class="field">
-    <%= f.label :numtel %><br>
-    <%= f.text_field :numtel %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
+<div class="container">
+  <div class="col-md-6">
+    <p>
+  <strong>Prenom:</strong>
+  <%= @order.prenom %>
+</p>
+
+<p>
+  <strong>Nom:</strong>
+  <%= @order.nom %>
+</p>
+
+<p>
+  <strong>Numtel:</strong>
+  <%= @order.numtel %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @order.email %>
+</p>
+<div class="field">
     <%= f.label :statut %><br>
     <%= f.text_field :statut %>
   </div>
@@ -92,14 +45,109 @@
     <%= f.text_field :reparateur %>
   </div>
   <div class="field">
-    <%= f.label :commentaire %><br>
-    <%= f.text_area :commentaire %>
-  </div>
-  <div class="field">
-    <%= f.label :demande_id %><br>
-    <%= f.text_field :demande_id %>
+    <%= f.label :note %><br>
+    <%= f.text_area :note %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
+  </div>
+  <div class="col-md-6">
+<p>
+  <strong>Marque:</strong>
+  <%= @order.marque %>
+</p>
+
+<p>
+  <strong>Modele:</strong>
+  <%= @order.modele %>
+</p>
+
+<p>
+  <strong>Panne:</strong>
+  <%= @order.panne %>
+</p>
+
+<p>
+  <strong>Couleur:</strong>
+  <%= @order.couleur %>
+</p>
+
+<p>
+  <strong>Prix:</strong>
+  <%= @order.prix %>
+</p>
+
+<p>
+  <strong>Date reparation:</strong>
+  <%= @order.date_reparation %>
+</p>
+
+<p>
+  <strong>Heure reparation:</strong>
+  <%= @order.heure_reparation %>
+</p>
+
+<p>
+  <strong>Bureau:</strong>
+  <%= @order.bureau %>
+</p>
+
+<p>
+  <strong>Entreprise:</strong>
+  <%= @order.entreprise %>
+</p>
+
+<p>
+  <strong>Adresse:</strong>
+  <%= @order.adresse %>
+</p>
+
+<p>
+  <strong>Adresse2:</strong>
+  <%= @order.adresse2 %>
+</p>
+
+<p>
+  <strong>Cp:</strong>
+  <%= @order.cp %>
+</p>
+
+<p>
+  <strong>Ville:</strong>
+  <%= @order.ville %>
+</p>
+
+<p>
+  <strong>Code reparation:</strong>
+  <%= @order.code_reparation %>
+</p>
+
+<p>
+  <strong>Statut:</strong>
+  <%= @order.statut %>
+</p>
+
+<p>
+  <strong>Paye:</strong>
+  <%= @order.paye %>
+</p>
+
+<p>
+  <strong>Reparateur:</strong>
+  <%= @order.reparateur %>
+</p>
+
+<p>
+  <strong>Commentaire:</strong>
+  <%= @order.commentaire %>
+</p>
+
+<p>
+  <strong>Demande:</strong>
+  <%= @order.demande_id %>
+</p>
+  </div>
+</div>
+  
 <% end %>

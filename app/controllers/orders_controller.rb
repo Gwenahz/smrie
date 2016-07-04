@@ -61,11 +61,7 @@ class OrdersController < ApplicationController
 
   def update
     @order.update(order_params)
-    if @order.adresse.blank?
-      redirect_to action: 'new_adresse', id: @order
-    else
-      redirect_to pages_validation_path
-    end
+    redirect_to action: 'index'
   end
 
   def destroy
