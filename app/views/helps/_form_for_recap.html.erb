@@ -19,7 +19,14 @@
   <%= f.hidden_field :modele, :value => @modele %>
   <%= f.hidden_field :panne, :value => @panne %>
   <%= f.hidden_field :commentaire, :value => @commentaire %>
-
+  <div class="col-md-12">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%= f.text_field :promocode, :class => "form-control", :placeholder => "Code promo" %><br>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <br>
   <div class="actions">
     <%= f.submit "Réserver ma réparation", class: "btn btn-green btn-lg" %>
   </div>
