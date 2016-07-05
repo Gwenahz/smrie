@@ -25,15 +25,15 @@
 
     <tbody>
       <% @orders.order(id: :desc).each do |order| %>
-      <% if order.statut == nil  %>
+      <% if order.statut == nil || order.statut == ""  %>
         <% if order.reparateur == nil || order.reparateur == ""  %>
           <% if order.paye == true  %>
-            <tr>
-          <% else %>
             <tr class="danger">
+          <% else %>
+            <tr>
           <% end %>     
         <% else %>
-          <tr>
+          <tr class="danger">
         <% end %>
       <% else %>
         <% if order.reparateur == nil || order.reparateur == ""  %>
