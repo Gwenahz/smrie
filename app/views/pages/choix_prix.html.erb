@@ -9,7 +9,7 @@
 	    <div class="col-md-12">
 	   		<br>
 	   		<div class="col-md-6 text-center">
-	   			<%= link_to "À partir de 109€", {:controller => "helps", :action => "quand", :stock => @stock}, :class => "btn btn-green btn-lg btn-block", :onclick => "mixpanel.track('choix_prix_clic_yield')" %> <br><br>
+	   			<%= link_to "À partir de "+@stock.prix.to_i.to_s+"€", {:controller => "helps", :action => "quand", :stock => @stock}, :class => "btn btn-green btn-lg btn-block", :onclick => "mixpanel.track('choix_prix_clic_yield')" %> <br><br>
 	   		</div>
 	   		<div class="col-md-6 text-center">
 				<button type="button" class="btn btn-green btn-lg btn-block" data-toggle="modal" data-target="#myModal" id="bt_modal" onclick="mixpanel.track('choix_prix_clic_abonnement_9_99')">9,99€/mois</button>
