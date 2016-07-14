@@ -20,11 +20,11 @@
 
 /* line 20, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .header-landing {
-  margin-top: -250px;
+  margin-top: -280px;
   text-align: center;
   color: #fff;
   background-attachment: scroll;
-  background-image: url(/assets/header.jpeg);
+  background-image: url(/assets/header-smarty-black.jpg);
   background-position: center center;
   background-repeat: none;
   z-index: -1;
@@ -52,7 +52,7 @@
 
 /* line 50, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
 .intro-text {
-  padding-top: 75px;
+  padding-top: 55px;
   padding-bottom: 75px;
 }
 
@@ -78,7 +78,7 @@
 @media (min-width: 768px) {
   /* line 73, /Users/Gwenahz/Documents/SMARTPHONERIE/DEV/smrie/app/assets/stylesheets/agency.css.scss */
   .header-landing .intro-text {
-    padding-top: 250px;
+    padding-top: 150px;
     padding-bottom: 200px;
   }
 
