@@ -113,6 +113,10 @@ Rails.application.routes.draw do
 
   get 'home_yield' => 'pages#home_yield'
 
+  get 'choix_prix' => 'pages#choix_prix'
+
+  get 'home_yield_bis' => 'pages#home_yield_bis'
+
   root 'pages#home_yield'
   
   # root 'smartphones#index'

@@ -88,6 +88,10 @@ class PagesController < ApplicationController
   	@letest = "Montest"
   end
 
+  def choix_prix
+    @stock = Stock.find(params[:stock])
+  end
+
   def contact
   end
 end

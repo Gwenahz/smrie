@@ -1,0 +1,48 @@
+<div class="container"><br>
+	<div class="col-md-2"></div>
+	<div class="col-md-8  panel panel-default">
+		<br><br><br>
+		<h1 class="text-center text-green"><%= image_tag("smarty.svg", size: "150") %><br>Quelle formule vous convient ?</h1>
+		<h4  class="text-center">Choisissez votre formule de réparation :</h4><br>
+		
+		
+	    <div class="col-md-12">
+	   		<br>
+	   		<div class="col-md-6 text-center">
+	   			<%= link_to "À partir de 109€", {:controller => "helps", :action => "quand", :stock => @stock}, :class => "btn btn-green btn-lg btn-block", :onclick => "mixpanel.track('choix_prix_clic_yield')" %> <br><br>
+	   		</div>
+	   		<div class="col-md-6 text-center">
+				<button type="button" class="btn btn-green btn-lg btn-block" data-toggle="modal" data-target="#myModal" id="bt_modal" onclick="mixpanel.track('choix_prix_clic_abonnement_9_99')">9,99€/mois</button>
+	   			<i>(2 réparations par an)</i>
+	   		</div>
+	   		
+	   	</div><br><br><br><br><br><br><br><br><br><br>
+        </div>
+	</div>
+	<div class="col-md-2"></div>
+</div><br>
+
+
+<!-- Modal -->
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center" id="myModalLabel">Ça arrive bientôt :)</h4>
+          </div>
+          <div class="modal-body text-center">
+          	<br>
+          	<h4>Ce service n'est pas encore disponible mais nous y travaillons activement ! <a href="http://www.switchiz.co" target="_blank" onclick="mixpanel.track('choix_prix_clic_site_switchiz')">Cliquez ici</a> pour en savoir plus. </h4>
+          	<br><br>
+
+          	<%= link_to "Réparer à partir de 109€", {:controller => "helps", :action => "quand", :stock => @stock}, :class => "btn btn-green btn-lg btn-block", :onclick => "mixpanel.track('choix_prix_clic_yield_popup')" %>
+          	<br><br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <script type="text/javascript">
+	mixpanel.track("page_choix_prix");
+</script>

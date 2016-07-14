@@ -1,0 +1,310 @@
+<div class="col-md-3"></div>
+            <div class="panel-group col-md-6" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onclick="mixpanel.track('Selection Apple');">
+                      <strong>APPLE</strong>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    <% @a = 0 %>
+                  <% @b = 0 %>
+                <% Smartphone.where(marque: 'apple').to_a.each do |smartphone| %>
+                <% @a = @a+1 %>
+                <button class="btn btn-green btn-block" data-toggle="collapse" data-target="#applecouleur<%= @a %>"><%= smartphone.modele %></button>
+                <div id="applecouleur<%= @a %>" class="collapse">
+                  <% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+                  <% @b = @b+1 %>
+                  <button class="btn btn-default btn-block" data-toggle="collapse" data-target="#applepanne<%= @b %>"><%= couleur.couleur %></button>
+                  <div id="applepanne<%= @b %>" class="collapse">
+                    <hr>
+                    <% nbapplepanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+                    <% if (nbapplepanne >= 1) %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "pages", :action => "choix_prix", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "pages", :action => "choix_prix", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "pages", :action => "choix_prix", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      Autre / Je ne sais pas
+                    </a><hr>
+                  </div>
+                  <% end %>
+                </div><br>
+                <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="mixpanel.track('Selection Samsung');">
+                      <strong>SAMSUNG</strong>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                  <div class="panel-body">
+                  <% @c = 0 %>
+                  <% @d = 0 %>
+                <% Smartphone.where(marque: 'samsung').to_a.each do |smartphone| %>
+                <% @c = @c+1 %>
+                <button class="btn btn-green btn-block" data-toggle="collapse" data-target="#samsungcouleur<%= @c %>"><%= smartphone.modele %></button>
+                <div id="samsungcouleur<%= @c %>" class="collapse">
+                  <% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+                  <% @d = @d+1 %>
+                  <button class="btn btn-default btn-block" data-toggle="collapse" data-target="#samsungpanne<%= @d %>"><%= couleur.couleur %></button>
+                  <div id="samsungpanne<%= @d %>" class="collapse">
+                    <hr>
+                    <% nbsamsungpanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+                    <% if (nbsamsungpanne >= 1) %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      Autre / Je ne sais pas
+                    </a><hr>
+                  </div>
+                  <% end %>
+                </div><br>
+                <% end %>
+                    <a class="collapsed btn btn-green btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      <strong>AUTRE</strong>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                  <h4 class="panel-title">
+                    <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" onclick="mixpanel.track('Selection Nokia');">
+                      <strong>NOKIA - MS</strong>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                  <div class="panel-body">
+                  <% @e = 0 %>
+                  <% @f = 0 %>
+                <% Smartphone.where(marque: 'Nokia').to_a.each do |smartphone| %>
+                <% @e = @e+1 %>
+                <button class="btn btn-green btn-block" data-toggle="collapse" data-target="#nokiacouleur<%= @e %>"><%= smartphone.modele %></button>
+                <div id="nokiacouleur<%= @e %>" class="collapse">
+                  <% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+                  <% @f = @f+1 %>
+                  <button class="btn btn-default btn-block" data-toggle="collapse" data-target="#nokiapanne<%= @f %>"><%= couleur.couleur %></button>
+                  <div id="nokiapanne<%= @f %>" class="collapse">
+                    <hr>
+                    <% nbnokiapanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+                    <% if (nbnokiapanne >= 1) %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      Autre / Je ne sais pas
+                    </a><hr>
+                  </div>
+                  <% end %>
+                </div><br>
+                <% end %>
+                   <a class="collapsed btn btn-green btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      <strong>AUTRE</strong>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFour">
+                  <h4 class="panel-title">
+                    <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour" onclick="mixpanel.track('Selection Sony');">
+                      <strong>SONY</strong>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                  <div class="panel-body">
+                    <% @g = 0 %>
+                  <% @h = 0 %>
+                <% Smartphone.where(marque: 'sony').to_a.each do |smartphone| %>
+                <% @g = @g+1 %>
+                <button class="btn btn-green btn-block" data-toggle="collapse" data-target="#sonycouleur<%= @g %>"><%= smartphone.modele %></button>
+                <div id="sonycouleur<%= @g %>" class="collapse">
+                  <% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+                  <% @h = @h+1 %>
+                  <button class="btn btn-default btn-block" data-toggle="collapse" data-target="#sonypanne<%= @h %>"><%= couleur.couleur %></button>
+                  <div id="sonypanne<%= @h %>" class="collapse">
+                    <hr>
+                    <% nbsonypanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+                    <% if (nbsonypanne >= 1) %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      Autre / Je ne sais pas
+                    </a><hr>
+                  </div>
+                  <% end %>
+                </div><br>
+                <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      <strong>AUTRE</strong>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFive">
+                  <h4 class="panel-title">
+                    <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive" onclick="mixpanel.track('Selection Nexus');">
+                      <strong>LG - NEXUS</strong>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                  <div class="panel-body">
+                    <% @i = 0 %>
+                  <% @j = 0 %>
+                <% Smartphone.where(marque: 'nexus').to_a.each do |smartphone| %>
+                <% @i = @i+1 %>
+                <button class="btn btn-green btn-block" data-toggle="collapse" data-target="#nexuscouleur<%= @i %>"><%= smartphone.modele %></button>
+                <div id="nexuscouleur<%= @i %>" class="collapse">
+                  <% Couleur.where(smartphone: smartphone.id).to_a.each do |couleur| %>
+                  <% @j = @j+1 %>
+                  <button class="btn btn-default btn-block" data-toggle="collapse" data-target="#nexuspanne<%= @j %>"><%= couleur.couleur %></button>
+                  <div id="nexuspanne<%= @j %>" class="collapse">
+                    <hr>
+                    <% nbnexuspanne = Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).count %>
+                    <% if (nbnexuspanne >= 1) %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                      <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
+                        <div>
+                          
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
+                          <hr>
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      Autre / Je ne sais pas
+                    </a><hr>
+                  </div>
+                  <% end %>
+                </div><br>
+                <% end %>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      <strong>AUTRE</strong>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSix">
+                  <h4 class="panel-title">
+                    <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix" onclick="mixpanel.track('Selection Autre Marque');">
+                      <strong>AUTRE</strong>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                  <div class="panel-body">
+                    <%= render :partial => "helps/form_autre" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+  <div class="col-md-3"></div>        
