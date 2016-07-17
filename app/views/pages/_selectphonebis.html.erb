@@ -26,14 +26,14 @@
                       <% Stock.where(:id_smartphone => smartphone.id, :couleur => couleur.couleur).to_a.each do |mod| %>
                         <div>
                           
-                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "pages", :action => "choix_prix", :stock => mod} %>
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
                           <hr>
                         </div>
                       <% end %>
                       <% Stock.where(:id_smartphone => smartphone.id, :couleur => "").to_a.each do |mod| %>
                         <div>
                           
-                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "pages", :action => "choix_prix", :stock => mod} %>
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
                           <hr>
                         </div>
                       <% end %>
@@ -41,7 +41,7 @@
                       <% Stock.where(:id_smartphone => smartphone.id).to_a.each do |mod| %>
                         <div>
                           
-                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "pages", :action => "choix_prix", :stock => mod} %>
+                          <%= link_to Panne.find(mod.id_panne).name, {:controller => "helps", :action => "quand", :stock => mod} %>
                           <hr>
                         </div>
                       <% end %>
